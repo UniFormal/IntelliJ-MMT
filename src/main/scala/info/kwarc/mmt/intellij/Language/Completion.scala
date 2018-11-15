@@ -4,10 +4,7 @@ import com.intellij.codeInsight.completion._
 import com.intellij.codeInsight.lookup.{LookupElement, LookupElementBuilder}
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.util.ProcessingContext
-import com.intellij.patterns.PlatformPatterns.psiElement
-import com.intellij.psi.PsiElement
 import info.kwarc.mmt.api.utils.MMTSystem
-import info.kwarc.mmt.intellij.Language.psi.MMTParserTypes
 
 class Completion extends CompletionContributor {
   // extend(CompletionType.BASIC,psiElement().withLanguage(MMTLanguage.INSTANCE),Abbreviations)

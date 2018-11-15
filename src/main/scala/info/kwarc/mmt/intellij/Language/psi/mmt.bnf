@@ -1,0 +1,125 @@
+{
+    parserClass="info.kwarc.mmt.intellij.Language.MMTParser"
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="MMT"
+    psiImplClassSuffix="_impl"
+    psiPackage="info.kwarc.mmt.intellij.Language.psi"
+    psiImplPackage="info.kwarc.mmt.intellij.Language.psi.imps"
+
+    elementTypeHolderClass="info.kwarc.mmt.intellij.Language.psi.MMTParserTypes"
+    elementTypeClass="info.kwarc.mmt.intellij.Language.psi.MMTElementType"
+    tokenTypeClass="info.kwarc.mmt.intellij.Language.psi.MMTTokenType"
+}
+
+file ::= mod*
+
+mod ::= namespace | import | modcomment | theory | view
+
+modcomment ::= COMMENT_KEY (any|OD|DD)* MD
+namespace ::= NAMESPACE_KEY uri MD
+import ::= IMPORT_KEY pname uri MD
+theory ::=  theoryheader ((ABBREV_KEY term) | (EQ_KEY theory_body)) MD { mixin="info.kwarc.mmt.intellij.Language.TheoryElement_impl" }
+view ::= viewheader ((ABBREV_KEY term) | (EQ_KEY view_body)) MD
+
+theoryheader ::= THEORY_KEY pname (COLON_KEY uri)? (PARAM_KEY tmlist OD)?
+theory_body ::= declaration*
+
+viewheader ::= IMPLICIT_KEY? VIEW_KEY pname COLON_KEY uri ARROW_KEY uri
+view_body ::= view_decl*
+
+declaration ::= rule | include | decl_comment | constant | nestedtheory | structure | nestedview | deriveddecl
+view_decl ::= morphism_include | view_constant
+
+nestedtheory ::= theoryheader ((ABBREV_KEY term DD) | (EQ_KEY theory_body MD))
+nestedview ::= viewheader ((ABBREV_KEY term DD) | (EQ_KEY view_body MD))
+rule ::= RULE_KEY uri tmlist? DD
+include ::= INCLUDE_KEY uri tmlist? DD
+decl_comment ::= COMMENT_KEY (any|OD)* DD
+constant ::= CONSTANT_KEY? pname (component OD)* component? DD
+structure ::= STRUCTURE_KEY pname COLON_KEY uri ((ABBREV_KEY term DD) | (EQ_KEY theory_body MD))
+// deriveddecl ::= DERIVED+ ((DERIVEDSHORT DD) | (DERIVEDBODY theory_body MD) )
+deriveddecl ::= (derivedheader theory_body MD) | (derivedsimple DD)
+derivedheader ::= any any+ OD? EQ_KEY
+derivedsimple ::= any any+
+
+morphism_include ::= INCLUDE_KEY uri EQ_KEY uri DD
+view_constant ::= CONSTANT_KEY? pname def_comp DD
+
+component::= obj_comment | type_comp | def_comp | not_comp | role_comp | meta_comp | alias_comp
+
+obj_comment ::= COMMENT_KEY any*
+type_comp ::= COLON_KEY term
+def_comp ::= EQ_KEY term
+not_comp ::= NOT_KEY any+ prec?
+prec ::= PREC_KEY TOKEN
+role_comp ::= ROLE_KEY any+
+meta_comp ::= META_KEY term
+alias_comp ::= ALIAS_KEY pname
+
+uri ::= (TOKEN COLON_KEY TOKEN) | TOKEN {
+    mixin="info.kwarc.mmt.intellij.Language.URIElement_impl"
+}
+pname ::= TOKEN | keywrd
+any ::= TOKEN | keywrd | COLON_KEY | COMMENT_KEY | EQ_KEY | NOT_KEY | ALIAS_KEY | PARAM_KEY | ARROW_KEY
+
+term ::= any+
+tmlist ::= (term ",")* term
+
+keywrd ::= COMMENT_KEY | NAMESPACE_KEY | IMPORT_KEY | ABBREV_KEY | THEORY_KEY  |
+            RULE_KEY | INCLUDE_KEY | PREC_KEY | ROLE_KEY | META_KEY | CONSTANT_KEY | IMPLICIT_KEY | STRUCTURE_KEY
+
+ws ::= WHITESPACE
+
+// comment_key ::= "//" | "/T"
+// constant_key ::= "constant"
+// namespace_key ::= "namespace"
+// import_key ::= "import"
+// abbrev_key ::= "abbrev"
+// eq_key ::= "="
+// theory_key ::= "theory"
+// colon_key ::= ":"
+// param_key ::= ">"
+// rule_key ::= "rule"
+// include_key ::= "include"
+// prec_key ::= "prec"
+// role_key ::= "role"
+// meta_key ::= "meta"
+// alias_key ::= "@"
+// not_key ::= "#"
+
+/*
+file ::= mod*
+
+mod ::= (NAMESPACE_KEY URI MD) | (IMPORT_KEY NAME URI MD) | (COMMENT MD) | (theory MD) | (view MD)
+
+// temp ::= DD
+
+//
+theory ::= THEORY_KEY NAME (TYPE_KEY URI)? (PARAM_KEY TERM* OD)? ((ABBREV_KEY TERM) | (EQ_KEY (declaration | nestedtheory | nestedview)*))
+// theory ::= THEORY_KEY NAME (TYPE_KEY URI)? (PARAM_KEY TERM* OD)? ((ABBREV_KEY TERM) | (EQ_KEY COMMENT*))
+view ::= IMPLICIT_KEY? VIEW_KEY TOKEN TYPE_KEY TOKEN ARROW_KEY TOKEN ((ABBREV_KEY string) | (EQ_KEY (viewdecl DECLDELIM)+))
+
+declaration ::= (DECL DD) | rule | include | constant | COMMENT_D | nestedview | structure
+
+rule ::= RULE_KEY URI
+include ::= INCLUDE_KEY
+constant ::= TOKEN ((component OD)+ component)?
+nestedtheory ::= theory MD
+nestedview ::= view MD
+structure ::= IMPLICIT_KEY? STRUCTURE_KEY NAME TYPE_KEY URI ((ABBREV_KEY string) | (EQ_KEY ((constant | includeassignment | structureassignment) DD)+)) MD
+
+viewdecl ::= includeassignment | structureassignment | comment | assignment
+
+includeassignment ::= INCLUDE_KEY NAME EQ_KEY string
+structureassignment ::= STRUCTURE_KEY NAME EQ_KEY string
+assignment ::= NAME EQ_KEY string
+
+component ::= (type | def | notation | role | alias | COMMENT_O)
+
+type ::= TYPE_KEY TERM
+def ::= EQ_KEY TERM
+notation ::= NOT_KEY TERM
+role ::= ROLE_KEY TOKEN
+alias ::= ALIAS_KEY TOKEN
+*/

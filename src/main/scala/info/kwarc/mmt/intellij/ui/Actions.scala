@@ -1,14 +1,18 @@
 package info.kwarc.mmt.intellij.ui
 
 import com.intellij.openapi.actionSystem._
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.ui.Messages
 import info.kwarc.mmt.api.archives
 import info.kwarc.mmt.api.frontend.actions.LMHInstall
 import info.kwarc.mmt.api.utils.File
+import info.kwarc.mmt.api.utils.time.Time
 import info.kwarc.mmt.intellij.{MMT, MMTDataKeys}
 import info.kwarc.mmt.intellij.util._
+
+import scala.concurrent.Future
 
 object AllActions {
   private lazy val am = ActionManager.getInstance()
@@ -82,24 +86,31 @@ class InstallArchive extends AnAction("Install Archive") {
     val id = e.getData(MMTDataKeys.remoteArchive)
     implicit val project = e.getData(CommonDataKeys.PROJECT)
     val mmt = MMT.get(project).get
-    val not = inotify("Installing " + id + " + dependencies...")
-    writable {
-      errorMsg {
-        mmt.LocalMathHub.mathhub.installEntry(id,None,true)
-        while ({
-          val a = mmt.controller.backend.getArchive(id)
-          a match {
-            case Some(ar) =>
-              !(ar/archives.source).toJava.exists()
-            case None => true
-          }
-        }) {
-          Thread.sleep(1000)
+
+    background {
+      notifyWhile("Installing " + id + " + dependencies...") {
+        println(Time.measure(mmt.LocalMathHub.mathhub.installEntry(id, None, true))._1)
+        Thread.sleep(10)
+        writable {
+          mmt.refreshPane
         }
-        mmt.refreshPane
-        not.expire()
       }
     }
+    /*
+    val not = inotify("Installing " + id + " + dependencies...")
+
+    Future {
+      writable {
+        errorMsg {
+          println(Time.measure {
+            mmt.LocalMathHub.mathhub.installEntry(id, None, true)
+          }._1)
+          mmt.refreshPane
+          not.expire()
+        }
+      }
+    }(scala.concurrent.ExecutionContext.global)
+  */
   }
 }
 

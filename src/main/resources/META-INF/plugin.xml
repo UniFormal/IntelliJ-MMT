@@ -19,8 +19,10 @@
         <moduleBuilder builderClass="info.kwarc.mmt.intellij.ArchiveModuleBuilder"/>
         <projectStructureDetector implementation="info.kwarc.mmt.intellij.ArchiveModuleStructureDetector"/>
         <fileTypeFactory implementation="info.kwarc.mmt.intellij.Language.MMTXFileFactory"/>
+        <psi.referenceContributor implementation="info.kwarc.mmt.intellij.Language.URIReferenceContributor"/>
         -->
-        <externalAnnotator language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.Annotator"/>
+        <annotator language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.MMTAnnotator"/>
+        <externalAnnotator language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.ExtAnnotator"/>
         <toolWindow id="MMT Shell" icon="/img/icon.png" anchor="bottom" factoryClass="info.kwarc.mmt.intellij.ui.ShellFactory"/>
         <lang.parserDefinition language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.MMTParserDefinition"/>
         <lang.syntaxHighlighterFactory language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.Factory"/>

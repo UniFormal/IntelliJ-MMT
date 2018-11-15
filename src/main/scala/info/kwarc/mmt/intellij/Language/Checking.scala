@@ -39,7 +39,7 @@ object Conversions {
 
 import Conversions._
 
-class Annotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
+class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
   override def apply(psifile: PsiFile, mmtO: Option[MMT], holder: AnnotationHolder): Unit = mmtO match {
     case Some(mmt) =>
       val uri = URI(psifile.getVirtualFile.toString)

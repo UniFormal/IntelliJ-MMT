@@ -11,10 +11,14 @@ import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.{ModuleRootManager, OrderRootType}
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.{ToolWindowAnchor, ToolWindowManager}
-import com.intellij.psi.PsiManager
+import com.intellij.psi.{PsiFile, PsiManager}
 import com.intellij.ui.content.{ContentFactory, ContentManager}
+import info.kwarc.mmt.api.NamespaceMap
 import info.kwarc.mmt.api.archives.lmh.MathHub
-import info.kwarc.mmt.api.frontend.actions.SetMathHub
+import info.kwarc.mmt.api.utils.URI
+
+import scala.collection.mutable
+// import info.kwarc.mmt.api.frontend.actions.SetMathHub
 import info.kwarc.mmt.api.frontend.{Controller, MMTConfig}
 import info.kwarc.mmt.api.utils.File
 import info.kwarc.mmt.intellij.Language.{Abbreviations, ErrorViewer}
@@ -155,7 +159,10 @@ class MMTPlugin(pr : Project) extends ProjectComponent {
       val mslf = home / "startup.msl" //MMTOptions.startup.get.getOrElse("startup.msl")
       if (mslf.toJava.exists())
         ctrl.runMSLFile(mslf, None)
-        else mslf.createNewFile()
+        else {
+        mslf.createNewFile()
+        File.append(mslf,"extension info.kwarc.mmt.odk.Plugin")
+      }
 
       val rc = home / "mmtrc" // MMTOptions.config.get.getOrElse("mmtrc")
       if(!rc.toJava.exists()) {

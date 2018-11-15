@@ -4,15 +4,19 @@ import com.intellij.notification.{Notification, NotificationType, Notifications}
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.util.Computable
 import com.intellij.openapi.vfs.{VirtualFile, VirtualFileManager}
+import com.intellij.psi.PsiFile
 import info.kwarc.mmt.api.utils.File
+
+import scala.concurrent.Future
 
 package object util {
   def resource(f : String) = getClass.getResource("/" + f)
-  def writable(fun : => Unit) : Unit = ApplicationManager.getApplication.runWriteAction(
-    new Runnable {
-      override def run(): Unit = fun
-    })
+  def writable[A](fun : => A) : A = // background {
+    ApplicationManager.getApplication.runWriteAction[A]{() => fun }
+  // }
+  def background(f: => Unit) : Unit = ApplicationManager.getApplication.invokeLater{() => f}// Future { f }
   def errorMsg(f: => Unit)(implicit project : Project) : Unit = errorMsg(f,())
   def errorMsg [A](f : => A, orElse : => A)(implicit project : Project) : A = try {
     f
@@ -44,6 +48,7 @@ package object util {
       ???
     }
   }
+  implicit def toFile(f : PsiFile): File = File(f.getVirtualFile.getCanonicalPath)
 
   import java.util.Collections
   implicit def toJava[A](ls : List[A]) : java.util.List[A] = {

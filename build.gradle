@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.3.4'
+    id 'org.jetbrains.intellij' version '0.3.12'
 }
 
 group 'info.kwarc.mmt.intellij'
@@ -10,14 +10,6 @@ intellij {
     version '2018.2'
     plugins 'org.intellij.scala:2018.2.8'
 }
-patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
-}
-group 'info.kwarc.mmt.intellij'
-version '1.0-SNAPSHOT'
-
 sourceCompatibility = 1.8
 
 repositories {
@@ -30,29 +22,25 @@ dependencies {
     testCompile "org.scala-lang:scala-library:2.12.4"
     compile files(fileTree(dir: 'lib', includes: ['*.jar']))
 }
+
+intellij {
+    version '2018.2.5'
+}
 patchPluginXml {
     changeNotes """
       Add change notes here.<br>
       <em>most HTML tags may be used</em>"""
 }
+
 apply plugin: 'scala'
 
 sourceSets {
     main {
-        java {
+        /* java {
             srcDir 'src/main/gen'
-        }
+        } */
         scala {
-            srcDirs = ['src/main/scala']
+            srcDirs = ['src/main/scala','src/main/java','src/main/gen']
         }
     }
 }
-
-/*
- jar {
-   from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-}
-*/

@@ -2,6 +2,7 @@ package info.kwarc.mmt.intellij.Language
 
 import java.nio.charset.Charset
 
+import com.intellij.lang.Language
 import com.intellij.openapi.fileTypes.{FileTypeConsumer, FileTypeFactory, LanguageFileType}
 import com.intellij.openapi.vfs.VirtualFile
 import info.kwarc.mmt.intellij.MMT
