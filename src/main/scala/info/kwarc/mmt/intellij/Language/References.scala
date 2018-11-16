@@ -60,7 +60,10 @@ class URIElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with UR
 
 trait HasURI extends PsiNameIdentifierOwner with URIHelper {
   def getRefURI : String
-  // def getElement : PsiElement
+  def getNamePSI : PsiElement
+
+  override def setName(name: String): PsiElement = ???
+  override def getNameIdentifier: PsiElement = getNamePSI
 }
 class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with HasURI {
   override def getRefURI: String = {
@@ -70,8 +73,7 @@ class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with
   }
 
   override def getName: String = getRefURI
-  override def setName(name: String): PsiElement = ???
-  override def getNameIdentifier: PsiElement = this.asInstanceOf[MMTTheory].getTheoryheader.getPname
+  override def getNamePSI: PsiElement = this.asInstanceOf[MMTTheory].getTheoryheader.getPname
   // override def getElement = this.asInstanceOf[MMTTheory].getTheoryheader.getPname
 }
 
@@ -107,17 +109,10 @@ class URIReference(element: PsiElement,textRange: TextRange) extends PsiReferenc
   }
 
   override def getVariants: Array[AnyRef] = {
-    inotify(elems.length + " Elements")
     elems.toArray
   }
 }
 
-class Processor extends PsiScopeProcessor {
-  override def execute(element: PsiElement, state: ResolveState): Boolean = {
-    // state
-    ???
-  }
-}
 /*
 class URIReferenceContributor extends PsiReferenceContributor {
   override def registerReferenceProviders(registrar: PsiReferenceRegistrar): Unit = {

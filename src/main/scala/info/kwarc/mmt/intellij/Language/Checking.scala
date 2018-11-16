@@ -1,31 +1,30 @@
 package info.kwarc.mmt.intellij.Language
 
 import java.awt.BorderLayout
-import java.awt.event.{ActionEvent, ActionListener}
-import java.util
+import java.awt.event.{ActionEvent, ActionListener, MouseAdapter, MouseEvent}
 
-import com.intellij.lang.annotation.{AnnotationHolder, ExternalAnnotator, HighlightSeverity}
+import com.intellij.lang.annotation.{AnnotationHolder, ExternalAnnotator}
+import com.intellij.notification.{Notification, NotificationType, Notifications}
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.wm.{ToolWindow, ToolWindowFactory}
-import com.intellij.psi.{PsiElement, PsiFile}
-import com.intellij.psi.impl.source.tree.TreeElement
-import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.PsiFile
 import com.intellij.ui.treeStructure.{PatchedDefaultMutableTreeNode, Tree}
 import info.kwarc.mmt.api
 import info.kwarc.mmt.api.documents.Document
 import info.kwarc.mmt.api.frontend.Controller
-import info.kwarc.mmt.api.objects.WFJudgement
-import info.kwarc.mmt.api.{DPath, Error, ErrorHandler, Invalid, InvalidElement, InvalidObject, InvalidUnit, MMTInterpretationProgress, MMTTaskProgress, MMTTaskProgressListener, Parsed, SourceError, StructuralElement, archives, metadata, utils}
-import info.kwarc.mmt.api.parser.{ParsingStream, SourcePosition, SourceRef, SourceRegion}
-import info.kwarc.mmt.api.symbols.{Declaration, FinalConstant}
-import info.kwarc.mmt.api.utils.{File, FilePath, URI, stringToList}
-import info.kwarc.mmt.intellij.Language.psi.{MMTElementType, MMTParserTypes}
+import info.kwarc.mmt.api.{DPath, ErrorHandler, MMTTaskProgress, MMTTaskProgressListener, Parsed, utils}
+import info.kwarc.mmt.api.parser.{ParsingStream, SourceRegion}
+import info.kwarc.mmt.api.symbols.FinalConstant
+import info.kwarc.mmt.api.utils.{File, FilePath, URI}
 import info.kwarc.mmt.intellij.MMT
 import javax.swing.tree._
 import javax.swing._
-import javax.swing.event.TreeModelListener
+
+import scala.collection.mutable
 
 object Conversions {
   implicit def convert(sr : SourceRegion, psi : PsiFile) : TextRange = {
@@ -38,8 +37,10 @@ object Conversions {
 }
 
 import Conversions._
+import info.kwarc.mmt.intellij.util._
 
 class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
+  private val docs : mutable.HashMap[File,DPath] = mutable.HashMap.empty
   override def apply(psifile: PsiFile, mmtO: Option[MMT], holder: AnnotationHolder): Unit = mmtO match {
     case Some(mmt) =>
       val uri = URI(psifile.getVirtualFile.toString)
@@ -53,18 +54,23 @@ class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
         case Some((a, p)) =>
           ParsingStream.fromSourceFile(a, FilePath(p), Some(ParsingStream.stringToReader(text)), Some(nsMap))
       }
-      ps.addListener(new Progresser(psifile,holder))
-      mmt.errorViewer.clearFile(file)
+      val progress = new Progresser(file)(holder,mmt.errorViewer)
+      ps.addListener(progress)
+      mmt.errorViewer.clearFile(file,docs.get(file))
       val error = new ErrorForwarder(psifile,file,mmt.controller,holder,mmt.errorViewer)
-      val doc = mmt.controller.read(ps, true, true)(error) match {
-        case d: Document => d
-        case _ => //throw ImplementationError("document expected")
-      }
-      // add narrative structure of doc to outline tree
-      // val tree = new SideKickParsedData(path.toJava.getName)
-      // val root = tree.root
-      // buildTreeDoc(root, doc)
-      // tree
+      // background {
+        val doc = mmt.controller.read(ps, true, true)(error) match {
+          case d: Document =>
+            docs.update(file,d.path)
+          case _ => //throw ImplementationError("document expected")
+        }
+      progress.done
+        // add narrative structure of doc to outline tree
+        // val tree = new SideKickParsedData(path.toJava.getName)
+        // val root = tree.root
+        // buildTreeDoc(root, doc)
+        // tree
+      // }
     case _ =>
   }
 
@@ -79,45 +85,56 @@ class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
 
 }
 
-class Progresser(file : PsiFile,holder : AnnotationHolder) extends MMTTaskProgressListener {
+class Progresser(file : File)(implicit holder : AnnotationHolder,ev : ErrorViewer) extends MMTTaskProgressListener {
+  // import Attributes._
+  private var not : Option[Notification] = None
   override def apply(p: MMTTaskProgress): Unit = p match {
     case Parsed(c : FinalConstant) =>
-      SourceRef.get(c) match {
-        case Some(r) =>
-          // holder.createAnnotation(HighlightSeverity.WARNING,r.region,"Checking...")
+      // ev.status(file,"Checking: " + c.path)
+      not match {
+        case Some(n) => n.expire()
         case _ =>
       }
+      not = Some(new Notification("MMT",file.name,"Checking " + c.path.module.name + "?" +c.name,NotificationType.INFORMATION))
+      Notifications.Bus.notify(not.get)
+      /*
+      SourceRef.get(c) match {
+        case Some(r) =>
+
+          // implicit val psi = file.findElementAt(r.region.start.offset)
+          // holder.createAnnotation(HighlightSeverity.WARNING,r.region,"Checking...")
+          // highlight(active)
+
+        case _ =>
+      }
+      */
     case _ =>
+  }
+  def done = {
+    not match {
+      case Some(n) => n.expire()
+      case _ =>
+    }
+    not = Some(new Notification("MMT",file.name,"Done.",NotificationType.INFORMATION))
+    Notifications.Bus.notify(not.get)
+    Thread.sleep(1000)
+    not.get.expire()
+    not = None
   }
 }
 
-
-//TODO refactor
-class ErrorForwarder(psifile : PsiFile, file: File, controller : Controller,holder : AnnotationHolder, ev : ErrorViewer) extends ErrorHandler {
+case class PluginError(e : api.Error,psifile : PsiFile, file : File) {
   import info.kwarc.mmt.api._
   import archives.source
   import objects._
   import parser._
   import utils.MyList._
 
-  override protected def addError(e: api.Error): Unit = e match {
+  private lazy val mmt = MMT.get(psifile.getProject).get
+  lazy val (region,main,extra) = e match {
     case s: SourceError =>
-      /*
-      //generated by parsers
-      // We permit the case that errors are found in other files than the current one. So we compute the file path
-      val nf = controller.backend.resolveLogical(s.ref.container) match {
-        case Some((a, p)) => (a / source / p).toString
-        case None => s.ref.container match {
-          case utils.FileURI(f) => f.toString
-          case u => u.toString
-        }
-      }
-      */
-      val region = convert(s.ref.region,psifile)
-      holder.createErrorAnnotation(region,s.mainMessage)
-      ev.addError(s.mainMessage,s.extraMessages,file,region)
-    case e: Invalid =>
-      //generated by checkers
+      (convert(s.ref.region,psifile),s.mainMessage,s.extraMessages)
+    case e:Invalid =>
       var mainMessage = e.shortMsg
       var extraMessages : List[String] = e.extraMessage.split("\n").toList
       val causeOpt: Option[metadata.HasMetaData] = e match {
@@ -125,8 +142,8 @@ class ErrorForwarder(psifile : PsiFile, file: File, controller : Controller,hold
         case e: InvalidElement => Some(e.elem)
         case e: InvalidUnit =>
           val steps = e.history.getSteps
-          extraMessages :::= steps.map(_.present(o => controller.presenter.asString(o)))
-          val declOpt = e.unit.component.map(p => controller.localLookup.get(p.parent))
+          extraMessages :::= steps.map(_.present(o => mmt.controller.presenter.asString(o)))
+          val declOpt = e.unit.component.map(p => mmt.controller.localLookup.get(p.parent))
           // WFJudgement must exist because we always start with it
           // find first WFJudgement whose region is within the failed checking unit
           declOpt.flatMap {decl =>
@@ -136,7 +153,7 @@ class ErrorForwarder(psifile : PsiFile, file: File, controller : Controller,hold
                   case j: WFJudgement =>
                     SourceRef.get(j.wfo) flatMap {smallRef =>
                       if (bigRef contains smallRef) {
-                        mainMessage += ": " + controller.presenter.asString(j.wfo)
+                        mainMessage += ": " + mmt.controller.presenter.asString(j.wfo)
                         Some(j.wfo)
                       } else
                         None
@@ -152,22 +169,30 @@ class ErrorForwarder(psifile : PsiFile, file: File, controller : Controller,hold
         mainMessage = "error with unknown location: " + mainMessage
         SourceRef(utils.FileURI(file), SourceRegion(SourcePosition(0,0,0), SourcePosition(0,0,0)))
       }
-      holder.createErrorAnnotation(convert(ref.region,psifile),mainMessage)
-      ev.addError(mainMessage,extraMessages,file,convert(ref.region,psifile))
+      (convert(ref.region,psifile),mainMessage,extraMessages)
     case e: Error =>
-      // other errors, should not happen
-      val msg =  "error with unknown location: " + e.getMessage
-      holder.createErrorAnnotation(TextRange.EMPTY_RANGE,msg)
-      ev.addError(msg,e.extraMessage.split("\n").toList,file,TextRange.from(0,0))
+      (TextRange.EMPTY_RANGE,"error with unknown location: " + e.getMessage,e.extraMessage.split("\n").toList)
+  }
+  def passOn(holder : AnnotationHolder) = holder.createErrorAnnotation(region,main)
+  def passOn(ev : ErrorViewer) = ev.addError(main,extra,psifile,file,region)
+}
+
+//TODO refactor
+class ErrorForwarder(psifile : PsiFile, file: File, controller : Controller,holder : AnnotationHolder, ev : ErrorViewer) extends ErrorHandler {
+
+  override protected def addError(e: api.Error): Unit = {
+    val err = PluginError(e,psifile,file)
+    err.passOn(holder)
+    err.passOn(ev)
   }
 }
 
-class ErrorViewer extends ActionListener {
+class ErrorViewer(controller : Controller) extends ActionListener {
   val aev = new AbstractErrorViewer
   aev.btn_clear.addActionListener(this)
   val root = new PatchedDefaultMutableTreeNode("Errors")
   val errorTree = new Tree(root)
-  SwingUtilities.invokeLater { () =>
+  ApplicationManager.getApplication.invokeLater { () =>
     aev.pane.setLayout(new BorderLayout())
     val scp = new JScrollPane(errorTree)
     aev.pane.add(scp)
@@ -176,6 +201,26 @@ class ErrorViewer extends ActionListener {
     errorTree.revalidate()
     aev.panel.revalidate()
   }
+  errorTree.addMouseListener(new MouseAdapter {
+    override def mouseClicked(e: MouseEvent): Unit = {
+      super.mouseClicked(e)
+      val path = errorTree.getPathForLocation(e.getX,e.getY)
+      if (path != null) path.getPath.lastOption match {
+        case Some(ErrorLine(_,tr,psi)) =>
+          val elem = psi.findElementAt(tr.getStartOffset)
+          val descriptor= new OpenFileDescriptor(psi.getProject,psi.getContainingFile.getVirtualFile)
+          val editor = FileEditorManager.getInstance(psi.getProject).openTextEditor(descriptor,true)
+          editor.getCaretModel.moveToOffset(elem.getTextOffset)
+        case _ =>
+      }
+    }
+  })
+  private def model = errorTree.getModel.asInstanceOf[DefaultTreeModel]
+
+  private def redraw = ApplicationManager.getApplication.invokeLater { () =>
+    model.reload()
+    errorTree.revalidate()
+  }
 
   implicit def convert[A](e : java.util.Enumeration[A]): List[PatchedDefaultMutableTreeNode] = {
     var ls = Nil.asInstanceOf[List[PatchedDefaultMutableTreeNode]]
@@ -183,38 +228,58 @@ class ErrorViewer extends ActionListener {
     ls.reverse
   }
 
-  def clearFile(file : File) = {
-    val entry = root.children().find(_.getUserObject == file).foreach(root.remove)
-    SwingUtilities.invokeLater { () =>
-      //errorTree.setSize(aev.pane.getSize)
-      errorTree.getModel.asInstanceOf[DefaultTreeModel].reload()
-      errorTree.revalidate()
-    }
+  def clearFile(file : File,dp: Option[DPath]) = {
+    root.children().find(_.getUserObject == file).foreach(root.remove)
+    dp.foreach(controller.delete)
+    redraw
   }
 
-  def addError(short : String, long : List[String], file : File, sr : TextRange) = {
-    val filetop = root.children().find(_.getUserObject == file).getOrElse {
-      val nt = new PatchedDefaultMutableTreeNode(file)
-      root.add(nt)
-      nt
+  private def getTop(file: File) = root.children().find(_.getUserObject == file).getOrElse {
+    val nt = new PatchedDefaultMutableTreeNode(file)
+    root.add(nt)
+    redraw
+    errorTree.expandPath(new TreePath(nt.getPath.asInstanceOf[Array[Object]]))
+    nt
+  }
+
+  private def add(file : File,node : PatchedDefaultMutableTreeNode) = synchronized {
+    val top = getTop(file)
+    (top.getLastLeaf,node) match {
+      case (s : StatusLine,t : StatusLine) =>
+        top.remove(s)
+        top.add(node)
+      case (s : StatusLine,_) =>
+        top.remove(s)
+        top.add(node)
+        top.add(s)
+      case (_,_) =>
+        top.add(node)
     }
-    val entry = new PatchedDefaultMutableTreeNode(sr.toString + ": " + short)
-    long.foreach(s => entry.add(new PatchedDefaultMutableTreeNode(s)))
-    filetop.add(entry)
-    SwingUtilities.invokeLater { () =>
-      //errorTree.setSize(aev.pane.getSize)
-      errorTree.getModel.asInstanceOf[DefaultTreeModel].reload()
-      errorTree.revalidate()
-    }
+    redraw
+    val row = errorTree.getRowForPath(new TreePath(Array(root,top,top.getLastChild).asInstanceOf[Array[Object]]))
+    errorTree.setSelectionRow(row)
+  }
+
+  def status(file : File,s : String) = add(file,StatusLine(s))
+
+  case class ErrorLine(message : String,tr : TextRange,psiFile: PsiFile) extends PatchedDefaultMutableTreeNode(message) {
+    def addLine(s : String) = add(new PatchedDefaultMutableTreeNode(s))
+  }
+  case class StatusLine(message : String) extends PatchedDefaultMutableTreeNode(message)
+
+  def addError(short : String, long : List[String], psifile : PsiFile, file : File, sr : TextRange) = {
+    //val filetop = getTop(file)
+    val entry = ErrorLine(short,sr,psifile)
+    long.reverse.foreach(entry.addLine)
+    add(file,entry)
+    // filetop.add(entry)
+    // redraw
   }
 
   override def actionPerformed(e: ActionEvent): Unit = {
     if (e.getActionCommand == "Clear") {
       root.removeAllChildren()
-      SwingUtilities.invokeLater { () =>
-        errorTree.getModel.asInstanceOf[DefaultTreeModel].reload()
-        errorTree.revalidate()
-      }
+      redraw
     }
   }
 }

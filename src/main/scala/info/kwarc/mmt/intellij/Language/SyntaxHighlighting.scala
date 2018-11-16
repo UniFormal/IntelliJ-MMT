@@ -5,7 +5,7 @@ import java.util
 import com.intellij.execution.process.ConsoleHighlighter
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.lang.ParserDefinition.SpaceRequirements
-import com.intellij.lang.annotation.{AnnotationHolder, Annotator, HighlightSeverity}
+import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.{ASTNode, ParserDefinition, PsiParser}
 import com.intellij.lexer.{FlexAdapter, Lexer}
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -68,6 +68,11 @@ object Attributes {
   lazy val uri = make("mmt.URI",DefaultLanguageHighlighterColors.NUMBER)
   lazy val term = make("mmt.term",DefaultLanguageHighlighterColors.STATIC_FIELD)
   lazy val not = make("mmt.notation",DefaultLanguageHighlighterColors.DOC_COMMENT_TAG_VALUE)
+  lazy val active = make("mmt.active",ConsoleHighlighter.YELLOW_BRIGHT)
+
+  def getChildren(element: PsiElement) : List[PsiElement] = element.getNode.getChildren(null).map(_.getPsi).toList
+  def highlight(ta : TextAttributesKey)(implicit element : PsiElement, holder : AnnotationHolder) =
+    holder.createInfoAnnotation(element,null).setTextAttributes(ta)
 }
 
 object LexingHighlighter extends SyntaxHighlighterBase {
@@ -141,9 +146,6 @@ class ColorSettings extends ColorSettingsPage {
 }
 
 class MMTAnnotator extends com.intellij.lang.annotation.Annotator {
-  private def getChildren(element: PsiElement) : List[PsiElement] = element.getNode.getChildren(null).map(_.getPsi).toList
-  private def highlight(ta : TextAttributesKey)(implicit element : PsiElement, holder : AnnotationHolder) =
-    holder.createInfoAnnotation(element,null).setTextAttributes(ta)
 
   import Attributes._
 

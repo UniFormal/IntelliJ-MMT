@@ -175,7 +175,7 @@ object FileToPSI {
 
 class MyDirectoryNode(mmt : MMT,dir : File) extends ProjectViewNode[PsiDirectory](mmt.project,FileToPSI.toPSIDir(dir,mmt),viewSettings) {// AbstractTreeNode[PsiDirectory](mmt.project,FileToPSI.toPSI(dir,mmt)) {
   lazy val helper = ProjectViewDirectoryHelper.getInstance(mmt.project)
-  protected val icon = PlatformIcons.DIRECTORY_CLOSED_ICON
+  protected val icon = PlatformIcons.FOLDER_ICON
   private var name = dir.name
 
   override def getChildren: util.Collection[_ <: AbstractTreeNode[_]] = {

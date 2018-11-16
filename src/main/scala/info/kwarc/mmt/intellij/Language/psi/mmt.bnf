@@ -35,7 +35,7 @@ nestedtheory ::= theoryheader ((ABBREV_KEY term DD) | (EQ_KEY theory_body MD))
 nestedview ::= viewheader ((ABBREV_KEY term DD) | (EQ_KEY view_body MD))
 rule ::= RULE_KEY uri tmlist? DD
 include ::= INCLUDE_KEY uri tmlist? DD
-decl_comment ::= COMMENT_KEY (any|OD)* DD
+decl_comment ::= COMMENT_KEY (any|OD)* (DD|MD)
 constant ::= CONSTANT_KEY? pname (component OD)* component? DD
 structure ::= STRUCTURE_KEY pname COLON_KEY uri ((ABBREV_KEY term DD) | (EQ_KEY theory_body MD))
 // deriveddecl ::= DERIVED+ ((DERIVEDSHORT DD) | (DERIVEDBODY theory_body MD) )
@@ -57,16 +57,17 @@ role_comp ::= ROLE_KEY any+
 meta_comp ::= META_KEY term
 alias_comp ::= ALIAS_KEY pname
 
-uri ::= (TOKEN COLON_KEY TOKEN) | TOKEN {
+uri ::= (uritoken COLON_KEY uritoken) | uritoken {
     mixin="info.kwarc.mmt.intellij.Language.URIElement_impl"
 }
+uritoken ::= TOKEN | keywrd
 pname ::= TOKEN | keywrd
-any ::= TOKEN | keywrd | COLON_KEY | COMMENT_KEY | EQ_KEY | NOT_KEY | ALIAS_KEY | PARAM_KEY | ARROW_KEY
+any ::= TOKEN | keywrd | COLON_KEY | COMMENT_KEY | EQ_KEY | NOT_KEY | ALIAS_KEY | PARAM_KEY | ARROW_KEY | COMMA_KEY
 
+tmlist ::= (term COMMA_KEY)* term
 term ::= any+
-tmlist ::= (term ",")* term
 
-keywrd ::= COMMENT_KEY | NAMESPACE_KEY | IMPORT_KEY | ABBREV_KEY | THEORY_KEY  |
+keywrd ::= COMMENT_KEY | NAMESPACE_KEY | IMPORT_KEY | ABBREV_KEY | THEORY_KEY  | VIEW_KEY |
             RULE_KEY | INCLUDE_KEY | PREC_KEY | ROLE_KEY | META_KEY | CONSTANT_KEY | IMPLICIT_KEY | STRUCTURE_KEY
 
 ws ::= WHITESPACE

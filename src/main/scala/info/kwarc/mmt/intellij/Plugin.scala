@@ -48,7 +48,7 @@ abstract class MMT {
   val controller : Controller
   val msl : File
   val mmtrc : File
-  lazy val errorViewer = new ErrorViewer
+  lazy val errorViewer = new ErrorViewer(controller)
   // lazy val report = controller.report
   val mh : Module
   val project : Project

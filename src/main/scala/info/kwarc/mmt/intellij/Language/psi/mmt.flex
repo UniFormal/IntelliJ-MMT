@@ -135,6 +135,7 @@ TOKEN= {INPUT_CHAR}+
     ":"             { return MMTParserTypes.COLON_KEY; }
     ">"             { return MMTParserTypes.PARAM_KEY; }
     "="             { return MMTParserTypes.EQ_KEY; }
+    ","             { return MMTParserTypes.COMMA_KEY; }
     "->"|"⟶"        { return MMTParserTypes.ARROW_KEY; }
     "##"|"#"        { return MMTParserTypes.NOT_KEY; }
     "//"|"/T"       { return MMTParserTypes.COMMENT_KEY; }
