@@ -8,19 +8,19 @@ import com.intellij.notification.{Notification, NotificationType, Notifications}
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.{Project, ProjectManager}
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.wm.{ToolWindow, ToolWindowFactory}
-import com.intellij.psi.PsiFile
+import com.intellij.psi.{PsiDocumentManager, PsiFile, PsiManager}
 import com.intellij.ui.treeStructure.{PatchedDefaultMutableTreeNode, Tree}
 import info.kwarc.mmt.api
-import info.kwarc.mmt.api.documents.Document
+import info.kwarc.mmt.api.documents.{Document, MRef}
 import info.kwarc.mmt.api.frontend.Controller
-import info.kwarc.mmt.api.{DPath, ErrorHandler, MMTTaskProgress, MMTTaskProgressListener, Parsed, utils}
+import info.kwarc.mmt.api.{DPath, ErrorHandler, MMTTaskProgress, MMTTaskProgressListener, Parsed, Path, utils}
 import info.kwarc.mmt.api.parser.{ParsingStream, SourceRegion}
-import info.kwarc.mmt.api.symbols.FinalConstant
+import info.kwarc.mmt.api.symbols.{Declaration, FinalConstant, Structure}
 import info.kwarc.mmt.api.utils.{File, FilePath, URI}
-import info.kwarc.mmt.intellij.MMT
+import info.kwarc.mmt.intellij.{MMT, MMTProjectTemplate}
 import javax.swing.tree._
 import javax.swing._
 
@@ -30,7 +30,7 @@ object Conversions {
   implicit def convert(sr : SourceRegion, psi : PsiFile) : TextRange = {
     val start = sr.start.offset
     val length = sr.length
-    val tr = TextRange.from(start,length)
+    val tr = TextRange.from(psi.getTextRange.getStartOffset + start,length)
     val int = psi.getTextRange.intersection(tr)
     if (int != null) int else psi.getTextRange
   }
@@ -40,13 +40,12 @@ import Conversions._
 import info.kwarc.mmt.intellij.util._
 
 class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
-  private val docs : mutable.HashMap[File,DPath] = mutable.HashMap.empty
   override def apply(psifile: PsiFile, mmtO: Option[MMT], holder: AnnotationHolder): Unit = mmtO match {
-    case Some(mmt) =>
+    case Some(mmt) if mmt.errorViewer.doCheck =>
       val uri = URI(psifile.getVirtualFile.toString)
       val file = utils.FileURI.unapply(uri).getOrElse(return)
       //val uri = utils.FileURI(file)
-      val text = File.read(file)
+      val text = psifile.getText
       val nsMap = mmt.controller.getNamespaceMap
       val ps = mmt.controller.backend.resolvePhysical(file) orElse mmt.controller.backend.resolveAnyPhysicalAndLoad(file) match {
         case None =>
@@ -56,15 +55,14 @@ class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
       }
       val progress = new Progresser(file)(holder,mmt.errorViewer)
       ps.addListener(progress)
-      mmt.errorViewer.clearFile(file,docs.get(file))
+      mmt.errorViewer.clearFile(file)
       val error = new ErrorForwarder(psifile,file,mmt.controller,holder,mmt.errorViewer)
       // background {
         val doc = mmt.controller.read(ps, true, true)(error) match {
           case d: Document =>
-            docs.update(file,d.path)
+            progress.done(d)
           case _ => //throw ImplementationError("document expected")
         }
-      progress.done
         // add narrative structure of doc to outline tree
         // val tree = new SideKickParsedData(path.toJava.getName)
         // val root = tree.root
@@ -89,13 +87,17 @@ class Progresser(file : File)(implicit holder : AnnotationHolder,ev : ErrorViewe
   // import Attributes._
   private var not : Option[Notification] = None
   override def apply(p: MMTTaskProgress): Unit = p match {
-    case Parsed(c : FinalConstant) =>
+    case Parsed(s) =>
       // ev.status(file,"Checking: " + c.path)
       not match {
         case Some(n) => n.expire()
         case _ =>
       }
-      not = Some(new Notification("MMT",file.name,"Checking " + c.path.module.name + "?" +c.name,NotificationType.INFORMATION))
+      val str = s match {
+        case c : Declaration => c.path.module.name + "?" + c.name
+        case _ => s.path.name
+      }
+      not = Some(new Notification("MMT",file.name,"Checking " + str,NotificationType.INFORMATION))
       Notifications.Bus.notify(not.get)
       /*
       SourceRef.get(c) match {
@@ -110,7 +112,7 @@ class Progresser(file : File)(implicit holder : AnnotationHolder,ev : ErrorViewe
       */
     case _ =>
   }
-  def done = {
+  def done(d : Document) = {
     not match {
       case Some(n) => n.expire()
       case _ =>
@@ -120,6 +122,7 @@ class Progresser(file : File)(implicit holder : AnnotationHolder,ev : ErrorViewe
     Thread.sleep(1000)
     not.get.expire()
     not = None
+    ev.finish(file,d)
   }
 }
 
@@ -177,7 +180,6 @@ case class PluginError(e : api.Error,psifile : PsiFile, file : File) {
   def passOn(ev : ErrorViewer) = ev.addError(main,extra,psifile,file,region)
 }
 
-//TODO refactor
 class ErrorForwarder(psifile : PsiFile, file: File, controller : Controller,holder : AnnotationHolder, ev : ErrorViewer) extends ErrorHandler {
 
   override protected def addError(e: api.Error): Unit = {
@@ -188,8 +190,18 @@ class ErrorForwarder(psifile : PsiFile, file: File, controller : Controller,hold
 }
 
 class ErrorViewer(controller : Controller) extends ActionListener {
+  private val docs : mutable.HashMap[File,List[Path]] = mutable.HashMap.empty
+  def finish(file : File, doc : Document) = {
+    val ls = doc.path :: doc.getDeclarations.collect {
+      case r : MRef => r.target
+    }
+    docs.update(file,ls)
+  }
+
   val aev = new AbstractErrorViewer
   aev.btn_clear.addActionListener(this)
+  aev.btn_clearAll.addActionListener(this)
+  aev.check.addActionListener(this)
   val root = new PatchedDefaultMutableTreeNode("Errors")
   val errorTree = new Tree(root)
   ApplicationManager.getApplication.invokeLater { () =>
@@ -201,6 +213,7 @@ class ErrorViewer(controller : Controller) extends ActionListener {
     errorTree.revalidate()
     aev.panel.revalidate()
   }
+  def doCheck = aev.check.isSelected
   errorTree.addMouseListener(new MouseAdapter {
     override def mouseClicked(e: MouseEvent): Unit = {
       super.mouseClicked(e)
@@ -228,9 +241,9 @@ class ErrorViewer(controller : Controller) extends ActionListener {
     ls.reverse
   }
 
-  def clearFile(file : File,dp: Option[DPath]) = {
+  def clearFile(file : File) = {
     root.children().find(_.getUserObject == file).foreach(root.remove)
-    dp.foreach(controller.delete)
+    docs.get(file).foreach(_.foreach(controller.delete))
     redraw
   }
 
@@ -280,10 +293,18 @@ class ErrorViewer(controller : Controller) extends ActionListener {
     if (e.getActionCommand == "Clear") {
       root.removeAllChildren()
       redraw
+    } else if (e.getActionCommand == "Clear All") {
+      root.removeAllChildren()
+      controller.clear
+      redraw
+    } else if (e.getActionCommand == "Type Checking" && aev.check.isSelected) {
+      MMT.getProject match {
+        case Some(pr) =>
+          val editor = FileEditorManager.getInstance(pr).getSelectedTextEditor
+          val psifile = PsiDocumentManager.getInstance(pr).getPsiFile(editor.getDocument)
+          // ???
+        case _ =>
+      }
     }
   }
-}
-
-class Test extends ToolWindowFactory {
-  override def createToolWindowContent(project: Project, toolWindow: ToolWindow): Unit = ???
 }

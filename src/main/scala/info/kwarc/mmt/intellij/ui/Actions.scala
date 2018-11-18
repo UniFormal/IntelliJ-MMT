@@ -5,54 +5,60 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.ui.Messages
-import info.kwarc.mmt.api.archives
-import info.kwarc.mmt.api.frontend.actions.LMHInstall
 import info.kwarc.mmt.api.utils.File
 import info.kwarc.mmt.api.utils.time.Time
 import info.kwarc.mmt.intellij.{MMT, MMTDataKeys}
 import info.kwarc.mmt.intellij.util._
 
-import scala.concurrent.Future
 
-object AllActions {
+object Actions {
   private lazy val am = ActionManager.getInstance()
-  private lazy val topmenu = am.getAction("MainMenu").asInstanceOf[DefaultActionGroup]
-  private lazy val mmtmenu = ("MMTPlugin.Menu",new DefaultActionGroup {
-    getTemplatePresentation.setText("MMT")
-    getTemplatePresentation.setDescription("MMT Actions")
-  })
+  trait MMTActionTrait { self : AnAction =>
+    protected def id : String
+    protected def descr : String
+    getTemplatePresentation.setDescription(descr)
+    am.registerAction("MMTPlugin." + id,this)
+    def remMMT = am.unregisterAction(id)
+  }
+  abstract class MMTAction(val id : String, text : String, val descr : String = "") extends AnAction(text) with MMTActionTrait
+  class MMTActionGroup(val id : String, text : String, val descr : String = "") extends DefaultActionGroup with MMTActionTrait {
+    getTemplatePresentation.setText(text)
+  }
+
+  private lazy val topmenu = am.getAction("ToolsMenu")/*(IdeActions.GROUP_MAIN_MENU)*/.asInstanceOf[DefaultActionGroup]
+  private lazy val mmtmenu = new MMTActionGroup("Menu","MMT","MMT Actions") {
+    getTemplatePresentation.setIcon(MMT.icon)
+  }
   private lazy val contextmenu = am.getAction("ProjectViewPopupMenu").asInstanceOf[DefaultActionGroup]// ActionPlaces.PROJECT_VIEW_POPUP
 
-  private lazy val test = ("MMTPlugin.Test",new MMTTest)
-  private lazy val install =("MMTPlugin.InstallArchive",new InstallArchive)
-  private lazy val reset = ("MMTPlugin.Reset",new Reset)
 
-  def apply: Unit = if (am.getActionIds("MMTPlugin").isEmpty) {
-    am.registerAction(mmtmenu._1,mmtmenu._2)
-    am.registerAction(test._1,test._2)
-    am.registerAction(install._1,install._2)
-    am.registerAction(reset._1,reset._2)
-    topmenu.add(mmtmenu._2)
-    mmtmenu._2.add(test._2)
-    mmtmenu._2.add(reset._2)
-    contextmenu.add(install._2)
+
+  private lazy val test = new MMTTest
+  private lazy val install = new InstallArchive
+  private lazy val reset = new Reset
+
+  def addAll: Unit = if (am.getActionIds("MMTPlugin").isEmpty) {
+    topmenu.add(mmtmenu)
+    mmtmenu.add(test)
+    mmtmenu.add(reset)
+    contextmenu.add(install)
+    mmtmenu.setPopup(true)
   }
-  def remove: Unit = if (am.getActionIds("MMTPlugin").nonEmpty) {
-    am.unregisterAction(test._1)
-    am.unregisterAction(reset._1)
-    am.unregisterAction(install._1)
+  def removeAll: Unit = if (am.getActionIds("MMTPlugin").nonEmpty) {
+    test.remMMT
+    reset.remMMT
+    install.remMMT
 
-    topmenu.remove(mmtmenu._2)
-    contextmenu.remove(install._2)
-    am.unregisterAction(mmtmenu._1)
+    topmenu.remove(mmtmenu)
+    contextmenu.remove(install)
+    mmtmenu.remMMT
   }
 }
-
-class MMTTest extends AnAction("MMT Info") {
-  getTemplatePresentation.setDescription("Basic information on running MMT instance")
+import Actions._
+class MMTTest extends MMTAction("test","MMT Info","Basic information on running MMT instance") {
   override def actionPerformed(event: AnActionEvent): Unit = {
-    implicit val pr : Project = event.getProject
-    MMT.get match {
+    val pr : Project = event.getProject
+    MMT.get(pr) match {
       case None =>
         Messages.showErrorDialog("Not a MathHub/MMT Project", "MMT")
       case Some(mmt) =>
@@ -73,7 +79,7 @@ class MMTTest extends AnAction("MMT Info") {
   }
 }
 
-class InstallArchive extends AnAction("Install Archive") {
+class InstallArchive extends MMTAction("InstallArchive", "Install Archive") {
 
   import com.intellij.openapi.actionSystem.AnActionEvent
 
@@ -114,7 +120,7 @@ class InstallArchive extends AnAction("Install Archive") {
   }
 }
 
-class Reset extends AnAction("Reset") {
+class Reset extends MMTAction("Reset","Reset") {
   override def actionPerformed(e: AnActionEvent): Unit = {
     MMT.get(e.getProject).getOrElse(return ()).reset
   }

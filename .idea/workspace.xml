@@ -15,13 +15,12 @@
       <change beforePath="$PROJECT_DIR$/intellij-scala/.idea/sbt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/intellij-scala/.idea/sbt.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/intellij-scala/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/intellij-scala/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/intellij-scala/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Checking.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Checking.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/References.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/References.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/SyntaxHighlighting.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/SyntaxHighlighting.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.bnf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.bnf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.flex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -78,39 +77,42 @@
     <session id="-1558540873">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="13" />
+          <entry key="project.closed" value="17" />
           <entry key="project.open.time.12" value="3" />
           <entry key="project.open.time.14" value="2" />
           <entry key="project.open.time.16" value="1" />
-          <entry key="project.open.time.17" value="1" />
-          <entry key="project.open.time.18" value="1" />
+          <entry key="project.open.time.17" value="2" />
+          <entry key="project.open.time.18" value="2" />
           <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.2" value="3" />
           <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.26" value="1" />
-          <entry key="project.opened" value="14" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.opened" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="bnf" value="2" />
-          <entry key="class" value="12" />
+          <entry key="class" value="20" />
           <entry key="flex" value="2" />
+          <entry key="form" value="2" />
           <entry key="gradle" value="4" />
-          <entry key="java" value="57" />
-          <entry key="scala" value="27" />
-          <entry key="xml" value="1" />
+          <entry key="java" value="76" />
+          <entry key="scala" value="30" />
+          <entry key="xml" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="BNF" value="2" />
-          <entry key="CLASS" value="12" />
+          <entry key="CLASS" value="20" />
+          <entry key="GUI_DESIGNER_FORM" value="2" />
           <entry key="Groovy" value="4" />
-          <entry key="JAVA" value="57" />
+          <entry key="JAVA" value="76" />
           <entry key="JFlex" value="2" />
-          <entry key="Scala" value="27" />
-          <entry key="XML" value="1" />
+          <entry key="Scala" value="30" />
+          <entry key="XML" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -118,8 +120,8 @@
           <entry key="bnf" value="1980" />
           <entry key="flex" value="168" />
           <entry key="gradle" value="38" />
-          <entry key="java" value="76" />
-          <entry key="scala" value="11469" />
+          <entry key="java" value="88" />
+          <entry key="scala" value="14214" />
           <entry key="xml" value="93" />
         </counts>
       </usages-collector>
@@ -127,9 +129,9 @@
         <counts>
           <entry key="BNF" value="1980" />
           <entry key="Groovy" value="38" />
-          <entry key="JAVA" value="83" />
+          <entry key="JAVA" value="95" />
           <entry key="JFlex" value="161" />
-          <entry key="Scala" value="11469" />
+          <entry key="Scala" value="14214" />
           <entry key="XML" value="93" />
         </counts>
       </usages-collector>
@@ -147,6 +149,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="20" column="92" selection-start-line="20" selection-start-column="92" selection-end-line="21" selection-end-column="109" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.flex">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2466">
@@ -155,14 +166,149 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Checking.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="222" column="4" lean-forward="true" selection-start-line="222" selection-start-column="4" selection-end-line="222" selection-end-column="4" />
+            <state relative-caret-position="3942">
+              <caret line="248" selection-start-line="248" selection-end-line="248" />
               <folding>
                 <element signature="e#42#70#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="684">
+              <caret line="45" column="66" selection-start-line="45" selection-start-column="66" selection-end-line="45" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.form">
+          <provider selected="true" editor-type-id="ui-designer" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+              <folding>
+                <element signature="e#36#78#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/References.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="303">
+              <caret line="99" column="12" selection-start-line="99" selection-start-column="12" selection-end-line="99" selection-end-column="12" />
+              <folding>
+                <element signature="e#42#93#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/providers/JavaClassReferenceSet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="52" column="9" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/PsiReferenceBase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="26" column="77" selection-start-line="26" selection-start-column="77" selection-end-line="26" selection-end-column="77" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/PsiReference.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/JavaLangClassMemberReference.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-72">
+              <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+              <folding>
+                <element signature="e#3934#3935#0" expanded="true" />
+                <element signature="e#3980#3981#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/providers/JavaClassReference.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/4eea4d6a5b7eb00d32cb399a9214c1b963226f9a/ideaIC-2018.2.5/lib/java-impl.jar!/com/intellij/util/xml/CanonicalPsiTypeConverterImpl.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="34" column="34" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#7019#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/providers/JavaClassReferenceProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54">
+              <caret line="34" column="21" lean-forward="true" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/JavaReflectionReferenceUtil.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="241" column="32" selection-start-line="241" selection-start-column="32" selection-end-line="241" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/openapi/actionSystem/IdeActions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1836">
+              <caret line="102" column="37" selection-start-line="102" selection-start-column="37" selection-end-line="102" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -186,18 +332,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/util/PlatformIcons.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1440">
-              <caret line="83" column="7" selection-start-line="83" selection-start-column="7" selection-end-line="83" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.bnf">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="918">
+            <state relative-caret-position="522">
               <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
               <folding>
                 <element signature="e#0#525#0" expanded="true" />
@@ -221,8 +358,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="49" column="18" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
+            <state relative-caret-position="335">
+              <caret line="197" column="6" selection-start-line="197" selection-start-column="6" selection-end-line="197" selection-end-column="6" />
               <folding>
                 <element signature="e#33#89#0" expanded="true" />
               </folding>
@@ -242,6 +379,14 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>getChil</find>
+      <find>MainMenu</find>
+      <find>ProjectViewPopupM</find>
+      <find>Tools</find>
+      <find>tools</find>
+      <find>tool</find>
+      <find>IDE Scripting C</find>
+      <find>T</find>
+      <find>ToolsMen</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -776,7 +921,6 @@
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/mmt.flex" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Parsing.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/mmt.bnf" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/References/URIHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/URIElement.java" />
@@ -787,13 +931,16 @@
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/Parser.scala" />
         <option value="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/util/package.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/References.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.flex" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.bnf" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/SyntaxHighlighting.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" />
+        <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.form" />
+        <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.java" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Checking.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/References.scala" />
       </list>
     </option>
   </component>
@@ -814,6 +961,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -961,12 +1110,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="MMTthe&#9;PSI&#9;JAVA://info.kwarc.mmt.intellij.Language.psi.imps.MMTTheory_impl&#10;PsiBuil&#9;PSI&#9;JAVA://com.intellij.lang.PsiBuilder" />
+    <property name="SearchEverywhereHistoryKey" value="AnnotationHol&#9;PSI&#9;JAVA://com.intellij.lang.annotation.AnnotationHolder&#10;MMTthe&#9;PSI&#9;JAVA://info.kwarc.mmt.intellij.Language.psi.imps.MMTTheory_impl&#10;PsiBuil&#9;PSI&#9;JAVA://com.intellij.lang.PsiBuilder" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language" />
@@ -1113,15 +1260,19 @@
       <workItem from="1542280175516" duration="5962000" />
       <workItem from="1542301297845" duration="5350000" />
       <workItem from="1542308826938" duration="16422000" />
-      <workItem from="1542371909189" duration="299000" />
+      <workItem from="1542371909189" duration="5451000" />
+      <workItem from="1542462548992" duration="11203000" />
+      <workItem from="1542489584324" duration="1043000" />
+      <workItem from="1542537740478" duration="3391000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88457000" />
+    <option name="totallyTimeSpent" value="109246000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2497332" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1130,7 +1281,7 @@
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32752994" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32752994" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39825898" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1141,10 +1292,10 @@
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Build" order="11" weight="0.3297062" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="12" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.3292683" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32861805" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.2497332" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" visible="true" weight="0.2497332" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Gradle" order="4" weight="0.32977587" />
       <window_info anchor="right" id="PsiViewer" order="5" />
@@ -1184,85 +1335,65 @@
     </ignored-roots>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala</url>
-          <line>87</line>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala</url>
-          <line>91</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala</url>
-          <line>94</line>
-          <properties />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Remote">
         <watch expression="uri" language="Scala" />
-        <watch expression="elems" language="Scala" />
-        <watch expression="model.getPathToRoot(top)" language="Scala" />
-        <watch expression="root" language="Scala" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
-        <expression-string>tr</expression-string>
+        <expression-string>aClass</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>errorTree.getPathForLocation(e.getX,e.getY)</expression-string>
+        <expression-string>uri.doc.uri.</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>errorTree.getRowForPath(path)</expression-string>
+        <expression-string>uri.doc.uri</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>errorTree.getPathForRow(0)</expression-string>
+        <expression-string>uri.doc</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>errorTree.getPathForRow(1)</expression-string>
+        <expression-string>uri</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>errorTree.getPathForRow(2)</expression-string>
+        <expression-string>topmenu</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>node.getPath</expression-string>
+        <expression-string>topmenu.update(mmtmenu)</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>root.chil</expression-string>
+        <expression-string>topmenu.getChildren(null)(14)</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>elems</expression-string>
+        <expression-string>topmenu.getChildren(null)(13)</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>e.toString contains &quot;subtypeOf&quot;</expression-string>
+        <language-id>Scala</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
     <expressions id="watch">
@@ -1319,144 +1450,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/psi/MMTElementType.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/psi/MMTTokenType.java" />
-    <entry file="jar://$PROJECT_DIR$/lib/mmt.jar!/info/kwarc/mmt/api/NamespaceMap.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/PsiNameIdentifierOwner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/Language/psi/MMTUri.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/openapi/application/Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="954">
-          <caret line="65" column="7" selection-start-line="65" selection-start-column="7" selection-end-line="65" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/Language/psi/imps/MMTUri_impl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="17" column="3" selection-start-line="17" selection-start-column="3" selection-end-line="17" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/Language/psi/imps/MMTTheory_impl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/PsiPolyVariantReference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="28" column="56" selection-start-line="28" selection-start-column="56" selection-end-line="28" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/util/PsiTreeUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6678">
-          <caret line="400" column="43" selection-start-line="400" selection-start-column="43" selection-end-line="400" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/lang/ASTNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3510">
-          <caret line="216" column="10" selection-start-line="216" selection-start-column="10" selection-end-line="216" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/search/FileTypeIndex.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="36" column="41" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/providers/JavaClassReference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="98" column="63" selection-start-line="98" selection-start-column="63" selection-end-line="98" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/codeInsight/completion/JavaCompletionUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="195" column="33" selection-start-line="195" selection-start-column="33" selection-end-line="195" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/scope/PsiScopeProcessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="12" column="3" lean-forward="true" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/4eea4d6a5b7eb00d32cb399a9214c1b963226f9a/ideaIC-2018.2.5/lib/java-impl.jar!/com/intellij/codeInsight/completion/JavaCompletionUtil.class">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/intellij-scala/scala/scala-impl/src/org/jetbrains/plugins/scala/lang/resolve/processor/ResolveProcessor.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="23" column="6" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/PsiReferenceBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="26" column="76" selection-start-line="26" selection-start-column="76" selection-end-line="26" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="92" selection-start-line="20" selection-start-column="92" selection-end-line="21" selection-end-column="109" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Files.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/Parser.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="6" column="73" selection-start-line="6" selection-start-column="73" selection-end-line="6" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Language.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -1464,27 +1457,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1314">
-          <caret line="85" column="49" selection-start-line="85" selection-start-column="49" selection-end-line="85" selection-end-column="49" />
-          <folding>
-            <element signature="e#36#78#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../MMT/src/mmt-api/src/main/info/kwarc/mmt/api/archives/lmh/MathHub.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4140">
           <caret line="236" column="14" selection-start-line="236" selection-start-column="14" selection-end-line="236" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/PsiReference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -1511,27 +1487,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="45" column="66" selection-start-line="45" selection-start-column="66" selection-end-line="45" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/References.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="74" column="42" selection-start-line="74" selection-start-column="42" selection-end-line="74" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/openapi/util/TextRange.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.desktop/javax/swing/tree/MutableTreeNode.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -1543,13 +1498,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/mmt.jar!/info/kwarc/mmt/api/MMTTaskProgress.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -1588,6 +1536,104 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/util/PlatformIcons.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1440">
+          <caret line="83" column="7" selection-start-line="83" selection-start-column="7" selection-end-line="83" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/net/PlainDatagramSocketImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="76" column="39" selection-start-line="76" selection-start-column="39" selection-end-line="76" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/lang/ref/Reference.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/lang/ProcessHandleImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="87" column="30" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/io/FileInputStream.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="76" column="23" selection-start-line="76" selection-start-column="23" selection-end-line="76" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/jdk/internal/misc/Unsafe.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="1146" column="23" selection-start-line="1146" selection-start-column="23" selection-end-line="1146" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/lang/Thread.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="85" column="30" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/mmt.jar!/info/kwarc/mmt/api/MMTTaskProgress.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/lang/annotation/AnnotationHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="29" column="24" lean-forward="true" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/openapi/util/TextRange.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="147" column="26" selection-start-line="147" selection-start-column="26" selection-end-line="147" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/internal/ui/ShowMainMenuAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="30" column="94" selection-start-line="30" selection-start-column="94" selection-end-line="30" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/openapi/actionSystem/ActionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="88" column="27" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/openapi/actionSystem/ActionPlaces.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="47" column="67" selection-start-line="47" selection-start-column="67" selection-end-line="47" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/openapi/actionSystem/AnAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="273" column="14" selection-start-line="273" selection-start-column="14" selection-end-line="273" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="666">
@@ -1595,10 +1641,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="92" selection-start-line="20" selection-start-column="92" selection-end-line="21" selection-end-column="109" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.flex">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2466">
           <caret line="137" column="51" selection-start-line="137" selection-start-column="51" selection-end-line="137" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Checking.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3942">
+          <caret line="248" selection-start-line="248" selection-end-line="248" />
+          <folding>
+            <element signature="e#42#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="45" column="66" selection-start-line="45" selection-start-column="66" selection-end-line="45" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/AbstractErrorViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/openapi/actionSystem/IdeActions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1836">
+          <caret line="102" column="37" selection-start-line="102" selection-start-column="37" selection-end-line="102" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -1616,23 +1703,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/util/PlatformIcons.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="83" column="7" selection-start-line="83" selection-start-column="7" selection-end-line="83" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.bnf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#525#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/util/package.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -1643,22 +1713,105 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+          <folding>
+            <element signature="e#36#78#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/PsiReferenceBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="26" column="77" selection-start-line="26" selection-start-column="77" selection-end-line="26" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/PsiReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="36" column="17" selection-start-line="36" selection-start-column="17" selection-end-line="36" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/JavaReflectionReferenceUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="241" column="32" selection-start-line="241" selection-start-column="32" selection-end-line="241" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/JavaLangClassMemberReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-72">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+          <folding>
+            <element signature="e#3934#3935#0" expanded="true" />
+            <element signature="e#3980#3981#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/providers/JavaClassReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/4eea4d6a5b7eb00d32cb399a9214c1b963226f9a/ideaIC-2018.2.5/lib/java-impl.jar!/com/intellij/util/xml/CanonicalPsiTypeConverterImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="34" column="34" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#7019#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/providers/JavaClassReferenceProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="34" column="21" lean-forward="true" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.2.5/33987790f3474de4898d462469161390d27633b1/ideaIC-2018.2.5-sources.jar!/com/intellij/psi/impl/source/resolve/reference/impl/providers/JavaClassReferenceSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="52" column="9" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="49" column="18" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
+        <state relative-caret-position="335">
+          <caret line="197" column="6" selection-start-line="197" selection-start-column="6" selection-end-line="197" selection-end-column="6" />
           <folding>
             <element signature="e#33#89#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Checking.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/psi/mmt.bnf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="222" column="4" lean-forward="true" selection-start-line="222" selection-start-column="4" selection-end-line="222" selection-end-column="4" />
+        <state relative-caret-position="522">
+          <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
           <folding>
-            <element signature="e#42#70#0" expanded="true" />
+            <element signature="e#0#525#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/References.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="99" column="12" selection-start-line="99" selection-start-column="12" selection-end-line="99" selection-end-column="12" />
+          <folding>
+            <element signature="e#42#93#0" expanded="true" />
           </folding>
         </state>
       </provider>

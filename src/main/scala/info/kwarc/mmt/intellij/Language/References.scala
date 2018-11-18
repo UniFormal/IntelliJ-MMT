@@ -5,12 +5,13 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi._
+import com.intellij.psi.impl.source.resolve.reference.impl.providers.{JavaClassReference, JavaClassReferenceProvider, JavaClassReferenceSet}
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.search.{FileTypeIndex, GlobalSearchScope}
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
 import com.intellij.util.indexing.FileBasedIndex
-import info.kwarc.mmt.api.{DPath, NamespaceMap, Path}
+import info.kwarc.mmt.api._
 import info.kwarc.mmt.intellij.Language.psi.{MMTTheory, MMTTheoryheader}
 import info.kwarc.mmt.intellij.Language.psi.imps.{MMTImport_impl, MMTNamespace_impl, MMTPname_impl}
 import info.kwarc.mmt.intellij.MMT
@@ -18,7 +19,8 @@ import info.kwarc.mmt.intellij.util._
 import org.jetbrains.plugins.hocon.CommonUtil.TextRange
 
 trait URIHelper extends PsiElement { self =>
-  protected lazy val mmt = MMT.get(self.getNode.getPsi.getProject).get
+  protected lazy val project = self.getNode.getPsi.getProject
+  protected lazy val mmt = MMT.get(project).get
   protected lazy val file = self.getNode.getPsi.getContainingFile
   protected def ns: DPath = {
     val nss = PsiTreeUtil.findChildrenOfType(file,classOf[MMTNamespace_impl])
@@ -50,10 +52,59 @@ trait URIHelper extends PsiElement { self =>
 
 
 class URIElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with URIHelper {
-  def uri : String =
-    Path.parse(node.getText,nsMap).toPath
+  def uri : Path = { // TODO from [[NotationBasedParser.makeIdentifier]]
+    var word = node.getText
+    val segments = utils.stringToList(word, "\\?")
+    // recognizing identifiers ?THY?SYM is awkward because it would require always lexing initial ? as identifiers
+    // but we cannot always prepend ? because the identifier could also be NS?THY
+    // Therefore, we turn word into ?word using a heuristic
+    segments match {
+      case fst :: _ :: Nil if !fst.contains(':') && fst != "" && Character.isUpperCase(fst.charAt(0)) =>
+        word = "?" + word
+      case _ =>
+    }
+    // recognizing prefix:REST is awkward because : is usually used in notations
+    // therefore, we turn prefix/REST into prefix:/REST if prefix is a known namespace prefix
+    // this introduces the (less awkward problem) that relative paths may not start with a namespace prefix
+    val beforeFirstSlash = segments.headOption.getOrElse(word).takeWhile(_ != '/')
+    if (!beforeFirstSlash.contains(':') && nsMap.get(beforeFirstSlash).isDefined) {
+      word = beforeFirstSlash + ":" + word.substring(beforeFirstSlash.length)
+    }
+    try {
+      Path.parse(word, nsMap)
+    } catch {
+      case ParseError(msg) =>
+        null
+    }
+  }
+    // Path.parse(node.getText,nsMap)
 
-  override def getReference: PsiReference = new URIReference(this,new TextRange(0,node.getTextLength))
+  override def getReference: PsiReference = {
+    /*
+    new PsiReferenceBase(this,new TextRange(0,node.getTextLength)) {
+      override def resolve(): PsiElement = {
+        val aClass = JavaPsiFacade.getInstance(project).findClass("",GlobalSearchScope.allScope(project))
+        aClass.getSourceElement
+      }
+
+      override def getVariants: Array[AnyRef] = Array()
+    }
+    */
+    uri match {
+      case mp : MPath if mp.parent.uri.scheme contains "scala" =>
+        val classname = SemanticObject.mmtToJava(mp,true)
+        print("")
+        new PsiReferenceBase(this,new TextRange(0,node.getTextLength)) {
+          override def resolve(): PsiElement = {
+            val aClass = JavaPsiFacade.getInstance(project).findClass(classname,GlobalSearchScope.allScope(project))
+            aClass.getSourceElement
+          }
+          override def getVariants: Array[AnyRef] = Array()
+        }
+      case _ =>
+        new URIReference(this,new TextRange(0,node.getTextLength))
+    }
+  }
 
   override def getReferences: Array[PsiReference] = Array(getReference)
 }
@@ -80,7 +131,7 @@ class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with
 class URIReference(element: PsiElement,textRange: TextRange) extends PsiReferenceBase(element,textRange) {
   private lazy val project = myElement.getProject
   private lazy val uri = element match {
-    case e : URIElement_impl => e.uri
+    case e : URIElement_impl => e.uri.toPath
     case _ => ""
   }
   private lazy val psiman = PsiManager.getInstance(project)

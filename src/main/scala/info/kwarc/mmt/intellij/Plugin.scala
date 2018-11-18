@@ -6,7 +6,7 @@ import com.intellij.openapi.actionSystem.DataKey
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.{ProjectComponent, ServiceManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.{Project, ProjectManager}
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.{ModuleRootManager, OrderRootType}
 import com.intellij.openapi.util.IconLoader
@@ -15,14 +15,10 @@ import com.intellij.psi.{PsiFile, PsiManager}
 import com.intellij.ui.content.{ContentFactory, ContentManager}
 import info.kwarc.mmt.api.NamespaceMap
 import info.kwarc.mmt.api.archives.lmh.MathHub
-import info.kwarc.mmt.api.utils.URI
-
-import scala.collection.mutable
-// import info.kwarc.mmt.api.frontend.actions.SetMathHub
 import info.kwarc.mmt.api.frontend.{Controller, MMTConfig}
 import info.kwarc.mmt.api.utils.File
 import info.kwarc.mmt.intellij.Language.{Abbreviations, ErrorViewer}
-import info.kwarc.mmt.intellij.ui.{AllActions, MathHubPane}
+import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane}
 import javax.swing.{Icon, JComponent, SwingUtilities}
 import util._
 
@@ -37,10 +33,12 @@ object MMT {
     new ImageIcon(img.getScaledInstance(16,16,java.awt.Image.SCALE_SMOOTH))
   } */ IconLoader.getIcon("/img/icon.png")
 
-  def get(implicit project : Project) : Option[MMT] = {
+  def get(project : Project) : Option[MMT] = {
     val mmtc = ServiceManager.getService(project, classOf[MMTPlugin])
     if (mmtc.isMMT) Some(mmtc.get) else None
   }
+  def getProject : Option[Project] = ProjectManager.getInstance().getOpenProjects.find(MMT.get(_).isDefined)
+  def getMMT = getProject.flatMap(get)
 }
 
 abstract class MMT {
@@ -80,7 +78,7 @@ abstract class MMT {
   def init: Unit = {
     assert(Abbreviations.elements.head!=null)
     reset
-    val tw = ToolWindowManager.getInstance(project).registerToolWindow("MMTPlugin.ErrorViewer",true,ToolWindowAnchor.BOTTOM)
+    val tw = ToolWindowManager.getInstance(project).registerToolWindow("MMT Errors",true,ToolWindowAnchor.BOTTOM)
     val cont = ContentFactory.SERVICE.getInstance().createContent(errorViewer.aev.panel,"",false)
     SwingUtilities.invokeLater { () =>
       errorViewer.aev.panel.setVisible(true)
@@ -197,13 +195,13 @@ class MMTPlugin(pr : Project) extends ProjectComponent {
         val mh = mhO.get
         val project = pr
       })
-      AllActions.apply
+      Actions.addAll
       mmt.get.init
     }
   }
 
   override def projectClosed(): Unit = {
-    AllActions.remove
+    Actions.removeAll
     super.projectClosed()
   }
 }
