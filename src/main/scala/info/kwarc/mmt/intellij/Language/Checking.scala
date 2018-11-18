@@ -20,6 +20,8 @@ import info.kwarc.mmt.api.{DPath, ErrorHandler, MMTTaskProgress, MMTTaskProgress
 import info.kwarc.mmt.api.parser.{ParsingStream, SourceRegion}
 import info.kwarc.mmt.api.symbols.{Declaration, FinalConstant, Structure}
 import info.kwarc.mmt.api.utils.{File, FilePath, URI}
+import info.kwarc.mmt.intellij.UI.AbstractErrorViewer
+import info.kwarc.mmt.intellij.ui.MMTToolWindow
 import info.kwarc.mmt.intellij.{MMT, MMTProjectTemplate}
 import javax.swing.tree._
 import javax.swing._
@@ -189,7 +191,7 @@ class ErrorForwarder(psifile : PsiFile, file: File, controller : Controller,hold
   }
 }
 
-class ErrorViewer(controller : Controller) extends ActionListener {
+class ErrorViewer(controller : Controller) extends ActionListener with MMTToolWindow {
   private val docs : mutable.HashMap[File,List[Path]] = mutable.HashMap.empty
   def finish(file : File, doc : Document) = {
     val ls = doc.path :: doc.getDeclarations.collect {
@@ -197,13 +199,16 @@ class ErrorViewer(controller : Controller) extends ActionListener {
     }
     docs.update(file,ls)
   }
+  private val aev = new AbstractErrorViewer
 
-  val aev = new AbstractErrorViewer
+  val panel: JPanel = aev.panel
+  val displayName: String = "Errors"
+
+  val root = new PatchedDefaultMutableTreeNode("Errors")
+  val errorTree = new Tree(root)
   aev.btn_clear.addActionListener(this)
   aev.btn_clearAll.addActionListener(this)
   aev.check.addActionListener(this)
-  val root = new PatchedDefaultMutableTreeNode("Errors")
-  val errorTree = new Tree(root)
   ApplicationManager.getApplication.invokeLater { () =>
     aev.pane.setLayout(new BorderLayout())
     val scp = new JScrollPane(errorTree)
@@ -213,6 +218,7 @@ class ErrorViewer(controller : Controller) extends ActionListener {
     errorTree.revalidate()
     aev.panel.revalidate()
   }
+
   def doCheck = aev.check.isSelected
   errorTree.addMouseListener(new MouseAdapter {
     override def mouseClicked(e: MouseEvent): Unit = {

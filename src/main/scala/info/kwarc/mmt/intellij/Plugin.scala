@@ -18,7 +18,7 @@ import info.kwarc.mmt.api.archives.lmh.MathHub
 import info.kwarc.mmt.api.frontend.{Controller, MMTConfig}
 import info.kwarc.mmt.api.utils.File
 import info.kwarc.mmt.intellij.Language.{Abbreviations, ErrorViewer}
-import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane}
+import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane, ShellViewer}
 import javax.swing.{Icon, JComponent, SwingUtilities}
 import util._
 
@@ -47,6 +47,7 @@ abstract class MMT {
   val msl : File
   val mmtrc : File
   lazy val errorViewer = new ErrorViewer(controller)
+  lazy val shellViewer = new ShellViewer(controller)
   // lazy val report = controller.report
   val mh : Module
   val project : Project
@@ -78,13 +79,12 @@ abstract class MMT {
   def init: Unit = {
     assert(Abbreviations.elements.head!=null)
     reset
-    val tw = ToolWindowManager.getInstance(project).registerToolWindow("MMT Errors",true,ToolWindowAnchor.BOTTOM)
-    val cont = ContentFactory.SERVICE.getInstance().createContent(errorViewer.aev.panel,"",false)
-    SwingUtilities.invokeLater { () =>
-      errorViewer.aev.panel.setVisible(true)
-      tw.getContentManager.addContent(cont)
+    val tw = ToolWindowManager.getInstance(project).registerToolWindow("MMT",true,ToolWindowAnchor.BOTTOM)
+    tw.setIcon(MMT.icon)
+    errorViewer.init(tw)
+    shellViewer.init(tw)
+    background {
       tw.show(null)
-      errorViewer.aev.panel.repaint()
     }
   }
 
