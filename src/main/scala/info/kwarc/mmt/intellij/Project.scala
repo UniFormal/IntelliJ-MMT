@@ -55,10 +55,10 @@ class MathHubModuleType extends ModuleType[MathHubModuleBuilder](MathHubModule.i
   override def createModuleBuilder = new MathHubModuleBuilder
 }
 
-class MathHubModuleBuilder extends ScalaModuleBuilder {
+class MathHubModuleBuilder extends ModuleBuilder {
   override def setupRootModel(modifiableRootModel: ModifiableRootModel): Unit = {
     // modifiableRootModel.addContentEntry("")
-    super.setupRootModel(modifiableRootModel)
+    // super.setupRootModel(modifiableRootModel)
   }
 
   override def getModuleType: ModuleType[_ <: ModuleBuilder] = new MathHubModuleType

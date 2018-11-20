@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.{ToolWindow, ToolWindowFactory}
 import info.kwarc.mmt.api.frontend.{Controller, ReportHandler}
 import info.kwarc.mmt.intellij.MMT
-import info.kwarc.mmt.intellij.UI.Shell
+import info.kwarc.mmt.intellij.ui.Shell
 
 class ShellViewer(controller : Controller) extends ActionListener with MMTToolWindow {
   private val shell = new Shell

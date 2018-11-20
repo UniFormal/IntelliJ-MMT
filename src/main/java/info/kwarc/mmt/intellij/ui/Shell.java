@@ -1,4 +1,4 @@
-package info.kwarc.mmt.intellij.UI;
+package info.kwarc.mmt.intellij.ui;
 
 import javax.swing.*;
 

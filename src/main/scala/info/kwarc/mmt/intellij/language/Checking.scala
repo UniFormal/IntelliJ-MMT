@@ -1,4 +1,4 @@
-package info.kwarc.mmt.intellij.Language
+package info.kwarc.mmt.intellij.language
 
 import java.awt.BorderLayout
 import java.awt.event.{ActionEvent, ActionListener, MouseAdapter, MouseEvent}
@@ -20,7 +20,7 @@ import info.kwarc.mmt.api.{DPath, ErrorHandler, MMTTaskProgress, MMTTaskProgress
 import info.kwarc.mmt.api.parser.{ParsingStream, SourceRegion}
 import info.kwarc.mmt.api.symbols.{Declaration, FinalConstant, Structure}
 import info.kwarc.mmt.api.utils.{File, FilePath, URI}
-import info.kwarc.mmt.intellij.UI.AbstractErrorViewer
+import info.kwarc.mmt.intellij.ui.AbstractErrorViewer
 import info.kwarc.mmt.intellij.ui.MMTToolWindow
 import info.kwarc.mmt.intellij.{MMT, MMTProjectTemplate}
 import javax.swing.tree._

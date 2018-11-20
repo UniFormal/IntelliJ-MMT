@@ -1,15 +1,15 @@
 {
-    parserClass="info.kwarc.mmt.intellij.Language.MMTParser"
+    parserClass="info.kwarc.mmt.intellij.language.MMTParser"
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
     psiClassPrefix="MMT"
     psiImplClassSuffix="_impl"
-    psiPackage="info.kwarc.mmt.intellij.Language.psi"
-    psiImplPackage="info.kwarc.mmt.intellij.Language.psi.imps"
+    psiPackage="info.kwarc.mmt.intellij.language.psi"
+    psiImplPackage="info.kwarc.mmt.intellij.language.psi.imps"
 
-    elementTypeHolderClass="info.kwarc.mmt.intellij.Language.psi.MMTParserTypes"
-    elementTypeClass="info.kwarc.mmt.intellij.Language.psi.MMTElementType"
-    tokenTypeClass="info.kwarc.mmt.intellij.Language.psi.MMTTokenType"
+    elementTypeHolderClass="info.kwarc.mmt.intellij.language.psi.MMTParserTypes"
+    elementTypeClass="info.kwarc.mmt.intellij.language.psi.MMTElementType"
+    tokenTypeClass="info.kwarc.mmt.intellij.language.psi.MMTTokenType"
 }
 
 file ::= mod*
@@ -19,7 +19,7 @@ mod ::= namespace | import | modcomment | theory | view
 modcomment ::= COMMENT_KEY (any|OD|DD)* MD
 namespace ::= NAMESPACE_KEY uri MD
 import ::= IMPORT_KEY pname uri MD
-theory ::=  theoryheader ((ABBREV_KEY term) | (EQ_KEY theory_body)) MD { mixin="info.kwarc.mmt.intellij.Language.TheoryElement_impl" }
+theory ::=  theoryheader ((ABBREV_KEY term) | (EQ_KEY theory_body)) MD { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
 view ::= viewheader ((ABBREV_KEY term) | (EQ_KEY view_body)) MD
 
 theoryheader ::= THEORY_KEY pname (COLON_KEY uri)? (PARAM_KEY tmlist OD)?
@@ -58,7 +58,7 @@ meta_comp ::= META_KEY term
 alias_comp ::= ALIAS_KEY pname
 
 uri ::= (uritoken COLON_KEY uritoken) | uritoken {
-    mixin="info.kwarc.mmt.intellij.Language.URIElement_impl"
+    mixin="info.kwarc.mmt.intellij.language.URIElement_impl"
 }
 uritoken ::= TOKEN | keywrd
 pname ::= TOKEN | keywrd

@@ -21,14 +21,14 @@
         <fileTypeFactory implementation="info.kwarc.mmt.intellij.Language.MMTXFileFactory"/>
         <psi.referenceContributor implementation="info.kwarc.mmt.intellij.Language.URIReferenceContributor"/>
         -->
-        <annotator language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.MMTAnnotator"/>
-        <externalAnnotator language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.ExtAnnotator"/>
-        <lang.parserDefinition language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.MMTParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.Factory"/>
-        <colorSettingsPage implementation="info.kwarc.mmt.intellij.Language.ColorSettings"/>
-        <fileTypeFactory implementation="info.kwarc.mmt.intellij.Language.MMTFileFactory"/>
+        <annotator language="MMT" implementationClass="info.kwarc.mmt.intellij.language.MMTAnnotator"/>
+        <externalAnnotator language="MMT" implementationClass="info.kwarc.mmt.intellij.language.ExtAnnotator"/>
+        <lang.parserDefinition language="MMT" implementationClass="info.kwarc.mmt.intellij.language.MMTParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="MMT" implementationClass="info.kwarc.mmt.intellij.language.Factory"/>
+        <colorSettingsPage implementation="info.kwarc.mmt.intellij.language.ColorSettings"/>
+        <fileTypeFactory implementation="info.kwarc.mmt.intellij.language.MMTFileFactory"/>
         <moduleType id="mmt-mh" implementationClass="info.kwarc.mmt.intellij.MathHubModuleType"/>
-        <completion.contributor language="MMT" implementationClass="info.kwarc.mmt.intellij.Language.Completion"/>
+        <completion.contributor language="MMT" implementationClass="info.kwarc.mmt.intellij.language.Completion"/>
         <!-- <moduleType id="mmt-archgr" implementationClass="info.kwarc.mmt.intellij.ArchiveGroupLocalModuleType"/>
             <moduleType id="mmt-arch-local" implementationClass="info.kwarc.mmt.intellij.LocalArchiveModuleType"/>
             <projectTemplatesFactory implementation="info.kwarc.mmt.intellij.MMTProjectTemplatesFactory"/>

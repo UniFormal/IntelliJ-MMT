@@ -1,10 +1,7 @@
-package info.kwarc.mmt.intellij.Language;
+package info.kwarc.mmt.intellij.language;
 
-import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.TokenType;
-import java.util.ArrayList;import java.util.Iterator;
-import info.kwarc.mmt.intellij.Language.psi.MMTParserTypes;
+import info.kwarc.mmt.intellij.language.psi.MMTParserTypes;
 
 %%
 

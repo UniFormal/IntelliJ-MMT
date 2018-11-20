@@ -1,5 +1,7 @@
 package info.kwarc.mmt.intellij
 
+import java.net.URLClassLoader
+
 import com.intellij.execution.filters.TextConsoleBuilder
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.openapi.actionSystem.DataKey
@@ -7,17 +9,18 @@ import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.{ProjectComponent, ServiceManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
 import com.intellij.openapi.project.{Project, ProjectManager}
+import com.intellij.openapi.projectRoots.SdkType
 import com.intellij.openapi.roots.libraries.Library
-import com.intellij.openapi.roots.{ModuleRootManager, OrderRootType}
+import com.intellij.openapi.roots.{ModuleRootManager, OrderRootType, ProjectRootManager}
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.{ToolWindowAnchor, ToolWindowManager}
 import com.intellij.psi.{PsiFile, PsiManager}
 import com.intellij.ui.content.{ContentFactory, ContentManager}
-import info.kwarc.mmt.api.NamespaceMap
+import info.kwarc.mmt.api.{NamespaceMap, utils}
 import info.kwarc.mmt.api.archives.lmh.MathHub
 import info.kwarc.mmt.api.frontend.{Controller, MMTConfig}
-import info.kwarc.mmt.api.utils.File
-import info.kwarc.mmt.intellij.Language.{Abbreviations, ErrorViewer}
+import info.kwarc.mmt.api.utils.{File, MMTSystem}
+import info.kwarc.mmt.intellij.language.{Abbreviations, ErrorViewer}
 import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane, ShellViewer}
 import javax.swing.{Icon, JComponent, SwingUtilities}
 import util._
@@ -39,6 +42,17 @@ object MMT {
   }
   def getProject : Option[Project] = ProjectManager.getInstance().getOpenProjects.find(MMT.get(_).isDefined)
   def getMMT = getProject.flatMap(get)
+
+  // TODO -------------------------------------------------------------------
+  lazy val file : File = File("/home/jazzpirate/work/MMT/deploy/mmt.jar")
+  def loader = new URLClassLoader(Array(file.toURI.toURL))
+  def version = {
+    val ctrlcls = loader.loadClass("info.kwarc.mmt.api.frontend.Controller")
+    val ctrl = ctrlcls.getConstructor().newInstance()
+    ctrlcls.getMethod("getVersion").invoke(ctrl)
+  }
+  def internalVersion = MMTSystem.getResourceAsString("/versioning/system.txt")
+  // TODO -------------------------------------------------------------------
 }
 
 abstract class MMT {
@@ -129,6 +143,8 @@ abstract class MMT {
 
 class MMTPlugin(pr : Project) extends ProjectComponent {
 
+  // val sdk = ProjectRootManager.getInstance(pr).getProjectSdk
+
   private var mmt : Option[MMT] = None
 
   def get = mmt.get
@@ -213,3 +229,9 @@ object MMTDataKeys {
   val localArchive = DataKey.create[String]("mmt.LocalArchive")
   val remoteArchive = DataKey.create[String]("mmt.RemoteArchive")
 }
+
+/*
+class MMTJar extends SdkType("mmt.jar") {
+
+}
+*/

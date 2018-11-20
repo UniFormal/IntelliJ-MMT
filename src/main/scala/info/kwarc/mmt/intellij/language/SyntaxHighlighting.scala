@@ -1,4 +1,4 @@
-package info.kwarc.mmt.intellij.Language
+package info.kwarc.mmt.intellij.language
 
 import java.util
 
@@ -19,8 +19,8 @@ import com.intellij.psi.{FileViewProvider, PsiElement, PsiFile, TokenType}
 import com.intellij.psi.tree.{IElementType, IFileElementType, TokenSet}
 import info.kwarc.mmt.api.{DPath, Path}
 import info.kwarc.mmt.api.utils.{MMTSystem, URI}
-import info.kwarc.mmt.intellij.Language.psi.MMTParserTypes
-import info.kwarc.mmt.intellij.Language.psi.imps._
+import info.kwarc.mmt.intellij.language.psi.MMTParserTypes
+import info.kwarc.mmt.intellij.language.psi.imps._
 import info.kwarc.mmt.intellij.MMT
 import javax.swing.Icon
 

@@ -1,4 +1,4 @@
-package info.kwarc.mmt.intellij.Language
+package info.kwarc.mmt.intellij.language
 
 import com.intellij.codeInsight.completion._
 import com.intellij.codeInsight.lookup.{LookupElement, LookupElementBuilder}

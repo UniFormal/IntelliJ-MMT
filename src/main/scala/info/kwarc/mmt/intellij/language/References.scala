@@ -1,22 +1,16 @@
-package info.kwarc.mmt.intellij.Language
+package info.kwarc.mmt.intellij.language
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
-import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi._
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.{JavaClassReference, JavaClassReferenceProvider, JavaClassReferenceSet}
-import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.search.{FileTypeIndex, GlobalSearchScope}
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.ProcessingContext
-import com.intellij.util.indexing.FileBasedIndex
 import info.kwarc.mmt.api._
-import info.kwarc.mmt.intellij.Language.psi.{MMTTheory, MMTTheoryheader}
-import info.kwarc.mmt.intellij.Language.psi.imps.{MMTImport_impl, MMTNamespace_impl, MMTPname_impl}
+import info.kwarc.mmt.intellij.language.psi.{MMTTheory, MMTTheoryheader}
+import info.kwarc.mmt.intellij.language.psi.imps.{MMTImport_impl, MMTNamespace_impl, MMTPname_impl}
 import info.kwarc.mmt.intellij.MMT
 import info.kwarc.mmt.intellij.util._
-import org.jetbrains.plugins.hocon.CommonUtil.TextRange
 
 trait URIHelper extends PsiElement { self =>
   protected lazy val project = self.getNode.getPsi.getProject
@@ -125,6 +119,10 @@ class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with
 
   override def getName: String = getRefURI
   override def getNamePSI: PsiElement = this.asInstanceOf[MMTTheory].getTheoryheader.getPname
+
+  override def getTextOffset: Int = getNamePSI.getTextOffset - super.getTextOffset
+
+  override def getTextLength: Int = getNamePSI.getTextLength
   // override def getElement = this.asInstanceOf[MMTTheory].getTheoryheader.getPname
 }
 
@@ -153,12 +151,14 @@ class URIReference(element: PsiElement,textRange: TextRange) extends PsiReferenc
     val ls = multiResolve(false)
     if (ls.length == 1) ls.head.getElement else null
   }
-
+/*
   override def isReferenceTo(element: PsiElement): Boolean = element match {
-    case h : HasURI => h.getRefURI == uri
+    // case h : HasURI => h.getRefURI == uri
+    case e : MMTPname_impl if e.getParent.isInstanceOf[HasURI] =>
+      e.getParent.asInstanceOf[HasURI].getRefURI == uri
     case _ => false
   }
-
+*/
   override def getVariants: Array[AnyRef] = {
     elems.toArray
   }

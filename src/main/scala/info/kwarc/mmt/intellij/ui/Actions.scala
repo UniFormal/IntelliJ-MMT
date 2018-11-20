@@ -72,8 +72,8 @@ class MMTTest extends MMTAction("test","MMT Info","Basic information on running 
             "Startup .msl File: " + msl.toString() + "\n" +
             "mmtrc File: " + mmtrc.toString + "\n" +
             "Module Source: " + ModuleRootManager.getInstance(mh).getContentRoots.mkString(", ") + "\n" +
-            "Archives:\n" + LocalMathHub.archives.map("    - " + _).mkString("\n") + "\n" +
-            "Remotes:\n" + LocalMathHub.remotes.map("    - " + _).mkString("\n")
+            "Version: " + MMT.version + "\n" +
+            "This Version: " + MMT.internalVersion
         }, "MMT", Messages.getInformationIcon)
     }
   }
