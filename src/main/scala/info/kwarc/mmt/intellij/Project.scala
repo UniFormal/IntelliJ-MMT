@@ -1,16 +1,20 @@
 package info.kwarc.mmt.intellij
 
+import java.awt.FlowLayout
+import java.net.URLClassLoader
 
-// import java.util
-
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.ide.util.projectWizard.{ModuleBuilder, ModuleWizardStep, WizardContext}
-import com.intellij.openapi.module.{JavaModuleType, ModuleType}
+import com.intellij.openapi.fileChooser.FileChooserDescriptor
+import com.intellij.openapi.module.ModuleType
 import com.intellij.openapi.roots.ModifiableRootModel
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
-// import com.intellij.openapi.util
+import com.intellij.openapi.ui.{TextBrowseFolderListener, TextFieldWithBrowseButton}
+import com.intellij.openapi.vfs.VirtualFile
+import info.kwarc.mmt.api.utils.File
+import javax.swing.{BoxLayout, JComponent, JLabel, JPanel}
 import com.intellij.platform.{ProjectTemplate, ProjectTemplatesFactory}
 import javax.swing.Icon
-import org.jetbrains.plugins.scala.project.template.ScalaModuleBuilder
 
 class MMTProjectTemplatesFactory extends ProjectTemplatesFactory {
   def getGroups = Array("MMT")
@@ -56,28 +60,57 @@ class MathHubModuleType extends ModuleType[MathHubModuleBuilder](MathHubModule.i
 }
 
 class MathHubModuleBuilder extends ModuleBuilder {
+  private var valid : Option[String] = None
   override def setupRootModel(modifiableRootModel: ModifiableRootModel): Unit = {
-    // modifiableRootModel.addContentEntry("")
-    // super.setupRootModel(modifiableRootModel)
+    assert(valid.isDefined)
+    PropertiesComponent.getInstance(modifiableRootModel.getProject).setValue(MMTDataKeys.mmtjar,valid.get)
+    modifiableRootModel.getProject.save()
   }
 
   override def getModuleType: ModuleType[_ <: ModuleBuilder] = new MathHubModuleType
 
   override def createWizardSteps(wizardContext: WizardContext, modulesProvider: ModulesProvider): Array[ModuleWizardStep] = {
-    /*
     List(
       new ModuleWizardStep {
-        override def updateDataModel(): Unit = ???
-        override def getComponent: JComponent = ???
+        val panel = new JPanel()
+        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS))
+        val ipanel = new JPanel(new FlowLayout(FlowLayout.LEFT))
+        panel.add(ipanel)
+        ipanel.add(new JLabel("Select mmt.jar:"))
+        val filefield = new TextFieldWithBrowseButton()
+        ipanel.add(filefield)
+        val isok = new JLabel("")
+        ipanel.add(isok)
+        panel.updateUI()
+
+        override def validate() = valid.isDefined || { throw new com.intellij.openapi.options.ConfigurationException("Please select a valid mmt.jar") }
+
+        object Descriptor extends FileChooserDescriptor(true,false,true,true,false,false) {
+          override def isFileSelectable(file: VirtualFile): Boolean = file.getName == "mmt.jar"
+        }
+
+        filefield.addBrowseFolderListener(new TextBrowseFolderListener(Descriptor) {
+          override def onFileChosen(chosenFile: VirtualFile): Unit = {
+            super.onFileChosen(chosenFile)
+            val file = File(chosenFile.getCanonicalPath)
+            val loader = new URLClassLoader(Array(file.toURI.toURL))
+            try {
+              val ctrlcls = loader.loadClass("info.kwarc.mmt.api.frontend.Controller")
+              val ctrl = ctrlcls.getConstructor().newInstance()
+              val v = ctrlcls.getMethod("getVersion").invoke(ctrl)
+              isok.setText("Version: " + v)
+              valid = Some(chosenFile.getCanonicalPath)
+            } catch {
+              case _ : ClassNotFoundException =>
+                isok.setText("Invalid mmt.jar")
+                valid = None
+            }
+          }
+        })
+        override def updateDataModel(): Unit = { }
+        override def getComponent: JComponent = panel
       }
     ).toArray
-    */
-    super.createWizardSteps(wizardContext,modulesProvider)
   }
-  /*
-  import com.intellij.openapi.util.Pair
-  import ui.Implicit._
-  override def getSourcePaths: java.util.List[Pair[String, String]] = List(new Pair(getContentEntryPath,""))
-  */
 
 }

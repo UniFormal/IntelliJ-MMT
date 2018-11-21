@@ -6,10 +6,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.{ToolWindow, ToolWindowFactory}
 import info.kwarc.mmt.api.frontend.{Controller, ReportHandler}
 import info.kwarc.mmt.intellij.MMT
-import info.kwarc.mmt.intellij.ui.Shell
 
 class ShellViewer(controller : Controller) extends ActionListener with MMTToolWindow {
-  private val shell = new Shell
+  private val shell = new ShellForm
   val panel = shell.panel
   val displayName: String = "Shell"
 
@@ -42,7 +41,7 @@ class ShellViewer(controller : Controller) extends ActionListener with MMTToolWi
     case Some(mmt) =>
       // LanguageConsoleBuilder.GutteredLanguageConsole
       // val consoleView = TextConsoleBuilderFactory.getInstance().createBuilder(project).getConsole
-      val content = toolWindow.getContentManager.getFactory.createContent(shell, "MMT Shell", true)
+      val content = toolWindow.getContentManager.getFactory.createContent(shell, "MMT ShellForm", true)
       // consoleView.createConsoleActions()
       toolWindow.getContentManager.addContent(content)
       toolWindow.getContentManager.setSelectedContent(content)

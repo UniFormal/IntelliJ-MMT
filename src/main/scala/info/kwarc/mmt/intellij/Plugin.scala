@@ -2,39 +2,29 @@ package info.kwarc.mmt.intellij
 
 import java.net.URLClassLoader
 
-import com.intellij.execution.filters.TextConsoleBuilder
 import com.intellij.ide.projectView.ProjectView
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.DataKey
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.{ProjectComponent, ServiceManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
 import com.intellij.openapi.project.{Project, ProjectManager}
-import com.intellij.openapi.projectRoots.SdkType
-import com.intellij.openapi.roots.libraries.Library
-import com.intellij.openapi.roots.{ModuleRootManager, OrderRootType, ProjectRootManager}
+import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.{ToolWindowAnchor, ToolWindowManager}
-import com.intellij.psi.{PsiFile, PsiManager}
-import com.intellij.ui.content.{ContentFactory, ContentManager}
-import info.kwarc.mmt.api.{NamespaceMap, utils}
+import com.intellij.psi.PsiManager
 import info.kwarc.mmt.api.archives.lmh.MathHub
 import info.kwarc.mmt.api.frontend.{Controller, MMTConfig}
 import info.kwarc.mmt.api.utils.{File, MMTSystem}
 import info.kwarc.mmt.intellij.language.{Abbreviations, ErrorViewer}
 import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane, ShellViewer}
-import javax.swing.{Icon, JComponent, SwingUtilities}
+import javax.swing.Icon
 import util._
 
 import scala.util.Try
 
 object MMT {
-  lazy val icon : Icon = /* {
-    import javax.swing.ImageIcon
-    val imgURL = resource("img/icon.png")
-    var icon = new ImageIcon(imgURL, "MMT icon")
-    val img = icon.getImage
-    new ImageIcon(img.getScaledInstance(16,16,java.awt.Image.SCALE_SMOOTH))
-  } */ IconLoader.getIcon("/img/icon.png")
+  lazy val icon : Icon = IconLoader.getIcon("/img/icon.png")
 
   def get(project : Project) : Option[MMT] = {
     val mmtc = ServiceManager.getService(project, classOf[MMTPlugin])
@@ -62,7 +52,6 @@ abstract class MMT {
   val mmtrc : File
   lazy val errorViewer = new ErrorViewer(controller)
   lazy val shellViewer = new ShellViewer(controller)
-  // lazy val report = controller.report
   val mh : Module
   val project : Project
   lazy val mathpath = File(project.getBasePath)
@@ -143,7 +132,7 @@ abstract class MMT {
 
 class MMTPlugin(pr : Project) extends ProjectComponent {
 
-  // val sdk = ProjectRootManager.getInstance(pr).getProjectSdk
+  private val mmtjar = PropertiesComponent.getInstance(pr).getValue(MMTDataKeys.mmtjar)
 
   private var mmt : Option[MMT] = None
 
@@ -170,7 +159,7 @@ class MMTPlugin(pr : Project) extends ProjectComponent {
       val home = File(pr.getBasePath)
 
       /** Options */
-      val mslf = home / "startup.msl" //MMTOptions.startup.get.getOrElse("startup.msl")
+      val mslf = home / "startup.msl"
       if (mslf.toJava.exists())
         ctrl.runMSLFile(mslf, None)
         else {
@@ -178,23 +167,9 @@ class MMTPlugin(pr : Project) extends ProjectComponent {
         File.append(mslf,"extension info.kwarc.mmt.odk.Plugin")
       }
 
-      val rc = home / "mmtrc" // MMTOptions.config.get.getOrElse("mmtrc")
+      val rc = home / "mmtrc"
       if(!rc.toJava.exists()) {
-        // import java.io.FileOutputStream
-        //val in = getClass.getResourceAsStream("/mmtrc")
-
         rc.createNewFile()
-        /*
-        val out = new FileOutputStream(rc)
-        try { //copy stream
-          val buffer = new Array[Byte](1024)
-          var bytesRead = 0
-          while ( {
-            bytesRead = in.read(buffer)
-            bytesRead != -1
-          }) out.write(buffer, 0, bytesRead)
-        } finally if (out != null) out.close()
-        */
         File.append(rc,"\n","#backends\n","lmh .")
       }
 
@@ -228,10 +203,5 @@ object MMTDataKeys {
   val archive = DataKey.create[String]("mmt.Archive")
   val localArchive = DataKey.create[String]("mmt.LocalArchive")
   val remoteArchive = DataKey.create[String]("mmt.RemoteArchive")
+  val mmtjar = "mmt.MMTJar"
 }
-
-/*
-class MMTJar extends SdkType("mmt.jar") {
-
-}
-*/
