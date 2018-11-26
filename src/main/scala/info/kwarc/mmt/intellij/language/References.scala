@@ -6,88 +6,55 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi._
 import com.intellij.psi.search.{FileTypeIndex, GlobalSearchScope}
 import com.intellij.psi.util.PsiTreeUtil
-import info.kwarc.mmt.api._
 import info.kwarc.mmt.intellij.language.psi.{MMTTheory, MMTTheoryheader}
-import info.kwarc.mmt.intellij.language.psi.imps.{MMTImport_impl, MMTNamespace_impl, MMTPname_impl}
+import info.kwarc.mmt.intellij.language.psi.imps.{MMTImport_impl, MMTNamespace_impl, MMTPname_impl, MMTRule_impl}
 import info.kwarc.mmt.intellij.MMT
-import info.kwarc.mmt.intellij.util._
+import info.kwarc.mmt.utils._
 
 trait URIHelper extends PsiElement { self =>
+  import Reflection._
   protected lazy val project = self.getNode.getPsi.getProject
   protected lazy val mmt = MMT.get(project).get
   protected lazy val file = self.getNode.getPsi.getContainingFile
-  protected def ns: DPath = {
+  protected def ns: String = {
     val nss = PsiTreeUtil.findChildrenOfType(file,classOf[MMTNamespace_impl])
     if (nss != null) {
       nss.reverse.find(_.getTextOffset < self.getNode.getPsi.getTextOffset).foreach { ns =>
-        return Path.parseD(ns.getUri.getText, mmt.controller.getNamespaceMap)
+        return mmt.mmtjar.method("parseNamespace",string,ns.getUri.getText :: Nil)// Path.parseD(ns.getUri.getText, mmt.controller.getNamespaceMap)
       }
     }
-    mmt.controller.backend.resolvePhysical(file) match {
-      case Some((a,_)) => a.ns match {
-        case Some(d : DPath) => return d
-        case _ =>
-      }
-      case _ =>
-    }
-    mmt.controller.getNamespaceMap.base.doc
+    mmt.mmtjar.method("getNamespaceFromFile",string,toFile(file).toString :: Nil)
   }
-  protected def nsMap : NamespaceMap = {
+
+  protected def nsMap : ReflectedInstance = {
     val imports = PsiTreeUtil.findChildrenOfType(file,classOf[MMTImport_impl])
-    var nsm = mmt.controller.getNamespaceMap(ns)
-    if (imports != null) {
-      imports.foreach { i =>
-        nsm = nsm.add(i.getPname.getText, Path.parse(i.getUri.getText, nsm).toPath)
+    // var nsm = mmt.controller.getNamespaceMap(ns)
+    val ls : List[(String,String)] = if (imports != null) {
+      imports.map { i =>
+        (i.getPname.getText,i.getUri.getText)
+        // nsm = nsm.add(i.getPname.getText, Path.parse(i.getUri.getText, nsm).toPath)
       }
-    }
-    nsm
+    } else Nil
+    mmt.mmtjar.method("getNamespaceMap",Reflected(mmt.mmtjar.reflection.getClass("info.kwarc.mmt.api.NamespaceMap")),List(ns,ls))
   }
 }
 
 
 class URIElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with URIHelper {
-  def uri : Path = { // TODO from [[NotationBasedParser.makeIdentifier]]
-    var word = node.getText
-    val segments = utils.stringToList(word, "\\?")
-    // recognizing identifiers ?THY?SYM is awkward because it would require always lexing initial ? as identifiers
-    // but we cannot always prepend ? because the identifier could also be NS?THY
-    // Therefore, we turn word into ?word using a heuristic
-    segments match {
-      case fst :: _ :: Nil if !fst.contains(':') && fst != "" && Character.isUpperCase(fst.charAt(0)) =>
-        word = "?" + word
-      case _ =>
-    }
-    // recognizing prefix:REST is awkward because : is usually used in notations
-    // therefore, we turn prefix/REST into prefix:/REST if prefix is a known namespace prefix
-    // this introduces the (less awkward problem) that relative paths may not start with a namespace prefix
-    val beforeFirstSlash = segments.headOption.getOrElse(word).takeWhile(_ != '/')
-    if (!beforeFirstSlash.contains(':') && nsMap.get(beforeFirstSlash).isDefined) {
-      word = beforeFirstSlash + ":" + word.substring(beforeFirstSlash.length)
-    }
-    try {
-      Path.parse(word, nsMap)
-    } catch {
-      case ParseError(msg) =>
-        null
-    }
+  import Reflection._
+  def uri : String = if (this.getParent.isInstanceOf[MMTRule_impl]) {
+    val ret = mmt.mmtjar.method("resolvePath",string,List(node.getText,nsMap))
+    ret
+  } else {
+    val ret = mmt.mmtjar.method("resolvePathSimple",string,List(node.getText,nsMap))
+    ret
   }
     // Path.parse(node.getText,nsMap)
 
   override def getReference: PsiReference = {
-    /*
-    new PsiReferenceBase(this,new TextRange(0,node.getTextLength)) {
-      override def resolve(): PsiElement = {
-        val aClass = JavaPsiFacade.getInstance(project).findClass("",GlobalSearchScope.allScope(project))
-        aClass.getSourceElement
-      }
-
-      override def getVariants: Array[AnyRef] = Array()
-    }
-    */
-    uri match {
-      case mp : MPath if mp.parent.uri.scheme contains "scala" =>
-        val classname = SemanticObject.mmtToJava(mp,true)
-        print("")
+    val oS = mmt.mmtjar.method("getReference",ROption(string),List(uri))
+    oS match {
+      case Some(classname) =>
         new PsiReferenceBase(this,new TextRange(0,node.getTextLength)) {
           override def resolve(): PsiElement = {
             val aClass = JavaPsiFacade.getInstance(project).findClass(classname,GlobalSearchScope.allScope(project))
@@ -114,7 +81,7 @@ class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with
   override def getRefURI: String = {
     val head = findNotNullChildByClass(classOf[MMTTheoryheader])
     val n = head.getPname.getText
-    (ns ? n).toPath
+    ns + "?" + n
   }
 
   override def getName: String = getRefURI
@@ -129,11 +96,11 @@ class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with
 class URIReference(element: PsiElement,textRange: TextRange) extends PsiReferenceBase(element,textRange) {
   private lazy val project = myElement.getProject
   private lazy val uri = element match {
-    case e : URIElement_impl => e.uri.toPath
+    case e : URIElement_impl => e.uri
     case _ => ""
   }
   private lazy val psiman = PsiManager.getInstance(project)
-  private def allfiles = FileTypeIndex.getFiles(MMTFile.INSTANCE,GlobalSearchScope.allScope(project)).toList
+  private def allfiles = FileTypeIndex.getFiles(MMTFile,GlobalSearchScope.allScope(project)).toList
   private def elems = allfiles.flatMap {vf =>
     val sf = psiman.findFile(vf)
     if (sf != null) {

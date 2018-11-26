@@ -11,9 +11,9 @@ import com.intellij.openapi.roots.ModifiableRootModel
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.ui.{TextBrowseFolderListener, TextFieldWithBrowseButton}
 import com.intellij.openapi.vfs.VirtualFile
-import info.kwarc.mmt.api.utils.File
 import javax.swing.{BoxLayout, JComponent, JLabel, JPanel}
 import com.intellij.platform.{ProjectTemplate, ProjectTemplatesFactory}
+import info.kwarc.mmt.utils.File
 import javax.swing.Icon
 
 class MMTProjectTemplatesFactory extends ProjectTemplatesFactory {

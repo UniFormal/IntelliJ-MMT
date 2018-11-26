@@ -9,13 +9,11 @@ import com.intellij.ide.projectView._
 import com.intellij.ide.util.treeView.AbstractTreeNode
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
-import info.kwarc.mmt.intellij.util._
+import info.kwarc.mmt.utils._
 import com.intellij.openapi.vfs._
 import com.intellij.psi.{PsiDirectory, PsiFile, PsiManager}
 import com.intellij.ui.SimpleTextAttributes
 import com.intellij.util.PlatformIcons
-import info.kwarc.mmt.api.archives
-import info.kwarc.mmt.api.utils.{File, mmt}
 import info.kwarc.mmt.intellij.{MMT, MMTDataKeys}
 import javax.swing.Icon
 import javax.swing.tree.DefaultMutableTreeNode
@@ -46,14 +44,30 @@ object PV {
     val ret = new MathHubTreeNode(project)
     ret
   }
+  import Reflection._
+  private var remoteGrps : List[String] = _
+  private var remoteAs : List[String] = _
+  def localGroups(mmt: MMT) = mmt.mmtjar.method("localGroups",RList(string),Nil)
+  def remoteGroups(mmt : MMT) = if (remoteGrps != null) remoteGrps else {
+    notifyWhile("Getting archive list from remote MathHub"){
+      remoteGrps = mmt.mmtjar.method("remoteGroups",RList(string),Nil)
+      //.asInstanceOf[Array[String]].toList
+      remoteGrps
+    }
+  }
+  def localArchs(mmt : MMT) = mmt.mmtjar.method("localArchs",RList(RPair(string,string)),Nil)
+  def remoteArchs(mmt : MMT) = if (remoteAs != null) remoteAs else {
+    remoteAs = mmt.mmtjar.method("remoteArchs",RList(string),Nil)
+    remoteAs
+  }
 }
 
 class MathHubTreeNode(project : Project) extends AbstractTreeNode[Project](project,project) {
   override def getChildren: util.Collection[_ <: AbstractTreeNode[_]] = {
     MMT.get(project) match {
       case Some(mmt) =>
-        val locals = mmt.LocalMathHub.localGroups.map(id => new ArchiveGroupNode(id, mmt))
-        val remotes = mmt.LocalMathHub.remoteGroups.map(id => new ArchiveGroupNode(id, mmt))
+        val locals = PV.localGroups(mmt).map(id => new ArchiveGroupNode(id, mmt))
+        val remotes = PV.remoteGroups(mmt).map(id => new ArchiveGroupNode(id, mmt))
         val ls = locals ::: remotes
         val helper = ProjectViewDirectoryHelper.getInstance(project)
         helper.createFileAndDirectoryNodes(List(toVF(mmt.mmtrc),toVF(mmt.msl)),viewSettings) ::: ls
@@ -70,11 +84,12 @@ class MathHubTreeNode(project : Project) extends AbstractTreeNode[Project](proje
 
 object ArchiveNode {
   def getText(id: String, mmt : MMT) = {
+    val la = PV.localArchs(mmt)
     val ls = id match {
       case "Others" =>
-        mmt.LocalMathHub.localArchs.filter(!_._1.contains("/"))
+        la.filter(!_._1.contains("/"))
       case _ =>
-        mmt.LocalMathHub.localArchs.filter(_._1.startsWith(id))
+        la.filter(_._1.startsWith(id))
     }
     if (ls.isEmpty) "~" + id + " [Not Installed]" else id
   }
@@ -93,13 +108,13 @@ class ArchiveGroupNode(id : String, mmt : MMT) extends ProjectViewNode[String](m
     val (ls,rs) = id match {
       case "Others" =>
         (
-          mmt.LocalMathHub.localArchs.filter(!_._1.contains("/")),
-          mmt.LocalMathHub.remotes.filter(!_.contains("/"))
+          PV.localArchs(mmt).filter(!_._1.contains("/")),
+          PV.remoteArchs(mmt).filter(!_.contains("/"))
         )
       case _ =>
         (
-          mmt.LocalMathHub.localArchs.filter(_._1.startsWith(id)),
-          mmt.LocalMathHub.remotes.filter(_.startsWith(id))
+          PV.localArchs(mmt).filter(_._1.startsWith(id)),
+          PV.remoteArchs(mmt).filter(_.startsWith(id))
         )
     }
     val locals = ls.map{case (iid,qp) => new LocalArchiveNode(iid,mmt)}
@@ -133,10 +148,9 @@ class LocalArchiveNode(id : String, mmt : MMT) extends ProjectViewNode[String](m
   }
 
   override def getChildren: util.Collection[AbstractTreeNode[_]] = {
-    val archive = mmt.controller.backend.getArchive(id).get
-    val meta_inf = archive.root / "META-INF"
-    val source = archive / archives.source
-    val scala = archive.root / "scala" // TODO redirectable dimension, if existent
+    import Reflection._
+    val tr = mmt.mmtjar.method("archiveInfo",RTriple(string,string,string),List(id))
+    val (source,meta_inf,scala) = (File(tr._1),File(tr._2),File(tr._3))
     val sourceNode : List[MyDirectoryNode] = if (source.toJava.exists()) List(new SourceNode(mmt,source)) else Nil
     val metaNode : List[MyDirectoryNode] = List(new MetaInfNode(mmt,meta_inf))
     val scalaNode : List[MyDirectoryNode] = if (scala.toJava.exists()) List(new ScalaNode(mmt,scala)) else Nil
@@ -165,11 +179,11 @@ class RemoteArchiveNode(id : String, mmt : MMT) extends ProjectViewNode[String](
 object FileToPSI {
   def toPSIDir(f : File, mmt : MMT) = {
     val psi = PsiManager.getInstance(mmt.project)
-    psi.findDirectory(f)
+    psi.findDirectory(toVF(f))
   }
   def toPSIFile(f : File, mmt : MMT) = {
     val psi = PsiManager.getInstance(mmt.project)
-    psi.findFile(f)
+    psi.findFile(toVF(f))
   }
 }
 

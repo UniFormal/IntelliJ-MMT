@@ -5,10 +5,8 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.ui.Messages
-import info.kwarc.mmt.api.utils.File
-import info.kwarc.mmt.api.utils.time.Time
 import info.kwarc.mmt.intellij.{MMT, MMTDataKeys}
-import info.kwarc.mmt.intellij.util._
+import info.kwarc.mmt.utils._
 
 
 object Actions {
@@ -57,23 +55,15 @@ object Actions {
 import Actions._
 class MMTTest extends MMTAction("test","MMT Info","Basic information on running MMT instance") {
   override def actionPerformed(event: AnActionEvent): Unit = {
-    val pr : Project = event.getProject
-    MMT.get(pr) match {
+    val project : Project = event.getProject
+    MMT.get(project) match {
       case None =>
         Messages.showErrorDialog("Not a MathHub/MMT Project", "MMT")
       case Some(mmt) =>
-        import mmt._
         val base = File(project.getBasePath)
         Messages.showMessageDialog(project, {
-          "Controller loaded: " + {
-            if (controller != null) "Yes" else "No"
-          } + "\n" +
-            "MathHub Base: " + base.toString() + "\n" +
-            "Startup .msl File: " + msl.toString() + "\n" +
-            "mmtrc File: " + mmtrc.toString + "\n" +
-            "Module Source: " + ModuleRootManager.getInstance(mh).getContentRoots.mkString(", ") + "\n" +
-            "Version: " + MMT.version + "\n" +
-            "This Version: " + MMT.internalVersion
+          "MMT version: " + mmt.mmtjar.version + "\n" +
+            "MathHub Base: " + base.toString
         }, "MMT", Messages.getInformationIcon)
     }
   }
@@ -89,14 +79,13 @@ class InstallArchive extends MMTAction("InstallArchive", "Install Archive") {
   }
 
   override def actionPerformed(e: AnActionEvent): Unit = {
-    val id = e.getData(MMTDataKeys.remoteArchive)
+    val id : String = e.getData(MMTDataKeys.remoteArchive)
     implicit val project = e.getData(CommonDataKeys.PROJECT)
     val mmt = MMT.get(project).get
 
     background {
       notifyWhile("Installing " + id + " + dependencies...") {
-        println(Time.measure(mmt.LocalMathHub.mathhub.installEntry(id, None, true))._1)
-        Thread.sleep(10)
+        println(Time.measure(mmt.mmtjar.method("install",Reflection.unit,List(id)))._1)
         writable {
           mmt.refreshPane
         }

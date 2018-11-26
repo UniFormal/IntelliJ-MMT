@@ -38,7 +38,7 @@
 
     <project-components>
         <component>
-            <implementation-class>info.kwarc.mmt.intellij.MMTPlugin</implementation-class>
+            <implementation-class>info.kwarc.mmt.intellij.MMTProject</implementation-class>
         </component>
     </project-components>
 

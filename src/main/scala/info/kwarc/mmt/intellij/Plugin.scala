@@ -13,13 +13,10 @@ import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.{ToolWindowAnchor, ToolWindowManager}
 import com.intellij.psi.PsiManager
-import info.kwarc.mmt.api.archives.lmh.MathHub
-import info.kwarc.mmt.api.frontend.{Controller, MMTConfig}
-import info.kwarc.mmt.api.utils.{File, MMTSystem}
+import info.kwarc.mmt.utils._
 import info.kwarc.mmt.intellij.language.{Abbreviations, ErrorViewer}
 import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane, ShellViewer}
 import javax.swing.Icon
-import util._
 
 import scala.util.Try
 
@@ -27,7 +24,7 @@ object MMT {
   lazy val icon : Icon = IconLoader.getIcon("/img/icon.png")
 
   def get(project : Project) : Option[MMT] = {
-    val mmtc = ServiceManager.getService(project, classOf[MMTPlugin])
+    val mmtc = ServiceManager.getService(project, classOf[MMTProject])
     if (mmtc.isMMT) Some(mmtc.get) else None
   }
   def getProject : Option[Project] = ProjectManager.getInstance().getOpenProjects.find(MMT.get(_).isDefined)
@@ -41,45 +38,80 @@ object MMT {
     val ctrl = ctrlcls.getConstructor().newInstance()
     ctrlcls.getMethod("getVersion").invoke(ctrl)
   }
-  def internalVersion = MMTSystem.getResourceAsString("/versioning/system.txt")
+  // def internalVersion = MMTSystem.getResourceAsString("/versioning/system.txt")
   // TODO -------------------------------------------------------------------
 }
 
-abstract class MMT {
-  // TODO set reporter
-  val controller : Controller
-  val msl : File
-  val mmtrc : File
-  lazy val errorViewer = new ErrorViewer(controller)
-  lazy val shellViewer = new ShellViewer(controller)
-  val mh : Module
-  val project : Project
-  lazy val mathpath = File(project.getBasePath)
-  object LocalMathHub {
-    lazy val mathhub = new MathHub(controller,mathpath,MathHub.defaultURL,true) {
-      lazy val all = notifyWhile("Getting archive list from remote MathHub...") {
-        available_()
-      }
-    }
-    def remotes = mathhub.all.filter(id => !localArchs.exists(_._1 == id))
-    def archives = controller.backend.getArchives.map(_.id)
-    lazy val localGroups = archives.map { id =>
-      if (id.contains("/")) id.split('/').head
-      else "Others"
-    }.distinct
-    def remoteGroups = mathhub.all.collect{
-      case id if id.contains("/") =>
-        id.split('/').head
-    }.distinct.filter(!localGroups.contains(_))
-    def localArchs = archives.map{ id => (id,
-      if (id.contains("/")) id.split('/').mkString(".")
-      else "Others." + id)
+object MMTDataKeys {
+  lazy val keys = List(archive,archiveGroup,localArchive,remoteArchive).map(_.getName)
+  val archiveGroup = DataKey.create[String]("mmt.ArchiveGroup")
+  val archive = DataKey.create[String]("mmt.Archive")
+  val localArchive = DataKey.create[String]("mmt.LocalArchive")
+  val remoteArchive = DataKey.create[String]("mmt.RemoteArchive")
+  val mmtjar = "mmt.MMTJar"
+}
+
+/*
+case class MMTJar(jarfile : File, mathpath : File) {
+  import scala.reflect.runtime.universe
+
+  private val classLoader = new URLClassLoader(Array(jarfile.toURI.toURL))//,getClass.getClassLoader)
+  private val mirror = universe.runtimeMirror(classLoader)
+  private lazy val _pluginclass = mirror.staticClass("info.kwarc.mmt.intellij.MMTPlugin")//classLoader.loadClass("info.kwarc.mmt.intellij.MMTPlugin")
+  private lazy val pluginclass = mirror.reflectClass(_pluginclass)
+  private lazy val constructor = pluginclass.symbol.toType.decl(universe.termNames.CONSTRUCTOR).asMethod
+  private lazy val plugin = pluginclass.reflectConstructor(constructor).apply(mathpath.toString)//.getConstructor(classOf[String]).newInstance(mathpath.toString)
+  private lazy val symbol = mirror.classSymbol(plugin.getClass)
+  private lazy val pluginMirror = mirror.reflect(plugin)
+  def method(name : String, args : Any*) = {
+    val decl = symbol.toType.decl(universe.TermName(name)).asMethod//.member(universe.TermName(name)).asInstanceOf[universe.MethodSymbol]
+    val t = decl.asMethod.returnType
+    val method = pluginMirror.reflectMethod(decl)
+    val res = method.apply(args)
+    val ret = mirror.reflect(res)
+    ret.instance
+    // method.apply(args)
+  }
+  def clear : Unit = method("clear")
+  def handleLine(s : String) : Unit = method("handleLine",s)
+  def version = method("version").asInstanceOf[String]
+}
+*/
+
+class MMTJar(mmtjarfile : File, mathpath : File) {
+  import Reflection._
+  val reflection = new Reflection(new URLClassLoader(Array(mmtjarfile.toURI.toURL),this.getClass.getClassLoader))
+  private val mmtjar = reflection.getClass("info.kwarc.mmt.intellij.MMTPluginInterface").getInstance(mathpath.toString :: Nil)
+  def method[A](name : String,tp : Reflection.ReturnType[A], args : List[Any]) : A = mmtjar.method(name,tp,args)
+  def getArchiveRoots = method("getArchiveRoots", RList(string),Nil).map(File(_))
+  def abbrevs = method("abbrevs",RList(RPair(string,string)),Nil)
+  def init = method("init",unit,Nil)
+  def clear = method("init",unit,Nil)
+  def handleLine(s : String) = method("handleLine",unit,List(s))
+  def version = method("version",string,Nil)
+}
+
+class MMT(val project : Project) {
+  private lazy val mathpath = File(project.getBasePath)
+  private val mmtjarfile = File(PropertiesComponent.getInstance(project).getValue(MMTDataKeys.mmtjar))
+  lazy val mmtjar = new MMTJar(mmtjarfile,mathpath)
+
+  lazy val errorViewer = new ErrorViewer(mmtjar)
+  lazy val shellViewer = new ShellViewer(mmtjar)
+  val mh : Module = {
+    val modules = ModuleManager.getInstance(project).getModules
+    modules.find(_.getModuleTypeName == MathHubModule.id).getOrElse {
+      throw new Error("No MathHub Module found")
     }
   }
+
+  val mmtrc = mathpath / "mmtrc"
+  val msl = mathpath / "startup.msl"
 
   private var _pane : MathHubPane = _
 
   def init: Unit = {
+    mmtjar.init
     assert(Abbreviations.elements.head!=null)
     reset
     val tw = ToolWindowManager.getInstance(project).registerToolWindow("MMT",true,ToolWindowAnchor.BOTTOM)
@@ -92,23 +124,23 @@ abstract class MMT {
   }
 
   def reset = writable {
-    controller.clear
+    mmtjar.clear
     val model = ModuleRootManager.getInstance(mh).getModifiableModel
-    val entries = model.getContentEntries
+    def entries = model.getContentEntries
+    if (entries.isEmpty) model.addContentEntry(project.getBaseDir)
     val psi = PsiManager.getInstance(project)
-    LocalMathHub.archives.foreach { id =>
-      val a = controller.backend.getArchive(id).get
-      val dir = a.root / "scala"
+    mmtjar.getArchiveRoots.foreach { f =>
+      val dir = f / "scala"
       if (dir.toJava.exists()) {
         entries.headOption foreach {e =>
-          e.addSourceFolder(dir,false)
+          e.addSourceFolder(toVF(dir),false)
         }
       }
     }
     if (model.getModuleLibraryTable.getLibraryByName("MMT API") == null) {
       val mmtlib = model.getModuleLibraryTable.createLibrary()
       val libmod = mmtlib.getModifiableModel
-      libmod.addJarDirectory(File(PathManager.getPluginsPath) / "MMTPlugin" / "lib",false)
+      libmod.addJarDirectory(toVF(File(PathManager.getPluginsPath) / "MMTPlugin" / "lib"),false)
       libmod.commit()
     }
     model.commit()
@@ -125,14 +157,11 @@ abstract class MMT {
     }
     pv.addProjectPane(_pane)
     Try(pv.changeView("MathHub"))
-
   }
 }
 
 
-class MMTPlugin(pr : Project) extends ProjectComponent {
-
-  private val mmtjar = PropertiesComponent.getInstance(pr).getValue(MMTDataKeys.mmtjar)
+class MMTProject(pr : Project) extends ProjectComponent {
 
   private var mmt : Option[MMT] = None
 
@@ -155,37 +184,9 @@ class MMTPlugin(pr : Project) extends ProjectComponent {
     val modules = ModuleManager.getInstance(pr).getModules
     val mhO = modules.find(_.getModuleTypeName == MathHubModule.id)
     if (mhO.isDefined) {
-      val ctrl = new Controller
       val home = File(pr.getBasePath)
 
-      /** Options */
-      val mslf = home / "startup.msl"
-      if (mslf.toJava.exists())
-        ctrl.runMSLFile(mslf, None)
-        else {
-        mslf.createNewFile()
-        File.append(mslf,"extension info.kwarc.mmt.odk.Plugin")
-      }
-
-      val rc = home / "mmtrc"
-      if(!rc.toJava.exists()) {
-        rc.createNewFile()
-        File.append(rc,"\n","#backends\n","lmh .")
-      }
-
-      ctrl.loadConfig(MMTConfig.parse(rc), false)
-
-      /** MathHub Folder */
-      ctrl.setHome(home)
-      ctrl.addArchive(home)
-
-      mmt = Some(new MMT {
-        override val controller: Controller = ctrl
-        override val msl: File = mslf
-        override val mmtrc: File = rc
-        val mh = mhO.get
-        val project = pr
-      })
+      mmt = Some(new MMT(pr))
       Actions.addAll
       mmt.get.init
     }
@@ -197,11 +198,3 @@ class MMTPlugin(pr : Project) extends ProjectComponent {
   }
 }
 
-object MMTDataKeys {
-  lazy val keys = List(archive,archiveGroup,localArchive,remoteArchive).map(_.getName)
-  val archiveGroup = DataKey.create[String]("mmt.ArchiveGroup")
-  val archive = DataKey.create[String]("mmt.Archive")
-  val localArchive = DataKey.create[String]("mmt.LocalArchive")
-  val remoteArchive = DataKey.create[String]("mmt.RemoteArchive")
-  val mmtjar = "mmt.MMTJar"
-}

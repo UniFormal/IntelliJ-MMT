@@ -1,10 +1,10 @@
 package info.kwarc.mmt.intellij.language
 
 import com.intellij.codeInsight.completion._
-import com.intellij.codeInsight.lookup.{LookupElement, LookupElementBuilder}
+import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.util.ProcessingContext
-import info.kwarc.mmt.api.utils.MMTSystem
+import info.kwarc.mmt.intellij.MMT
 
 class Completion extends CompletionContributor {
   // extend(CompletionType.BASIC,psiElement().withLanguage(MMTLanguage.INSTANCE),Abbreviations)
@@ -19,21 +19,15 @@ class Completion extends CompletionContributor {
 
 
 object Abbreviations extends CompletionProvider[CompletionParameters] {
-  lazy val pairstrings = MMTSystem.getResourceAsString("latex/unicode-latex-map").split("\n")
-  lazy val pairs = pairstrings.collect{ case s if s.nonEmpty =>
-    val ls = s.split('|')
-    if (ls.length != 2) {
-      println(ls.mkString(", "))
-      ???
-    }
-    ( /*"""\""" + */ ls.head.trim/*.drop(1)*/,ls.last.trim)
-  }.filterNot(p => List("❚","❙","❘").contains(p._2))
-  lazy val elements = {
-    val a = LookupElementBuilder.create("❚").withLookupString("""jMD""").withTailText("Module Delimiter")
-    val b = LookupElementBuilder.create("❙").withLookupString("""jDD""").withTailText("Declaration Delimiter")
-    val c = LookupElementBuilder.create("❘").withLookupString("""jOD""").withTailText("Object Delimiter")
-    val rest = pairs.map { case (l, s) => LookupElementBuilder.create(s).withLookupString(l).withTailText(l) }
-    a :: b :: c :: rest.toList
+  private lazy val mmtO = MMT.getMMT
+  lazy val elements = mmtO match {
+    case Some(mmt) =>
+      val a = LookupElementBuilder.create("❚").withLookupString("""jMD""").withTailText("Module Delimiter")
+      val b = LookupElementBuilder.create("❙").withLookupString("""jDD""").withTailText("Declaration Delimiter")
+      val c = LookupElementBuilder.create("❘").withLookupString("""jOD""").withTailText("Object Delimiter")
+      val rest = mmt.mmtjar.abbrevs.map { case (l, s) => LookupElementBuilder.create(s).withLookupString(l).withTailText(l) }
+      a :: b :: c :: rest
+    case _ => Nil
   }
   override def addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet): Unit = {
     elements.foreach(result.addElement)

@@ -17,8 +17,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.{FileViewProvider, PsiElement, PsiFile, TokenType}
 import com.intellij.psi.tree.{IElementType, IFileElementType, TokenSet}
-import info.kwarc.mmt.api.{DPath, Path}
-import info.kwarc.mmt.api.utils.{MMTSystem, URI}
 import info.kwarc.mmt.intellij.language.psi.MMTParserTypes
 import info.kwarc.mmt.intellij.language.psi.imps._
 import info.kwarc.mmt.intellij.MMT
@@ -29,7 +27,7 @@ import scala.util.Try
 class MMTLexerAdapter extends FlexAdapter(new MMTLexer(null))
 
 class MMTFileBase(viewProvider : FileViewProvider) extends PsiFileBase(viewProvider,MMTLanguage.INSTANCE) {
-  override def getFileType: FileType = MMTFile.INSTANCE
+  override def getFileType: FileType = MMTFile
 }
 
 class MMTParserDefinition extends ParserDefinition {
@@ -142,7 +140,9 @@ class ColorSettings extends ColorSettingsPage {
 
   override def getIcon: Icon = MMT.icon
 
-  override def getDemoText: String = MMTSystem.getResourceAsString("/mmt_resources/highlighting.mmt")
+  import info.kwarc.mmt.utils._
+
+  override def getDemoText: String = getResourceAsString("/mmt_resources/highlighting.mmt")
 }
 
 class MMTAnnotator extends com.intellij.lang.annotation.Annotator {

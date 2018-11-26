@@ -8,7 +8,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import info.kwarc.mmt.intellij.MMT
 import javax.swing.Icon
 
-class MMTFile extends LanguageFileType(MMTLanguage.INSTANCE) {
+object MMTFile extends LanguageFileType(MMTLanguage.INSTANCE) {
   override def getName: String = "MMT"
 
   override def getDefaultExtension: String = "mmt"
@@ -21,14 +21,14 @@ class MMTFile extends LanguageFileType(MMTLanguage.INSTANCE) {
 
   override def isReadOnly: Boolean = false
 }
-
+/*
 object MMTFile {
   val INSTANCE = new MMTFile
 }
-
+*/
 class MMTFileFactory extends FileTypeFactory {
   override def createFileTypes(consumer: FileTypeConsumer): Unit = {
-    consumer.consume(MMTFile.INSTANCE)
+    consumer.consume(MMTFile)
   }
 }
 
