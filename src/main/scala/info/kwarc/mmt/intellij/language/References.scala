@@ -58,7 +58,8 @@ class URIElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with UR
         new PsiReferenceBase(this,new TextRange(0,node.getTextLength)) {
           override def resolve(): PsiElement = {
             val aClass = JavaPsiFacade.getInstance(project).findClass(classname,GlobalSearchScope.allScope(project))
-            aClass.getSourceElement
+            if (aClass != null) aClass.getSourceElement
+            else null
           }
           override def getVariants: Array[AnyRef] = Array()
         }

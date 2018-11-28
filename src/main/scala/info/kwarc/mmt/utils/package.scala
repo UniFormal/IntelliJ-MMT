@@ -4,7 +4,7 @@ import com.intellij.notification.{Notification, NotificationType, Notifications}
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
-import com.intellij.openapi.vfs.{VirtualFile, VirtualFileManager}
+import com.intellij.openapi.vfs.{LocalFileSystem, VirtualFile, VirtualFileManager}
 import com.intellij.psi.PsiFile
 
 /**
@@ -173,13 +173,14 @@ package object utils {
   lazy val vfm = VirtualFileManager.getInstance()
   lazy val fs = vfm.getFileSystem("file")
 
-  def toVF(f : File): VirtualFile = {
+  def toVF(f : File): VirtualFile = { /*
     val vf = fs.findFileByPath(f.toFilePath.toString())
     if (vf != null) vf
     else {
       println(f.toFilePath)
       ???
-    }
+    } */
+    LocalFileSystem.getInstance().findFileByIoFile(f)
   }
   def toFile(f : PsiFile): File = File(f.getVirtualFile.getCanonicalPath)
 

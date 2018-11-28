@@ -83,7 +83,7 @@ class MathHubModuleBuilder extends ModuleBuilder {
         ipanel.add(isok)
         panel.updateUI()
 
-        override def validate() = valid.isDefined || { throw new com.intellij.openapi.options.ConfigurationException("Please select a valid mmt.jar") }
+        override def validate() = valid.isDefined || { throw new com.intellij.openapi.options.ConfigurationException("Please select a valid mmt.jar (requires 15.1.0 or higher)") }
 
         object Descriptor extends FileChooserDescriptor(true,false,true,true,false,false) {
           override def isFileSelectable(file: VirtualFile): Boolean = file.getName == "mmt.jar"

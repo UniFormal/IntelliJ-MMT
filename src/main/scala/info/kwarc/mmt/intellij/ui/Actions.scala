@@ -87,7 +87,7 @@ class InstallArchive extends MMTAction("InstallArchive", "Install Archive") {
       notifyWhile("Installing " + id + " + dependencies...") {
         println(Time.measure(mmt.mmtjar.method("install",Reflection.unit,List(id)))._1)
         writable {
-          mmt.refreshPane
+          mmt.refreshPane()
         }
       }
     }
@@ -111,6 +111,6 @@ class InstallArchive extends MMTAction("InstallArchive", "Install Archive") {
 
 class Reset extends MMTAction("Reset","Reset") {
   override def actionPerformed(e: AnActionEvent): Unit = {
-    MMT.get(e.getProject).getOrElse(return ()).reset
+    MMT.get(e.getProject).getOrElse(return ()).reset()
   }
 }

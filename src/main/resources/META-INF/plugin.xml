@@ -1,11 +1,10 @@
 <idea-plugin>
     <id>info.kwarc.mmt.intellij.MMTPlugin</id>
-    <name>MMT Plugin</name>
+    <name>MMT</name>
     <vendor email="d.mueller@kwarc.info" url="http://uniformal.github.io">UniFormal</vendor>
 
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    IntelliJ IDE for the MMT system (<a href="https://uniformal.github.io">uniformal.github.io</a>
     ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -13,6 +12,7 @@
     <!-- uncomment to enable plugin in all products
     <depends>com.intellij.modules.lang</depends>
     -->
+    <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- <sdkType implementation="info.kwarc.mmt.intellij.MMTSDK"/>

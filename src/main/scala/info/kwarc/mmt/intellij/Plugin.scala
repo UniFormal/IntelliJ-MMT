@@ -1,6 +1,7 @@
 package info.kwarc.mmt.intellij
 
 import java.net.URLClassLoader
+import java.util.Calendar
 
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.ide.util.PropertiesComponent
@@ -8,7 +9,9 @@ import com.intellij.openapi.actionSystem.DataKey
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.{ProjectComponent, ServiceManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
-import com.intellij.openapi.project.{Project, ProjectManager}
+import com.intellij.openapi.progress.ProcessCanceledException
+import com.intellij.openapi.progress.util.AbstractProgressIndicatorBase
+import com.intellij.openapi.project.{Project, ProjectManager, ProjectUtil}
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.{ToolWindowAnchor, ToolWindowManager}
@@ -78,23 +81,30 @@ case class MMTJar(jarfile : File, mathpath : File) {
 }
 */
 
-class MMTJar(mmtjarfile : File, mathpath : File) {
+class MMTJar(mmtjarfile : File, mmt : MMT) {
   import Reflection._
   val reflection = new Reflection(new URLClassLoader(Array(mmtjarfile.toURI.toURL),this.getClass.getClassLoader))
-  private val mmtjar = reflection.getClass("info.kwarc.mmt.intellij.MMTPluginInterface").getInstance(mathpath.toString :: Nil)
-  def method[A](name : String,tp : Reflection.ReturnType[A], args : List[Any]) : A = mmtjar.method(name,tp,args)
+  private val mmtjar = reflection.getClass("info.kwarc.mmt.intellij.MMTPluginInterface").getInstance(mmt.mathpath.toString :: Nil)
+  def method[A](name : String,tp : Reflection.ReturnType[A], args : List[Any]) : A = {
+    // mmt.log("Reflecting method " + name)
+    mmtjar.method(name, tp, args)
+  }
   def getArchiveRoots = method("getArchiveRoots", RList(string),Nil).map(File(_))
   def abbrevs = method("abbrevs",RList(RPair(string,string)),Nil)
   def init = method("init",unit,Nil)
-  def clear = method("init",unit,Nil)
+  def clear = method("clear",unit,Nil)
   def handleLine(s : String) = method("handleLine",unit,List(s))
   def version = method("version",string,Nil)
 }
 
 class MMT(val project : Project) {
-  private lazy val mathpath = File(project.getBasePath)
+  lazy val mathpath = {
+    val dir = ProjectUtil.guessProjectDir(project)
+    if (dir == null) throw new Error("Could not determine project directory")
+    File(dir.getCanonicalPath)
+  }
   private val mmtjarfile = File(PropertiesComponent.getInstance(project).getValue(MMTDataKeys.mmtjar))
-  lazy val mmtjar = new MMTJar(mmtjarfile,mathpath)
+  lazy val mmtjar = new MMTJar(mmtjarfile,this)
 
   lazy val errorViewer = new ErrorViewer(mmtjar)
   lazy val shellViewer = new ShellViewer(mmtjar)
@@ -105,49 +115,86 @@ class MMT(val project : Project) {
     }
   }
 
+  private var _indent : List[String] = Nil
+
+  def log(s : String) = {
+    if (!logfile.exists()) {
+      logfile.createNewFile()
+    }
+    val time = Calendar.getInstance().getTime.toString+ ": " + _indent.mkString("")
+    val _strs = s.split('\n')
+    val str = (time + _strs.head) :: _strs.tail.map(st => time.map(_ => ' ') + st).toList
+    File.append(logfile,str.mkString("\n") + "\n")
+  }
+
+  def logged[A](msg : String)(f : => A) = try {
+    log(msg + " {")
+    _indent ::= " - "
+    f
+  } catch {
+    case pc : ProcessCanceledException =>
+      log("Process cancelled by IDE")
+      throw pc
+    case t : Throwable =>
+      log(t.getMessage + "\n" + t.getStackTrace.map(_.toString).mkString("\n"))
+      throw t
+  } finally {
+    _indent = _indent.tail
+    log("} (" + msg + ")")
+  }
+
   val mmtrc = mathpath / "mmtrc"
   val msl = mathpath / "startup.msl"
+  val logfile = mathpath / "intellij.log"
 
   private var _pane : MathHubPane = _
 
   def init: Unit = {
-    mmtjar.init
-    assert(Abbreviations.elements.head!=null)
-    reset
-    val tw = ToolWindowManager.getInstance(project).registerToolWindow("MMT",true,ToolWindowAnchor.BOTTOM)
-    tw.setIcon(MMT.icon)
-    errorViewer.init(tw)
-    shellViewer.init(tw)
-    background {
-      tw.show(null)
+    File.write(logfile,"")
+    logged("Initializing") {
+      mmtjar.init
+      assert(Abbreviations.elements.head != null)
+      reset(true)
+      val tw = ToolWindowManager.getInstance(project).registerToolWindow("MMT", true, ToolWindowAnchor.BOTTOM)
+      tw.setIcon(MMT.icon)
+      errorViewer.init(tw)
+      shellViewer.init(tw)
+      background {
+        tw.show(null)
+      }
     }
   }
 
-  def reset = writable {
+  def reset(startup : Boolean = false) = writable { logged("Resetting") {
     mmtjar.clear
     val model = ModuleRootManager.getInstance(mh).getModifiableModel
     def entries = model.getContentEntries
-    if (entries.isEmpty) model.addContentEntry(project.getBaseDir)
+    if (entries.isEmpty) model.addContentEntry(toVF(mathpath))
     val psi = PsiManager.getInstance(project)
-    mmtjar.getArchiveRoots.foreach { f =>
-      val dir = f / "scala"
-      if (dir.toJava.exists()) {
-        entries.headOption foreach {e =>
-          e.addSourceFolder(toVF(dir),false)
+    logged("Adding Archives") {
+      mmtjar.getArchiveRoots.foreach { f =>
+        log(f.toString)
+        val dir = f / "scala"
+        if (dir.toJava.exists()) {
+          entries.headOption foreach { e =>
+            e.addSourceFolder(toVF(dir), false)
+          }
         }
       }
     }
     if (model.getModuleLibraryTable.getLibraryByName("MMT API") == null) {
+      log("Adding mmt.jar to class path")
       val mmtlib = model.getModuleLibraryTable.createLibrary()
       val libmod = mmtlib.getModifiableModel
-      libmod.addJarDirectory(toVF(File(PathManager.getPluginsPath) / "MMTPlugin" / "lib"),false)
+      libmod.setName("MMT API")
+      libmod.addJarDirectory(toVF(mmtjarfile/*File(PathManager.getPluginsPath) / "MMTPlugin" / "lib"*/).getParent,false)
       libmod.commit()
     }
     model.commit()
-    refreshPane
-  }
+    refreshPane(startup)
+  }}
 
-  def refreshPane = {
+  def refreshPane(startup : Boolean = false) : Unit = logged("Refreshing MathHub Pane") {
     val pv = ProjectView.getInstance(project)
     _pane = new MathHubPane(project)
     val pane = pv.getProjectViewPaneById("MathHub")
@@ -156,7 +203,7 @@ class MMT(val project : Project) {
       pv.removeProjectPane(pane)
     }
     pv.addProjectPane(_pane)
-    Try(pv.changeView("MathHub"))
+    if (!startup) Try(logged("Switching to MathHub") {pv.changeView("MathHub")})
   }
 }
 
@@ -184,8 +231,6 @@ class MMTProject(pr : Project) extends ProjectComponent {
     val modules = ModuleManager.getInstance(pr).getModules
     val mhO = modules.find(_.getModuleTypeName == MathHubModule.id)
     if (mhO.isDefined) {
-      val home = File(pr.getBasePath)
-
       mmt = Some(new MMT(pr))
       Actions.addAll
       mmt.get.init

@@ -2,14 +2,6 @@ plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.3.12'
 }
-
-group 'info.kwarc.mmt.intellij'
-version '1.0-SNAPSHOT'
-
-intellij {
-    version '2018.2'
-    plugins 'org.intellij.scala:2018.2.8'
-}
 sourceCompatibility = 1.8
 
 repositories {
@@ -23,15 +15,19 @@ dependencies {
     compile files(fileTree(dir: 'lib', includes: ['*.jar']))
     // compile files("mmt.jar") // For debugging purposes only!
 }
-
-intellij {
-    version '2018.2.5'
-}
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      Version 1.0"""
 }
+
+apply plugin: 'org.jetbrains.intellij'
+intellij {
+    version '2018.2'
+    pluginName 'MMT'
+    plugins 'org.intellij.scala:2018.2.8'
+}
+group 'info.kwarc.mmt.intellij'
+version '1.0'
 
 apply plugin: 'scala'
 

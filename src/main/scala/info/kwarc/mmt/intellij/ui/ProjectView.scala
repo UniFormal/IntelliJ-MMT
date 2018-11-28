@@ -40,10 +40,6 @@ object Implicit {
 import Implicit._
 
 object PV {
-  def get(project : Project) : AbstractTreeNode[Project] = {
-    val ret = new MathHubTreeNode(project)
-    ret
-  }
   import Reflection._
   private var remoteGrps : List[String] = _
   private var remoteAs : List[String] = _
@@ -66,11 +62,13 @@ class MathHubTreeNode(project : Project) extends AbstractTreeNode[Project](proje
   override def getChildren: util.Collection[_ <: AbstractTreeNode[_]] = {
     MMT.get(project) match {
       case Some(mmt) =>
-        val locals = PV.localGroups(mmt).map(id => new ArchiveGroupNode(id, mmt))
-        val remotes = PV.remoteGroups(mmt).map(id => new ArchiveGroupNode(id, mmt))
-        val ls = locals ::: remotes
-        val helper = ProjectViewDirectoryHelper.getInstance(project)
-        helper.createFileAndDirectoryNodes(List(toVF(mmt.mmtrc),toVF(mmt.msl)),viewSettings) ::: ls
+        mmt.logged("Creating MathHub-Node") {
+          val locals = PV.localGroups(mmt).map(id => new ArchiveGroupNode(id, mmt))
+          val remotes = PV.remoteGroups(mmt).map(id => new ArchiveGroupNode(id, mmt))
+          val ls = locals ::: remotes
+          val helper = ProjectViewDirectoryHelper.getInstance(project)
+          helper.createFileAndDirectoryNodes(List(toVF(mmt.mmtrc), toVF(mmt.msl), toVF(mmt.logfile)), viewSettings) ::: ls
+        }
       case _ => Nil.asInstanceOf[List[AbstractTreeNode[_]]]
     }
   }
@@ -104,7 +102,7 @@ class ArchiveGroupNode(id : String, mmt : MMT) extends ProjectViewNode[String](m
 
   override def contains(file: VirtualFile): Boolean = false
 
-  override def getChildren: util.Collection[AbstractTreeNode[_]] = {
+  override def getChildren: util.Collection[AbstractTreeNode[_]] = mmt.logged("Children of " + id) {
     val (ls,rs) = id match {
       case "Others" =>
         (
@@ -147,7 +145,7 @@ class LocalArchiveNode(id : String, mmt : MMT) extends ProjectViewNode[String](m
     presentation.setTooltip(id)
   }
 
-  override def getChildren: util.Collection[AbstractTreeNode[_]] = {
+  override def getChildren: util.Collection[AbstractTreeNode[_]] = mmt.logged("Children of " + id) {
     import Reflection._
     val tr = mmt.mmtjar.method("archiveInfo",RTriple(string,string,string),List(id))
     val (source,meta_inf,scala) = (File(tr._1),File(tr._2),File(tr._3))
@@ -192,7 +190,7 @@ class MyDirectoryNode(mmt : MMT,dir : File) extends ProjectViewNode[PsiDirectory
   protected val icon = PlatformIcons.FOLDER_ICON
   private var name = dir.name
 
-  override def getChildren: util.Collection[_ <: AbstractTreeNode[_]] = {
+  override def getChildren: util.Collection[_ <: AbstractTreeNode[_]] = mmt.logged("Children of " + dir) {
     val subdirs = dir.children.filter(_.isDirectory)
     val files = dir.children.filter(!subdirs.contains(_))
     val dirnodes = subdirs.map(new MyDirectoryNode(mmt,_))
@@ -227,10 +225,11 @@ class ScalaNode(mmt : MMT,dir : File) extends MyDirectoryNode(mmt : MMT,dir : Fi
 class MathHubPane(project : Project) extends ProjectViewPane(project) {
   override def getWeight: Int = -1
 
+  private lazy val mmt = MMT.get(project).get
+
   override def getIcon: Icon = MMT.icon
 
   override val getTitle = "MathHub"
-  private lazy val root = PV.get(project)
 
   override def getData(dataId: String): AnyRef = dataId match {
     case _ if MMTDataKeys.keys contains dataId =>
@@ -253,8 +252,7 @@ class MathHubPane(project : Project) extends ProjectViewPane(project) {
 
   override protected def createStructure(): ProjectAbstractTreeStructureBase =
     new ProjectTreeStructure(project, "MathHubPane") {
-      override protected def createRoot(project: Project, settings: ViewSettings): AbstractTreeNode[_] = {
-        root
-      }
+      override protected def createRoot(project: Project, settings: ViewSettings): AbstractTreeNode[_] =
+        new MathHubTreeNode(project)
     }
 }
