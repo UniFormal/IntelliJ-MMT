@@ -150,7 +150,10 @@ class LocalArchiveNode(id : String, mmt : MMT) extends ProjectViewNode[String](m
     val tr = mmt.mmtjar.method("archiveInfo",RTriple(string,string,string),List(id))
     val (source,meta_inf,scala) = (File(tr._1),File(tr._2),File(tr._3))
     val sourceNode : List[MyDirectoryNode] = if (source.toJava.exists()) List(new SourceNode(mmt,source)) else Nil
-    val metaNode : List[MyDirectoryNode] = List(new MetaInfNode(mmt,meta_inf))
+    val metaNode = if (meta_inf.toJava.exists()) List(new MetaInfNode(mmt,meta_inf)) else
+      if ((File(source).up / "MANIFEST.MF").exists)
+      ProjectViewDirectoryHelper.getInstance(mmt.project).createFileAndDirectoryNodes(List(toVF(File(source).up / "MANIFEST.MF")),viewSettings).toList
+      else Nil
     val scalaNode : List[MyDirectoryNode] = if (scala.toJava.exists()) List(new ScalaNode(mmt,scala)) else Nil
     update()
     sourceNode ::: metaNode ::: scalaNode
@@ -184,6 +187,7 @@ object FileToPSI {
     psi.findFile(toVF(f))
   }
 }
+
 
 class MyDirectoryNode(mmt : MMT,dir : File) extends ProjectViewNode[PsiDirectory](mmt.project,FileToPSI.toPSIDir(dir,mmt),viewSettings) {// AbstractTreeNode[PsiDirectory](mmt.project,FileToPSI.toPSI(dir,mmt)) {
   lazy val helper = ProjectViewDirectoryHelper.getInstance(mmt.project)
