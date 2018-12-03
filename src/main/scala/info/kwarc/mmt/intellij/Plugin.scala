@@ -147,8 +147,6 @@ class MMT(val project : Project) {
   val msl = mathpath / "startup.msl"
   val logfile = mathpath / "intellij.log"
 
-  private var _pane : MathHubPane = _
-
   def init: Unit = {
     File.write(logfile,"")
     logged("Initializing") {
@@ -159,9 +157,9 @@ class MMT(val project : Project) {
       tw.setIcon(MMT.icon)
       errorViewer.init(tw)
       shellViewer.init(tw)
-      background {
+      // background {
         tw.show(null)
-      }
+      // }
     }
   }
 
@@ -175,7 +173,7 @@ class MMT(val project : Project) {
       mmtjar.getArchiveRoots.foreach { f =>
         log(f.toString)
         val dir = f / "scala"
-        if (dir.toJava.exists()) {
+        if (toVF(dir)!=null) {
           entries.headOption foreach { e =>
             e.addSourceFolder(toVF(dir), false)
           }
@@ -191,19 +189,23 @@ class MMT(val project : Project) {
       libmod.commit()
     }
     model.commit()
-    refreshPane(startup)
+    refreshPane
   }}
 
-  def refreshPane(startup : Boolean = false) : Unit = logged("Refreshing MathHub Pane") {
+  def refreshPane : Unit = logged("Refreshing MathHub Pane") {
     val pv = ProjectView.getInstance(project)
-    _pane = new MathHubPane(project)
+    // _pane = new MathHubPane(project)
     val pane = pv.getProjectViewPaneById("MathHub")
-    if (pane != null) {
-      pane.dispose()
-      pv.removeProjectPane(pane)
-    }
-    pv.addProjectPane(_pane)
-    if (!startup) Try(logged("Switching to MathHub") {pv.changeView("MathHub")})
+    if (pane != null) { /*
+      logged("Removing pane") {
+        pv.removeProjectPane(pane)
+      }
+      logged("Disposing pane") {
+        pane.dispose()
+      } */
+      pv.refresh()
+    } else pv.addProjectPane(new MathHubPane(project))
+    Try{pv.changeView("MathHub")}
   }
 }
 
@@ -232,8 +234,10 @@ class MMTProject(pr : Project) extends ProjectComponent {
     val mhO = modules.find(_.getModuleTypeName == MathHubModule.id)
     if (mhO.isDefined) {
       mmt = Some(new MMT(pr))
-      Actions.addAll
       mmt.get.init
+      mmt.get.logged("Adding Actions") {
+        Actions.addAll
+      }
     }
   }
 

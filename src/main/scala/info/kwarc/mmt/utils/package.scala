@@ -1,11 +1,20 @@
 package info.kwarc.mmt
 
+import java.awt.Color
+
 import com.intellij.notification.{Notification, NotificationType, Notifications}
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.ui.popup.{Balloon, JBPopupFactory}
 import com.intellij.openapi.vfs.{LocalFileSystem, VirtualFile, VirtualFileManager}
+import com.intellij.openapi.wm.WindowManager
 import com.intellij.psi.PsiFile
+import com.intellij.ui.awt.RelativePoint
+import info.kwarc.mmt.intellij.MMT
+import org.jetbrains.plugins.scala.project.migration.api.MigrationReport.MessageType
+
+import scala.concurrent.Future
 
 /**
   * This package defines various MMT-independent high-level APIs.
@@ -149,7 +158,7 @@ package object utils {
   def writable[A](fun : => A) : A = // background {
     ApplicationManager.getApplication.runWriteAction[A]{() => fun }
   // }
-  def background(f: => Unit) : Unit = ApplicationManager.getApplication.invokeLater{() => f}// Future { f }
+  def background(f: => Unit) = Future { f }(scala.concurrent.ExecutionContext.global)// ApplicationManager.getApplication.invokeLater{() => f}// Future { f }
   def errorMsg(f: => Unit)(implicit project : Project) : Unit = errorMsg(f,())
   def errorMsg [A](f : => A, orElse : => A)(implicit project : Project) : A = try {
     f
@@ -158,15 +167,22 @@ package object utils {
       Messages.showErrorDialog(project,e.getMessage + "\n\n" + e.getStackTrace.toList.mkString("\n"),"MMT Error")
       orElse
   }
-  def inotify(message : String, title : String = "MMT") = {
+  def inotify(message : String, title : String = "MMT", exp : Int = 0) = {
+    /*
     val not = new Notification("MMT",title,message,NotificationType.INFORMATION)
     Notifications.Bus.notify(not)
     not
+    */
+    val statusbar = WindowManager.getInstance().getStatusBar(MMT.getProject.get)
+    val builder = JBPopupFactory.getInstance().createHtmlTextBalloonBuilder(message,MMT.icon,Color.GRAY,null)
+    val ball = if (exp == 0) builder.createBalloon() else builder.setFadeoutTime(exp).createBalloon()
+    ball.show(RelativePoint.getCenterOf(statusbar.getComponent),Balloon.Position.atRight)
+    ball
   }
   def notifyWhile[A](message : String, title : String = "MMT")(fun : => A) : A = {
     val not = inotify(message,title)
     val ret = fun
-    not.expire()
+    not.dispose()
     ret
   }
 

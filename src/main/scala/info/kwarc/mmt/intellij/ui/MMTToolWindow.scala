@@ -8,11 +8,11 @@ import info.kwarc.mmt.utils._
 trait MMTToolWindow {
   val panel : JPanel
   val displayName : String
-  def init(tw : ToolWindow) = {
+  def init(tw : ToolWindow) : Unit = {
     val content = ContentFactory.SERVICE.getInstance().createContent(panel,displayName,false)
-    background {
+    // background {
       panel.setVisible(true)
       tw.getContentManager.addContent(content)
-    }
+    // }
   }
 }

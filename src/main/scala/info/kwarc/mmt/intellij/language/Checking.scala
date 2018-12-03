@@ -8,6 +8,7 @@ import com.intellij.notification.{Notification, NotificationType, Notifications}
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
+import com.intellij.openapi.ui.popup.Balloon
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
 import com.intellij.ui.treeStructure.{PatchedDefaultMutableTreeNode, Tree}
@@ -49,7 +50,7 @@ class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
         }
 
       }
-      var not : Option[Notification] = None
+      var not : Option[Balloon] = None
       val uri = URI(psifile.getVirtualFile.toString)
       val text = psifile.getText
       val clearFile : String => Unit = { f =>
@@ -57,9 +58,14 @@ class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
       }
       val note : (String,String) => Unit = { case (str,file) =>
         not match {
-          case Some(n) => n.expire()
+          case Some(n) => n.dispose()
           case _ =>
         }
+        if (str == "Done.") {
+          not = None
+          utils.inotify(str,exp=1000)
+        } else not = Some(utils.inotify(str))
+        /*
         not = Some(new Notification("MMT",File(file).name,str,NotificationType.INFORMATION))
         Notifications.Bus.notify(not.get)
         if (str == "Done.") {
@@ -67,6 +73,7 @@ class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
           not.get.expire()
           not = None
         }
+        */
       }
       val error : (Int,Int,String,String,List[String]) => Unit = { case (start,length,file,main,extra) =>
         val tr = TextRange.from(psifile.getTextRange.getStartOffset + start,length)

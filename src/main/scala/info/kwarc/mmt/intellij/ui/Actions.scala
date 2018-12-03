@@ -5,6 +5,7 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.vfs.LocalFileSystem
 import info.kwarc.mmt.intellij.{MMT, MMTDataKeys}
 import info.kwarc.mmt.utils._
 
@@ -83,14 +84,25 @@ class InstallArchive extends MMTAction("InstallArchive", "Install Archive") {
     implicit val project = e.getData(CommonDataKeys.PROJECT)
     val mmt = MMT.get(project).get
 
-    background {
+    // background {
+    val not = inotify("Installing " + id + " + dependencies...")
+    background { mmt.mmtjar.method("install",Reflection.unit,List(id)) }.andThen[Unit] { case _ =>
+      not.dispose()
+      LocalFileSystem.getInstance().refresh(false)
+      Thread.sleep(500)
+      mmt.refreshPane
+    }(scala.concurrent.ExecutionContext.global)
+    /*
       notifyWhile("Installing " + id + " + dependencies...") {
         println(Time.measure(mmt.mmtjar.method("install",Reflection.unit,List(id)))._1)
-        writable {
-          mmt.refreshPane()
-        }
+
       }
-    }
+      */
+    // LocalFileSystem.getInstance().refresh(false)
+    //writable {
+      // mmt.refreshPane()
+    //}
+    // }
     /*
     val not = inotify("Installing " + id + " + dependencies...")
 

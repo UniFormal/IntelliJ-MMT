@@ -255,7 +255,7 @@ class MathHubPane(project : Project) extends ProjectViewPane(project) {
   override def getId: String = "MathHub"
 
   override protected def createStructure(): ProjectAbstractTreeStructureBase =
-    new ProjectTreeStructure(project, "MathHubPane") {
+    new ProjectTreeStructure(project, "MathHub") {
       override protected def createRoot(project: Project, settings: ViewSettings): AbstractTreeNode[_] =
         new MathHubTreeNode(project)
     }
