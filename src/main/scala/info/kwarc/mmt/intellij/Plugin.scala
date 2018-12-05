@@ -8,6 +8,7 @@ import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.actionSystem.DataKey
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.components.{ProjectComponent, ServiceManager}
+import com.intellij.openapi.editor.actionSystem.{EditorActionHandler, EditorActionManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
 import com.intellij.openapi.progress.ProcessCanceledException
 import com.intellij.openapi.progress.util.AbstractProgressIndicatorBase
@@ -16,10 +17,12 @@ import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.{ToolWindowAnchor, ToolWindowManager}
 import com.intellij.psi.PsiManager
+import com.intellij.ui.treeStructure.Tree
 import info.kwarc.mmt.utils._
 import info.kwarc.mmt.intellij.language.{Abbreviations, ErrorViewer}
-import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane, ShellViewer}
+import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane, ShellViewer, Sidekick}
 import javax.swing.Icon
+import javax.swing.tree.DefaultMutableTreeNode
 
 import scala.util.Try
 
@@ -94,7 +97,21 @@ class MMTJar(mmtjarfile : File, mmt : MMT) {
   def init = method("init",unit,Nil)
   def clear = method("clear",unit,Nil)
   def handleLine(s : String) = method("handleLine",unit,List(s))
-  def version = method("version",string,Nil)
+  def version = Version(method("version",string,Nil))
+}
+
+case class Version(s : String) {
+  private val split = s.split('.')
+  val a = split.head.toInt
+  val b = split.tail.head.toInt
+  val c = split.tail.tail.head.toInt
+
+  def <=(that : Version) =
+      this.a <= that.a ||
+      (this.a==that.a && this.b <= that.b) ||
+      (this.a==that.a && this.b==that.b && this.c<=that.c)
+  def <(that : Version) = this!=that && this<=that
+  override def toString: String = s
 }
 
 class MMT(val project : Project) {
@@ -108,6 +125,7 @@ class MMT(val project : Project) {
 
   lazy val errorViewer = new ErrorViewer(mmtjar)
   lazy val shellViewer = new ShellViewer(mmtjar)
+  lazy val sidekick = new Sidekick(mmtjar)
   val mh : Module = {
     val modules = ModuleManager.getInstance(project).getModules
     modules.find(_.getModuleTypeName == MathHubModule.id).getOrElse {
@@ -157,8 +175,12 @@ class MMT(val project : Project) {
       tw.setIcon(MMT.icon)
       errorViewer.init(tw)
       shellViewer.init(tw)
+      val sw = ToolWindowManager.getInstance(project).registerToolWindow("Document Tree",false,ToolWindowAnchor.LEFT)
+      sw.setIcon(MMT.icon)
+      sidekick.init(sw)
       // background {
         tw.show(null)
+        sw.show(null)
       // }
     }
   }

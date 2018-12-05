@@ -36,7 +36,7 @@ object Actions {
   private lazy val install = new InstallArchive
   private lazy val reset = new Reset
 
-  def addAll: Unit = if (am.getActionIds("MMTPlugin").isEmpty) {
+  def addAll: Unit = if (am.getActionIds("MMTPlugin").isEmpty) writable {
     topmenu.add(mmtmenu)
     mmtmenu.add(test)
     mmtmenu.add(reset)

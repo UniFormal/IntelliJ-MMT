@@ -22,9 +22,9 @@ patchPluginXml {
 
 apply plugin: 'org.jetbrains.intellij'
 intellij {
-    version '2018.2'
+    version '2018.3'
     pluginName 'MMT'
-    plugins 'org.intellij.scala:2018.2.8'
+    plugins 'org.intellij.scala:2018.3.1'
 }
 group 'info.kwarc.mmt.intellij'
 version '1.0'

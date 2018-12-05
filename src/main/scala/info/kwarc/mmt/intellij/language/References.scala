@@ -7,7 +7,7 @@ import com.intellij.psi._
 import com.intellij.psi.search.{FileTypeIndex, GlobalSearchScope}
 import com.intellij.psi.util.PsiTreeUtil
 import info.kwarc.mmt.intellij.language.psi.{MMTTheory, MMTTheoryheader}
-import info.kwarc.mmt.intellij.language.psi.imps.{MMTImport_impl, MMTNamespace_impl, MMTPname_impl, MMTRule_impl}
+import info.kwarc.mmt.intellij.language.psi.imps._
 import info.kwarc.mmt.intellij.MMT
 import info.kwarc.mmt.utils._
 
@@ -19,7 +19,7 @@ trait URIHelper extends PsiElement { self =>
   protected def ns: String = {
     val nss = PsiTreeUtil.findChildrenOfType(file,classOf[MMTNamespace_impl])
     if (nss != null) {
-      nss.reverse.find(_.getTextOffset < self.getNode.getPsi.getTextOffset).foreach { ns =>
+      nss.reverse.find(_.getTextRange.getStartOffset < self.getNode.getPsi.getTextRange.getStartOffset).foreach { ns =>
         return mmt.mmtjar.method("parseNamespace",string,ns.getUri.getText :: Nil)// Path.parseD(ns.getUri.getText, mmt.controller.getNamespaceMap)
       }
     }
@@ -42,7 +42,7 @@ trait URIHelper extends PsiElement { self =>
 
 class URIElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with URIHelper {
   import Reflection._
-  def uri : String = if (this.getParent.isInstanceOf[MMTRule_impl]) {
+  lazy val uri : String = if (this.getParent.isInstanceOf[MMTRule_impl]) {
     val ret = mmt.mmtjar.method("resolvePath",string,List(node.getText,nsMap))
     ret
   } else {
@@ -77,12 +77,24 @@ trait HasURI extends PsiNameIdentifierOwner with URIHelper {
 
   override def setName(name: String): PsiElement = ???
   override def getNameIdentifier: PsiElement = getNamePSI
+
+  def parentTheory = recurseParents(this)
+
+  private def recurseParents(s : PsiElement) : Option[TheoryElement_impl] = s.getParent match {
+    case null => None
+    case r : TheoryElement_impl => Some(r)
+    case o => recurseParents(o)
+  }
+
 }
 class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with HasURI {
-  override def getRefURI: String = {
+  lazy val getRefURI: String = {
     val head = findNotNullChildByClass(classOf[MMTTheoryheader])
-    val n = head.getPname.getText
-    ns + "?" + n
+    val name = head.getPname.getText
+    parentTheory match {
+      case Some(p) => p.getRefURI + "/" + name
+      case _ => ns + "?" + name
+    }
   }
 
   override def getName: String = getRefURI
@@ -96,10 +108,12 @@ class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with
 
 class URIReference(element: PsiElement,textRange: TextRange) extends PsiReferenceBase(element,textRange) {
   private lazy val project = myElement.getProject
-  private lazy val uri = element match {
+  val uri = element match {
     case e : URIElement_impl => e.uri
     case _ => ""
   }
+  override def getValue: String = uri
+
   private lazy val psiman = PsiManager.getInstance(project)
   private def allfiles = FileTypeIndex.getFiles(MMTFile,GlobalSearchScope.allScope(project)).toList
   private def elems = allfiles.flatMap {vf =>

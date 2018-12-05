@@ -21,10 +21,10 @@ import info.kwarc.mmt.utils
 import javax.swing.tree._
 import javax.swing._
 
-class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
+class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Editor)]] {
 
-  override def apply(psifile: PsiFile, mmtO: Option[MMT], holder: AnnotationHolder): Unit = mmtO match {
-    case Some(mmt) if mmt.errorViewer.doCheck =>
+  override def apply(psifile: PsiFile, mmtO: Option[(MMT,Editor)], holder: AnnotationHolder): Unit = mmtO match {
+    case Some((mmt,editor)) if mmt.errorViewer.doCheck =>
       val mmtjar = mmt.mmtjar
       object Jar {
         private val cls = mmtjar.reflection.getClass("info.kwarc.mmt.intellij.checking.Checker")
@@ -61,10 +61,19 @@ class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
           case Some(n) => n.dispose()
           case _ =>
         }
-        if (str == "Done.") {
+        if (str.startsWith("Done: ")) {
           not = None
-          utils.inotify(str,exp=1000)
-        } else not = Some(utils.inotify(str))
+          utils.inotify("Done: " + str.split('/').last,exp=1000)
+          mmt.logged("Sidekick...") {
+            editor.getCaretModel.addCaretListener(mmt.sidekick)
+            mmt.sidekick.setFile(psifile)
+            mmt.sidekick.doDoc(str.drop(6))
+          }
+        } else try {
+          not = Some(utils.inotify(str))
+        } catch {
+          case _ : ArrayIndexOutOfBoundsException => // TODO why is this necessary??
+        }
         /*
         not = Some(new Notification("MMT",File(file).name,str,NotificationType.INFORMATION))
         Notifications.Bus.notify(not.get)
@@ -79,18 +88,22 @@ class ExtAnnotator extends ExternalAnnotator[Option[MMT],Option[MMT]] {
         val tr = TextRange.from(psifile.getTextRange.getStartOffset + start,length)
         val int = psifile.getTextRange.intersection(tr)
         val region = if (int != null) int else psifile.getTextRange
-        holder.createErrorAnnotation(region,main)
-        mmt.errorViewer.addError(main,extra,psifile,File(file),region)
+        if (main.startsWith("Warning")) {
+          holder.createWarningAnnotation(region,main + ":\n\n" + extra.mkString("\n"))
+        } else {
+          holder.createErrorAnnotation(region, main)
+          mmt.errorViewer.addError(main, extra, psifile, File(file), region)
+        }
       }
       Jar.check(uri,text,clearFile,note,error)
     case _ =>
   }
 
-  override def collectInformation(file: PsiFile, editor: Editor, hasErrors: Boolean): Option[MMT] = {
-    MMT.get(editor.getProject)
+  override def collectInformation(file: PsiFile, editor: Editor, hasErrors: Boolean): Option[(MMT,Editor)] = {
+    Some((MMT.get(editor.getProject).getOrElse(return None),editor))
   }
 
-  override def doAnnotate(collectedInfo: Option[MMT]): Option[MMT] = {
+  override def doAnnotate(collectedInfo: Option[(MMT,Editor)]): Option[(MMT,Editor)] = {
     collectedInfo
   }
 
@@ -161,12 +174,13 @@ class ErrorViewer(mmtjar : MMTJar) extends ActionListener with MMTToolWindow {
     val nt = new PatchedDefaultMutableTreeNode(file)
     root.add(nt)
     redraw
-    errorTree.expandPath(new TreePath(nt.getPath.asInstanceOf[Array[Object]]))
+    // errorTree.expandPath(new TreePath(nt.getPath.asInstanceOf[Array[Object]]))
     nt
   }
 
-  private def add(file : File,node : PatchedDefaultMutableTreeNode) = synchronized {
-    val top = getTop(file) /*
+  private def add(file : File,node : PatchedDefaultMutableTreeNode) = {
+    ApplicationManager.getApplication.invokeLater{ () =>
+      val top = getTop(file) /*
     (top.getLastLeaf,node) match {
       case (s : StatusLine,t : StatusLine) =>
         top.remove(s)
@@ -178,10 +192,12 @@ class ErrorViewer(mmtjar : MMTJar) extends ActionListener with MMTToolWindow {
       case (_,_) =>
         top.add(node)
     } */
-    top.add(node)
-    // val row = errorTree.getRowForPath(new TreePath(Array(root,top,top.getLastChild).asInstanceOf[Array[Object]]))
-    // errorTree.setSelectionRow(row)
-    redraw
+      top.add(node)
+      // val row = errorTree.getRowForPath(new TreePath(Array(root,top,top.getLastChild).asInstanceOf[Array[Object]]))
+      // errorTree.setSelectionRow(row)
+      errorTree.expandPath(new TreePath(node.getPath.init.asInstanceOf[Array[Object]]))
+      // redraw
+    }
   }
 
   def status(file : File,s : String) = add(file,StatusLine(s))
