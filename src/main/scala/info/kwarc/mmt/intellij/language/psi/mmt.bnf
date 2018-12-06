@@ -28,16 +28,17 @@ theory_body ::= declaration*
 viewheader ::= IMPLICIT_KEY? VIEW_KEY pname COLON_KEY uri ARROW_KEY uri
 view_body ::= view_decl*
 
-declaration ::= rule | include | decl_comment | constant | theory | structure | view | deriveddecl
+declaration ::= rule | include | decl_comment | constant | nestedtheory | structure | nestedview | deriveddecl
 view_decl ::= morphism_include | view_constant
 
-// nestedtheory ::= theoryheader ((ABBREV_KEY term DD) | (EQ_KEY theory_body MD)) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
-// nestedview ::= viewheader ((ABBREV_KEY term DD) | (EQ_KEY view_body MD))
+nestedtheory ::= theoryheader ((ABBREV_KEY term DD) | (EQ_KEY theory_body MD)) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
+nestedview ::= viewheader ((ABBREV_KEY term DD) | (EQ_KEY view_body MD))
 rule ::= RULE_KEY uri tmlist? DD
 include ::= INCLUDE_KEY uri tmlist? DD
 decl_comment ::= COMMENT_KEY (any|OD)* (DD|MD)
 constant ::= CONSTANT_KEY? pname (component OD)* component? DD
-structure ::= STRUCTURE_KEY pname COLON_KEY uri ((ABBREV_KEY term DD) | (EQ_KEY theory_body MD))
+structure ::= IMPLICIT_KEY? STRUCTURE_KEY pname COLON_KEY uri ((ABBREV_KEY term DD) | (EQ_KEY structure_body MD))
+structure_body ::= (decl_comment | constant | structure | morphism_include)*
 // deriveddecl ::= DERIVED+ ((DERIVEDSHORT DD) | (DERIVEDBODY theory_body MD) )
 deriveddecl ::= (derivedheader theory_body MD) | (derivedsimple DD)
 derivedheader ::= any any+ OD? EQ_KEY

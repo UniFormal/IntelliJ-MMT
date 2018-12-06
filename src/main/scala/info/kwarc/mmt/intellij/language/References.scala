@@ -87,7 +87,7 @@ trait HasURI extends PsiNameIdentifierOwner with URIHelper {
   }
 
 }
-class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with HasURI {
+abstract class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with HasURI {
   lazy val getRefURI: String = {
     val head = findNotNullChildByClass(classOf[MMTTheoryheader])
     val name = head.getPname.getText
@@ -97,8 +97,10 @@ class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with
     }
   }
 
+  def getTheoryheader() : MMTTheoryheader
+
   override def getName: String = getRefURI
-  override def getNamePSI: PsiElement = this.asInstanceOf[MMTTheory].getTheoryheader.getPname
+  override def getNamePSI: PsiElement = this.getTheoryheader.getPname
 
   override def getTextOffset: Int = getNamePSI.getTextOffset - super.getTextOffset
 

@@ -10,6 +10,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
 import com.intellij.openapi.ui.popup.Balloon
 import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
 import com.intellij.ui.treeStructure.{PatchedDefaultMutableTreeNode, Tree}
 import info.kwarc.mmt
@@ -72,7 +73,7 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
         } else try {
           not = Some(utils.inotify(str))
         } catch {
-          case _ : ArrayIndexOutOfBoundsException => // TODO why is this necessary??
+          case _ : ArrayIndexOutOfBoundsException | _ : IllegalArgumentException => // TODO why is this necessary??
         }
         /*
         not = Some(new Notification("MMT",File(file).name,str,NotificationType.INFORMATION))
@@ -89,7 +90,7 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
         val int = psifile.getTextRange.intersection(tr)
         val region = if (int != null) int else psifile.getTextRange
         if (main.startsWith("Warning")) {
-          holder.createWarningAnnotation(region,main + ":\n\n" + extra.mkString("\n"))
+          holder.createWarningAnnotation(region,main)
         } else {
           holder.createErrorAnnotation(region, main)
           mmt.errorViewer.addError(main, extra, psifile, File(file), region)
@@ -195,8 +196,10 @@ class ErrorViewer(mmtjar : MMTJar) extends ActionListener with MMTToolWindow {
       top.add(node)
       // val row = errorTree.getRowForPath(new TreePath(Array(root,top,top.getLastChild).asInstanceOf[Array[Object]]))
       // errorTree.setSelectionRow(row)
+      model.reload()
       errorTree.expandPath(new TreePath(node.getPath.init.asInstanceOf[Array[Object]]))
-      // redraw
+      //
+      errorTree.revalidate()
     }
   }
 
@@ -210,8 +213,10 @@ class ErrorViewer(mmtjar : MMTJar) extends ActionListener with MMTToolWindow {
   def addError(short : String, long : List[String], psifile : PsiFile, file : File, sr : TextRange) = {
     //val filetop = getTop(file)
     val entry = new ErrorLine(short.trim,sr,psifile)
-    long.reverse.foreach(s => entry.addLine(s.trim))
-    add(file,entry)
+    add(file, entry)
+    ApplicationManager.getApplication.invokeLater { () =>
+      long.reverse.foreach(s => entry.addLine(s.trim))
+    }
     // filetop.add(entry)
     // redraw
   }
@@ -227,8 +232,9 @@ class ErrorViewer(mmtjar : MMTJar) extends ActionListener with MMTToolWindow {
     } else if (e.getActionCommand == "Type Checking" && aev.check.isSelected) {
       MMT.getProject match {
         case Some(pr) =>
-          val editor = FileEditorManager.getInstance(pr).getSelectedTextEditor
-          val psifile = PsiDocumentManager.getInstance(pr).getPsiFile(editor.getDocument)
+          LocalFileSystem.getInstance().refresh(false)
+          // val editor = FileEditorManager.getInstance(pr).getSelectedTextEditor
+          // val psifile = PsiDocumentManager.getInstance(pr).getPsiFile(editor.getDocument)
           // ???
         case _ =>
       }
