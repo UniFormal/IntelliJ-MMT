@@ -3,6 +3,7 @@ package info.kwarc.mmt.intellij.language
 import java.awt.{BorderLayout, Font}
 import java.awt.event.{ActionEvent, ActionListener, MouseAdapter, MouseEvent}
 
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.lang.annotation.{AnnotationHolder, ExternalAnnotator}
 import com.intellij.notification.{Notification, NotificationType, Notifications}
 import com.intellij.openapi.application.ApplicationManager
@@ -11,6 +12,7 @@ import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
 import com.intellij.openapi.ui.popup.Balloon
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.psi.text.BlockSupport
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
 import com.intellij.ui.treeStructure.{PatchedDefaultMutableTreeNode, Tree}
 import info.kwarc.mmt
@@ -22,59 +24,64 @@ import info.kwarc.mmt.utils
 import javax.swing.tree._
 import javax.swing._
 
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+
 class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Editor)]] {
 
   override def apply(psifile: PsiFile, mmtO: Option[(MMT,Editor)], holder: AnnotationHolder): Unit = mmtO match {
-    case Some((mmt,editor)) if mmt.errorViewer.doCheck =>
+    case Some((mmt, editor)) if mmt.errorViewer.doCheck =>
       val mmtjar = mmt.mmtjar
       object Jar {
         private val cls = mmtjar.reflection.getClass("info.kwarc.mmt.intellij.checking.Checker")
-        private val checker = mmtjar.method("checker",Reflection.Reflected(cls),Nil)
+        private val checker = mmtjar.method("checker", Reflection.Reflected(cls), Nil)
+
         // private val checkerclass = mmtjar.classLoader.loadClass("info.kwarc.mmt.intellij.checking.Checker")
         // private val jarchecker = mmtjar.method("checker")
-        def check(uri : URI, text : String,
+        def check(uri: URI, text: String,
                   clearFile: String => Unit,
-                  note: (String,String) => Unit,
-                  errorCont : (Int,Int,String,String,List[String]) => Unit
+                  note: (String, String) => Unit,
+                  errorCont: (Int, Int, String, String, List[String]) => Unit
                  ) = {
           val cf = new Reflection.RFunction {
-            def apply(v1 : String) : Unit = clearFile(v1)
+            def apply(v1: String): Unit = clearFile(v1)
           }
           val nt = new Reflection.RFunction {
-            def apply(v1 : String, v2 : String) : Unit = note(v1,v2)
+            def apply(v1: String, v2: String): Unit = note(v1, v2)
           }
           val ec = new Reflection.RFunction {
-            def apply(v1 : Int, v2 : Int, v3 : String, v4 : String, v5 : List[String]) : Unit =
-              errorCont(v1,v2,v3,v4,v5)
+            def apply(v1: Int, v2: Int, v3: String, v4: String, v5: List[String]): Unit =
+              errorCont(v1, v2, v3, v4, v5)
           }
-          checker.method("check",Reflection.unit,List(uri.toString,text,cf,nt,ec))
+          checker.method("check", Reflection.unit, List(uri.toString, text, cf, nt, ec))
         }
 
       }
-      var not : Option[Balloon] = None
+      var not: Option[Notification] = None
       val uri = URI(psifile.getVirtualFile.toString)
       val text = psifile.getText
-      val clearFile : String => Unit = { f =>
+      val clearFile: String => Unit = { f =>
         mmt.errorViewer.clearFile(File(f))
       }
-      val note : (String,String) => Unit = { case (str,file) =>
-        not match {
-          case Some(n) => n.dispose()
-          case _ =>
-        }
-        if (str.startsWith("Done: ")) {
-          not = None
-          utils.inotify("Done: " + str.split('/').last,exp=1000)
-          mmt.logged("Sidekick...") {
-            editor.getCaretModel.addCaretListener(mmt.sidekick)
-            mmt.sidekick.setFile(psifile)
-            mmt.sidekick.doDoc(str.drop(6))
+      val note: (String, String) => Unit = {
+        case (str, file) =>
+          not match {
+            case Some(n) => n.expire() //.dispose()
+            case _ =>
           }
-        } else try {
-          not = Some(utils.inotify(str))
-        } catch {
-          case _ : ArrayIndexOutOfBoundsException | _ : IllegalArgumentException => // TODO why is this necessary??
-        }
+          if (str.startsWith("Done: ")) {
+            not = None
+            utils.inotifyP("Done: " + str.split('/').last, exp = 5000)
+            mmt.logged("Sidekick...") {
+              editor.getCaretModel.addCaretListener(mmt.sidekick)
+              mmt.sidekick.setFile(psifile)
+              mmt.sidekick.doDoc(str.drop(6))
+            }
+          } else try {
+            not = Some(utils.inotifyP(str))
+          } catch {
+            case _: ArrayIndexOutOfBoundsException | _: IllegalArgumentException => // TODO why is this necessary??
+          }
         /*
         not = Some(new Notification("MMT",File(file).name,str,NotificationType.INFORMATION))
         Notifications.Bus.notify(not.get)
@@ -85,18 +92,19 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
         }
         */
       }
-      val error : (Int,Int,String,String,List[String]) => Unit = { case (start,length,file,main,extra) =>
-        val tr = TextRange.from(psifile.getTextRange.getStartOffset + start,length)
-        val int = psifile.getTextRange.intersection(tr)
-        val region = if (int != null) int else psifile.getTextRange
-        if (main.startsWith("Warning")) {
-          holder.createWarningAnnotation(region,main)
-        } else {
-          holder.createErrorAnnotation(region, main)
-          mmt.errorViewer.addError(main, extra, psifile, File(file), region)
-        }
+      val error: (Int, Int, String, String, List[String]) => Unit = {
+        case (start, length, file, main, extra) =>
+          val tr = TextRange.from(psifile.getTextRange.getStartOffset + start, length)
+          val int = psifile.getTextRange.intersection(tr)
+          val region = if (int != null) int else psifile.getTextRange
+          if (main.startsWith("Warning")) {
+            holder.createWarningAnnotation(region, main)
+          } else {
+            holder.createErrorAnnotation(region, main)
+            mmt.errorViewer.addError(main, extra, psifile, File(file), region)
+          }
       }
-      Jar.check(uri,text,clearFile,note,error)
+      Jar.check(uri, text, clearFile, note, error)
     case _ =>
   }
 
@@ -126,6 +134,7 @@ class ErrorViewer(mmtjar : MMTJar) extends ActionListener with MMTToolWindow {
   aev.btn_clear.addActionListener(this)
   aev.btn_clearAll.addActionListener(this)
   aev.check.addActionListener(this)
+  aev.btn_build.addActionListener(this)
   ApplicationManager.getApplication.invokeLater { () =>
     aev.pane.setLayout(new BorderLayout())
     val scp = new JScrollPane(errorTree)
@@ -232,10 +241,28 @@ class ErrorViewer(mmtjar : MMTJar) extends ActionListener with MMTToolWindow {
     } else if (e.getActionCommand == "Type Checking" && aev.check.isSelected) {
       MMT.getProject match {
         case Some(pr) =>
-          LocalFileSystem.getInstance().refresh(false)
-          // val editor = FileEditorManager.getInstance(pr).getSelectedTextEditor
-          // val psifile = PsiDocumentManager.getInstance(pr).getPsiFile(editor.getDocument)
+          // LocalFileSystem.getInstance().refresh(false)
+          val editor = FileEditorManager.getInstance(pr).getSelectedTextEditor
+          val psifile = PsiDocumentManager.getInstance(pr).getPsiFile(editor.getDocument)
+          // psifile.getVirtualFile.refresh(true,true)
+          utils.writable {
+            DaemonCodeAnalyzer.getInstance(pr).restart(psifile)
+            // psifile.getVirtualFile.refresh(true,true)
+            // BlockSupport.getInstance(pr).reparseRange(psifile,0,psifile.getTextRange.getEndOffset,psifile.getText)
+          }
           // ???
+        case _ =>
+      }
+    } else if (e.getActionCommand == "Build File") {
+      MMT.getProject match {
+        case Some(pr) =>
+          val editor = FileEditorManager.getInstance(pr).getSelectedTextEditor
+          val psifile = PsiDocumentManager.getInstance(pr).getPsiFile(editor.getDocument)
+          val f = utils.toFile(psifile)
+          utils.notifyWhileP("building " + f.name.toString + " to OMDoc...") {
+            mmtjar.method("buildFile", Reflection.unit, List(f.toString))
+          }
+        // ???
         case _ =>
       }
     }

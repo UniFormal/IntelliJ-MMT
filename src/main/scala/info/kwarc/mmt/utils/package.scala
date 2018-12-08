@@ -158,6 +158,7 @@ package object utils {
   def writable[A](fun : => A) : A = // background {
     ApplicationManager.getApplication.runWriteAction[A]{() => fun }
   // }
+  def readable[A](fun : => A) : A = ApplicationManager.getApplication.runReadAction[A]{() => fun}
   def background(f: => Unit) = Future { f }(scala.concurrent.ExecutionContext.global)// ApplicationManager.getApplication.invokeLater{() => f}// Future { f }
   def errorMsg(f: => Unit)(implicit project : Project) : Unit = errorMsg(f,())
   def errorMsg [A](f : => A, orElse : => A)(implicit project : Project) : A = try {
@@ -179,10 +180,24 @@ package object utils {
     ball.show(RelativePoint.getCenterOf(statusbar.getComponent),Balloon.Position.atRight)
     ball
   }
+  def inotifyP(message : String, title : String = "MMT", exp : Int = 0) = {
+
+    val not = new Notification("MMT",title,message,NotificationType.INFORMATION)
+    ApplicationManager.getApplication.invokeLater{ () => Notifications.Bus.notify(not) }
+    not
+
+  }
   def notifyWhile[A](message : String, title : String = "MMT")(fun : => A) : A = {
     val not = inotify(message,title)
     val ret = fun
     not.dispose()
+    ret
+  }
+  def notifyWhileP[A](message : String, title : String = "MMT")(fun : => A) : A = {
+    val not = inotifyP(message,title)
+    val ret = fun
+    ApplicationManager.getApplication.invokeLater{ () => not.expire() }
+    inotifyP("Done.").expire()
     ret
   }
 

@@ -4,7 +4,7 @@ import java.awt.BorderLayout
 import java.awt.event.{ActionEvent, ActionListener, MouseAdapter, MouseEvent}
 
 import com.intellij.openapi.actionSystem.DataContext
-import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.{ApplicationManager, ReadAction}
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler
 import com.intellij.openapi.editor.event.{CaretEvent, CaretListener}
@@ -12,21 +12,29 @@ import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
 import com.intellij.ui.treeStructure.{PatchedDefaultMutableTreeNode, Tree}
 import info.kwarc.mmt.intellij.{MMT, MMTJar}
+import info.kwarc.mmt.utils
 import info.kwarc.mmt.utils.Reflection
 import javax.swing.tree.{DefaultMutableTreeNode, DefaultTreeModel, TreePath}
-import javax.swing.{JPanel, JScrollPane}
+import javax.swing.{BoxLayout, JCheckBox, JPanel, JScrollPane}
+
+import scala.concurrent.Future
 
 class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with CaretListener {
   override val displayName: String = "Document Tree"
   val panel = new JPanel
 
+  val cb = new JCheckBox("Navigate")
+
   val root = new PatchedDefaultMutableTreeNode("Document Tree")
   val docTree = new Tree(root)
 
   ApplicationManager.getApplication.invokeLater { () =>
-    panel.setLayout(new BorderLayout())
+    panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS))
     val scp = new JScrollPane(docTree)
+    panel.add(cb)
     panel.add(scp)
+    cb.setSelected(false)
+    cb.setVisible(true)
     docTree.setVisible(true)
     docTree.setRootVisible(false)
     docTree.revalidate()
@@ -70,19 +78,26 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
     }
   })
 
+
   override def caretPositionChanged(event: CaretEvent): Unit = {
     super.caretPositionChanged(event)
-    val mmt = MMT.get(event.getEditor.getProject).getOrElse(return ())
-    val psi = PsiDocumentManager.getInstance(event.getEditor.getProject).getPsiFile(event.getEditor.getDocument)
-    if (psi!=null && current.contains(psi)) {
-      val offset = event.getCaret.getOffset
-      var ret = root
-      findNode(offset).foreach {n => ApplicationManager.getApplication.invokeLater { () =>
-        val tp = new TreePath(n.getPath.asInstanceOf[Array[Object]])
-        if (!docTree.isCollapsed(tp)) collapseAll()
-        docTree.setSelectionPath(tp)
-        // docTree.expandPath(new TreePath(n.getPath.init.asInstanceOf[Array[Object]]))
-      }}
+    if (cb.isSelected) {
+      val mmt = MMT.get(event.getEditor.getProject).getOrElse(return ())
+      val doc = event.getEditor.getDocument
+      val man = PsiDocumentManager.getInstance(event.getEditor.getProject)
+      val caret = event.getCaret
+      val psi = man.getPsiFile(doc)
+      if (psi != null && current.contains(psi)) {
+        val offset = caret.getOffset
+        findNode(offset).foreach { n =>
+          val tp = new TreePath(n.getPath.asInstanceOf[Array[Object]])
+          ApplicationManager.getApplication.invokeLater { () =>
+            if (!docTree.isCollapsed(tp)) collapseAll()
+            docTree.setSelectionPath(tp)
+            // docTree.expandPath(new TreePath(n.getPath.init.asInstanceOf[Array[Object]]))
+          }
+        }
+      }
     }
   }
 

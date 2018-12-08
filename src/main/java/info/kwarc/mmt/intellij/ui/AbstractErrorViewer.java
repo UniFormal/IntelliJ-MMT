@@ -8,5 +8,6 @@ public class AbstractErrorViewer {
     public JPanel pane;
     public JCheckBox check;
     public JButton btn_clearAll;
+    public JButton btn_build;
 
 }
