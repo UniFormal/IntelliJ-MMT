@@ -181,9 +181,9 @@ package object utils {
     ball
   }
   def inotifyP(message : String, title : String = "MMT", exp : Int = 0) = {
-
     val not = new Notification("MMT",title,message,NotificationType.INFORMATION)
     ApplicationManager.getApplication.invokeLater{ () => Notifications.Bus.notify(not) }
+    if (exp != 0) background { Thread.sleep(exp) }.onComplete {_ => not.expire()}(scala.concurrent.ExecutionContext.global)
     not
 
   }

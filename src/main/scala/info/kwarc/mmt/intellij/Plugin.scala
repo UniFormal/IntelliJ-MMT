@@ -18,8 +18,9 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.{ToolWindowAnchor, ToolWindowManager}
 import com.intellij.psi.PsiManager
 import com.intellij.ui.treeStructure.Tree
+import info.kwarc.mmt.intellij.checking.ErrorViewerPanel
 import info.kwarc.mmt.utils._
-import info.kwarc.mmt.intellij.language.{Abbreviations, ErrorViewer}
+import info.kwarc.mmt.intellij.language.Abbreviations
 import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane, ShellViewer, Sidekick}
 import javax.swing.Icon
 import javax.swing.tree.DefaultMutableTreeNode
@@ -123,7 +124,7 @@ class MMT(val project : Project) {
   private val mmtjarfile = File(PropertiesComponent.getInstance(project).getValue(MMTDataKeys.mmtjar))
   lazy val mmtjar = new MMTJar(mmtjarfile,this)
 
-  lazy val errorViewer = new ErrorViewer(mmtjar)
+  lazy val errorViewer = new ErrorViewerPanel(mmtjar)
   lazy val shellViewer = new ShellViewer(mmtjar)
   lazy val sidekick = new Sidekick(mmtjar)
   val mh : Module = {

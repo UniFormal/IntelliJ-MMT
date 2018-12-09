@@ -22,7 +22,7 @@
         <psi.referenceContributor implementation="info.kwarc.mmt.intellij.Language.URIReferenceContributor"/>
         -->
         <annotator language="MMT" implementationClass="info.kwarc.mmt.intellij.language.MMTAnnotator"/>
-        <externalAnnotator language="MMT" implementationClass="info.kwarc.mmt.intellij.language.ExtAnnotator"/>
+        <externalAnnotator language="MMT" implementationClass="info.kwarc.mmt.intellij.checking.ExtAnnotator"/>
         <lang.parserDefinition language="MMT" implementationClass="info.kwarc.mmt.intellij.language.MMTParserDefinition"/>
         <lang.syntaxHighlighterFactory language="MMT" implementationClass="info.kwarc.mmt.intellij.language.Factory"/>
         <colorSettingsPage implementation="info.kwarc.mmt.intellij.language.ColorSettings"/>
