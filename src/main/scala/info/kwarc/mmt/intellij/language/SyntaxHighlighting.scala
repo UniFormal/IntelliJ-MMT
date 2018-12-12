@@ -169,6 +169,8 @@ class MMTAnnotator extends com.intellij.lang.annotation.Annotator {
           highlight(uri)
         case _: MMTDerivedsimple_impl | _: MMTDerivedheader_impl =>
           highlight(derived)
+        case e : MMTError_impl =>
+          holder.createErrorAnnotation(e.getParent,"Block needs closing")
         // getChildren(element).foreach(i => highlight(derived)(i,holder))
         case _ =>
       }

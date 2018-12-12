@@ -102,9 +102,9 @@ abstract class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(n
   override def getName: String = getRefURI
   override def getNamePSI: PsiElement = this.getTheoryheader.getPname
 
-  override def getTextOffset: Int = getNamePSI.getTextOffset - super.getTextOffset
+  override def getTextOffset: Int = if (getNamePSI != null) {getNamePSI.getTextOffset - super.getTextOffset} else 0
 
-  override def getTextLength: Int = getNamePSI.getTextLength
+  override def getTextLength: Int = if (getNamePSI != null) getNamePSI.getTextLength else 0
   // override def getElement = this.asInstanceOf[MMTTheory].getTheoryheader.getPname
 }
 
