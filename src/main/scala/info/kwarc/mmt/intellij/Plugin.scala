@@ -5,8 +5,9 @@ import java.util.Calendar
 
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.ide.util.PropertiesComponent
+import com.intellij.notification.{Notification, NotificationType, Notifications}
 import com.intellij.openapi.actionSystem.DataKey
-import com.intellij.openapi.application.PathManager
+import com.intellij.openapi.application.{ApplicationManager, PathManager}
 import com.intellij.openapi.components.{ProjectComponent, ServiceManager}
 import com.intellij.openapi.editor.actionSystem.{EditorActionHandler, EditorActionManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
@@ -22,6 +23,7 @@ import info.kwarc.mmt.intellij.checking.ErrorViewerPanel
 import info.kwarc.mmt.utils._
 import info.kwarc.mmt.intellij.language.Abbreviations
 import info.kwarc.mmt.intellij.ui.{Actions, MathHubPane, ShellViewer, Sidekick}
+import info.kwarc.mmt.utils
 import javax.swing.Icon
 import javax.swing.tree.DefaultMutableTreeNode
 
@@ -87,8 +89,15 @@ case class MMTJar(jarfile : File, mathpath : File) {
 
 class MMTJar(mmtjarfile : File, mmt : MMT) {
   import Reflection._
+  private object Report {
+    def apply(s : String) : Unit = {
+      val not = new Notification("MMT","MMT Error",s,NotificationType.ERROR)
+      ApplicationManager.getApplication.invokeLater{ () => Notifications.Bus.notify(not) }
+      background { Thread.sleep(5000) }.onComplete {_ => not.expire()}(scala.concurrent.ExecutionContext.global)
+    }
+  }
   val reflection = new Reflection(new URLClassLoader(Array(mmtjarfile.toURI.toURL),this.getClass.getClassLoader))
-  private val mmtjar = reflection.getClass("info.kwarc.mmt.intellij.MMTPluginInterface").getInstance(mmt.mathpath.toString :: Nil)
+  private val mmtjar = reflection.getClass("info.kwarc.mmt.intellij.MMTPluginInterface").getInstance(mmt.mathpath.toString :: Report :: Nil)
   def method[A](name : String,tp : Reflection.ReturnType[A], args : List[Any]) : A = {
     // mmt.log("Reflecting method " + name)
     mmtjar.method(name, tp, args)
@@ -102,7 +111,7 @@ class MMTJar(mmtjarfile : File, mmt : MMT) {
 }
 
 case class Version(s : String) {
-  private val split = s.split('.')
+  private val split = s.trim.split('.')
   val a = split.head.toInt
   val b = split.tail.head.toInt
   val c = split.tail.tail.head.toInt
@@ -183,6 +192,13 @@ class MMT(val project : Project) {
         tw.show(null)
         sw.show(null)
       // }
+      import Reflection._
+      mmtjar.method("checkUpdate",ROption(RPair(string,string)),Nil) match {
+        case Some((v,url)) if mmtjar.version<Version(v) =>
+          val str = "A new version of the mmt.jar (" + v +") is available. Download at <a href=\"" + url + "\">" + url + "</a>."
+          inotifyP(str,"MMT update")
+        case _ =>
+      }
     }
   }
 

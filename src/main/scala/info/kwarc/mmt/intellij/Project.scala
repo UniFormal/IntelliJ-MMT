@@ -69,6 +69,8 @@ class MathHubModuleBuilder extends ModuleBuilder {
 
   override def getModuleType: ModuleType[_ <: ModuleBuilder] = new MathHubModuleType
 
+  private val minimum_version = Version("15.0.0")
+
   override def createWizardSteps(wizardContext: WizardContext, modulesProvider: ModulesProvider): Array[ModuleWizardStep] = {
     List(
       new ModuleWizardStep {
@@ -83,7 +85,7 @@ class MathHubModuleBuilder extends ModuleBuilder {
         ipanel.add(isok)
         panel.updateUI()
 
-        override def validate() = valid.isDefined || { throw new com.intellij.openapi.options.ConfigurationException("Please select a valid mmt.jar (requires 15.1.0 or higher)") }
+        override def validate() = valid.isDefined || { throw new com.intellij.openapi.options.ConfigurationException("Please select a valid mmt.jar (requires " + minimum_version + " or higher)") }
 
         object Descriptor extends FileChooserDescriptor(true,false,true,true,false,false) {
           override def isFileSelectable(file: VirtualFile): Boolean = file.getName == "mmt.jar"
@@ -95,11 +97,14 @@ class MathHubModuleBuilder extends ModuleBuilder {
             val file = File(chosenFile.getCanonicalPath)
             val loader = new URLClassLoader(Array(file.toURI.toURL))
             try {
+
               val ctrlcls = loader.loadClass("info.kwarc.mmt.api.frontend.Controller")
               val ctrl = ctrlcls.getConstructor().newInstance()
-              val v = ctrlcls.getMethod("getVersion").invoke(ctrl)
-              isok.setText("Version: " + v)
-              valid = Some(chosenFile.getCanonicalPath)
+              val v = Version(ctrlcls.getMethod("getVersion").invoke(ctrl).asInstanceOf[String])
+              if (minimum_version <= v) {
+                isok.setText("Version: " + v)
+                valid = Some(chosenFile.getCanonicalPath)
+              }
             } catch {
               case _ : ClassNotFoundException =>
                 isok.setText("Invalid mmt.jar")
