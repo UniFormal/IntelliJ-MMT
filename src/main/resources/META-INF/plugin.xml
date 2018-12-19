@@ -4,23 +4,14 @@
     <vendor email="d.mueller@kwarc.info" url="http://uniformal.github.io">UniFormal</vendor>
 
     <description><![CDATA[
-    IntelliJ IDE for the MMT system (<a href="https://uniformal.github.io">uniformal.github.io</a>
+    IntelliJ IDE for the MMT system (<a href="https://uniformal.github.io">uniformal.github.io</a>)<p>
+    Sources available on <a href="https://github.com/UniFormal/IntelliJ-MMT">GitHub</a>
     ]]></description>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
-    -->
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- <sdkType implementation="info.kwarc.mmt.intellij.MMTSDK"/>
-        <moduleBuilder builderClass="info.kwarc.mmt.intellij.ArchiveModuleBuilder"/>
-        <projectStructureDetector implementation="info.kwarc.mmt.intellij.ArchiveModuleStructureDetector"/>
-        <fileTypeFactory implementation="info.kwarc.mmt.intellij.Language.MMTXFileFactory"/>
-        <psi.referenceContributor implementation="info.kwarc.mmt.intellij.Language.URIReferenceContributor"/>
-        -->
+
         <annotator language="MMT" implementationClass="info.kwarc.mmt.intellij.language.MMTAnnotator"/>
         <externalAnnotator language="MMT" implementationClass="info.kwarc.mmt.intellij.checking.ExtAnnotator"/>
         <lang.parserDefinition language="MMT" implementationClass="info.kwarc.mmt.intellij.language.MMTParserDefinition"/>
@@ -29,11 +20,7 @@
         <fileTypeFactory implementation="info.kwarc.mmt.intellij.language.MMTFileFactory"/>
         <moduleType id="mmt-mh" implementationClass="info.kwarc.mmt.intellij.MathHubModuleType"/>
         <completion.contributor language="MMT" implementationClass="info.kwarc.mmt.intellij.language.Completion"/>
-        <!-- <moduleType id="mmt-archgr" implementationClass="info.kwarc.mmt.intellij.ArchiveGroupLocalModuleType"/>
-            <moduleType id="mmt-arch-local" implementationClass="info.kwarc.mmt.intellij.LocalArchiveModuleType"/>
-            <projectTemplatesFactory implementation="info.kwarc.mmt.intellij.MMTProjectTemplatesFactory"/>
-            <treeStructureProvider implementation="info.kwarc.mmt.intellij.ui.ProjectView"/>
-        -->
+
     </extensions>
 
     <project-components>
@@ -43,14 +30,6 @@
     </project-components>
 
     <actions>
-        <!--
-        <group id="MMT.MainMenu" text="MMT" description="MMT Menu">
-            <add-to-group group-id="MainMenu" anchor="last"/>
-            <action id="MMTPlugin.Test" class="info.kwarc.mmt.intellij.actions.MMTTest" text="MMT Info"
-                    description="Basic information on running MMT instance"/>
-
-        </group>
-        -->
     </actions>
     <depends>org.intellij.scala</depends>
 </idea-plugin>

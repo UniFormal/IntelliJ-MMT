@@ -11,7 +11,7 @@ import com.intellij.openapi.vfs.{LocalFileSystem, VirtualFile, VirtualFileManage
 import com.intellij.openapi.wm.WindowManager
 import com.intellij.psi.PsiFile
 import com.intellij.ui.awt.RelativePoint
-import info.kwarc.mmt.intellij.MMT
+import info.kwarc.mmt.intellij.{MMT, Version}
 import org.jetbrains.plugins.scala.project.migration.api.MigrationReport.MessageType
 
 import scala.concurrent.Future
@@ -230,5 +230,16 @@ package object utils {
   def getResourceAsString(path: String): String = Option(getResource(path)) match {
     case Some(r) => utils.readFullStream(r)
     case None => throw new Error(s"cannot find resource $path")
+  }
+  def ifVersion[A](v : Version, feature : String = "Feature")(f : => A) : Option[A] = {
+    def default = {
+      inotify(feature + " requires MMT version " + v + " or higher. Please update your mmt.jar",exp = 10000)
+      None
+    }
+    MMT.getMMT match {
+      case Some(mmt) =>
+        if (v <= mmt.mmtjar.version) Some(f) else default
+      case _ => default
+    }
   }
 }

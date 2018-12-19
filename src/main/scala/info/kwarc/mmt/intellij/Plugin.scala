@@ -30,6 +30,8 @@ import javax.swing.tree.DefaultMutableTreeNode
 import scala.util.Try
 
 object MMT {
+  val requiredVersion = Version("15.0.0")
+
   lazy val icon : Icon = IconLoader.getIcon("/img/icon.png")
 
   def get(project : Project) : Option[MMT] = {
@@ -38,17 +40,6 @@ object MMT {
   }
   def getProject : Option[Project] = ProjectManager.getInstance().getOpenProjects.find(MMT.get(_).isDefined)
   def getMMT = getProject.flatMap(get)
-
-  // TODO -------------------------------------------------------------------
-  lazy val file : File = File("/home/jazzpirate/work/MMT/deploy/mmt.jar")
-  def loader = new URLClassLoader(Array(file.toURI.toURL))
-  def version = {
-    val ctrlcls = loader.loadClass("info.kwarc.mmt.api.frontend.Controller")
-    val ctrl = ctrlcls.getConstructor().newInstance()
-    ctrlcls.getMethod("getVersion").invoke(ctrl)
-  }
-  // def internalVersion = MMTSystem.getResourceAsString("/versioning/system.txt")
-  // TODO -------------------------------------------------------------------
 }
 
 object MMTDataKeys {
@@ -116,6 +107,12 @@ case class Version(s : String) {
   val b = split.tail.head.toInt
   val c = split.tail.tail.head.toInt
 
+  override def equals(obj: Any): Boolean = obj match {
+    case that : Version =>
+      this.a==that.a && this.b==that.b && this.c==that.c
+    case _ => false
+  }
+
   def <=(that : Version) =
       this.a <= that.a ||
       (this.a==that.a && this.b <= that.b) ||
@@ -167,7 +164,7 @@ class MMT(val project : Project) {
       log(t.getMessage + "\n" + t.getStackTrace.map(_.toString).mkString("\n"))
       throw t
   } finally {
-    _indent = _indent.tail
+    if (_indent.nonEmpty) _indent = _indent.tail
     log("} (" + msg + ")")
   }
 

@@ -15,11 +15,9 @@ dependencies {
     compile files(fileTree(dir: 'lib', includes: ['*.jar']))
     // compile files("mmt.jar") // For debugging purposes only!
 }
-patchPluginXml {
-    changeNotes """
-      Version 1.0"""
-}
+/*
 
+*/
 apply plugin: 'org.jetbrains.intellij'
 intellij {
     version '2018.3'
@@ -27,7 +25,15 @@ intellij {
     plugins 'org.intellij.scala:2018.3.1'
 }
 group 'info.kwarc.mmt.intellij'
-version '1.0'
+version '1.1'
+patchPluginXml {
+    changeNotes """
+        - Minor code refactoring
+        - Plugin properly checks version of mmt.jar compatibility
+        - Mechanism for feature-specific version compatibility checks and user notification
+        - Bug fixes
+      """
+}
 
 apply plugin: 'scala'
 
@@ -40,4 +46,10 @@ sourceSets {
             srcDirs = ['src/main/scala','src/main/java','src/main/gen']
         }
     }
+}
+
+publishPlugin {
+    channels 'alpha'
+    username intellijPublishUsername
+    password intellijPublishPassword
 }
