@@ -11,10 +11,9 @@ import com.intellij.openapi.roots.ModifiableRootModel
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider
 import com.intellij.openapi.ui.{TextBrowseFolderListener, TextFieldWithBrowseButton}
 import com.intellij.openapi.vfs.VirtualFile
-import javax.swing.{BoxLayout, JComponent, JLabel, JPanel}
+import javax.swing._
 import com.intellij.platform.{ProjectTemplate, ProjectTemplatesFactory}
 import info.kwarc.mmt.utils.File
-import javax.swing.Icon
 
 class MMTProjectTemplatesFactory extends ProjectTemplatesFactory {
   def getGroups = Array("MMT")
@@ -81,6 +80,10 @@ class MathHubModuleBuilder extends ModuleBuilder {
         ipanel.add(filefield)
         val isok = new JLabel("")
         ipanel.add(isok)
+        val link = new JTextPane()
+        link.setContentType("text/html")
+        link.setText("""(Download latest version at <a href="https://github.com/UniFormal/MMT/releases/latest">https://github.com/UniFormal/MMT/releases/latest</a>)""")
+        panel.add(link)
         panel.updateUI()
 
         val invalid_string = "Please select a valid mmt.jar (requires " + MMT.requiredVersion + " or higher)"

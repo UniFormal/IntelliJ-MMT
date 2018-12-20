@@ -29,13 +29,13 @@ viewheader ::= IMPLICIT_KEY? VIEW_KEY ((pname COLON_KEY ((uri ARROW_KEY (uri | e
 view_body ::= view_decl*
 
 declaration ::= rule | include | decl_comment | nestedtheory | structure | nestedview | constant | deriveddecl
-view_decl ::= morphism_include | view_constant
+view_decl ::= morphism_include | view_constant | decl_comment
 
 nestedtheory ::= theoryheader ((ABBREV_KEY ((term DD) | error)) | (EQ_KEY theory_body (MD | error))) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
 nestedview ::= viewheader ((ABBREV_KEY term DD) | (EQ_KEY view_body MD))
 rule ::= RULE_KEY uri tmlist? (DD | error)
 include ::= INCLUDE_KEY uri tmlist? (DD | error)
-decl_comment ::= COMMENT_KEY (any|OD)* (DD|MD|error)
+decl_comment ::= COMMENT_KEY (any|OD)* (DD|error)
 constant ::= CONSTANT_KEY? pname (component OD)* component? (DD | error)
 structure ::= IMPLICIT_KEY? STRUCTURE_KEY pname COLON_KEY ((uri ((ABBREV_KEY term (DD|error)) | (EQ_KEY structure_body (MD|error)))) | error)
 structure_body ::= (decl_comment | constant | structure | morphism_include)*

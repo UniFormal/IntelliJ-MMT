@@ -25,13 +25,14 @@ intellij {
     plugins 'org.intellij.scala:2018.3.1'
 }
 group 'info.kwarc.mmt.intellij'
-version '1.1'
+version '15.0.1'
 patchPluginXml {
     changeNotes """
-        - Minor code refactoring
-        - Plugin properly checks version of mmt.jar compatibility
-        - Mechanism for feature-specific version compatibility checks and user notification
-        - Bug fixes
+        <ul>
+         <li>Fixed BNF</li>
+         <li>Fixed bug with version checking</li>
+         <li>Added link to MMT release page on project creation panel</li>
+        </ul>
       """
 }
 
@@ -48,8 +49,9 @@ sourceSets {
     }
 }
 
+apply from: "gradle.properties"
 publishPlugin {
-    channels 'alpha'
+    // channels 'devel'
     username intellijPublishUsername
     password intellijPublishPassword
 }

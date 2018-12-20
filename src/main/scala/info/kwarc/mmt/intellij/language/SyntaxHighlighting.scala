@@ -156,7 +156,7 @@ class MMTAnnotator extends com.intellij.lang.annotation.Annotator {
       element.getContainingFile
       implicit val elem: PsiElement = element
       element match {
-        case _: MMTModcomment_impl | _: MMTDeclComment_impl | _: MMTObjComment_impl =>
+        case _: MMTModcomment_impl | _: MMTDeclComment_impl | _: MMTObjComment_impl  =>
           getChildren(element).init.foreach(i => highlight(comment)(i, holder)) // holder.createInfoAnnotation(i.getTextRange,"").setTextAttributes(LexingHighlighter.comment))
         case _: MMTNotComp_impl =>
           getChildren(element).tail.foreach(i => highlight(not)(i, holder))

@@ -190,11 +190,13 @@ class MMT(val project : Project) {
         sw.show(null)
       // }
       import Reflection._
-      mmtjar.method("checkUpdate",ROption(RPair(string,string)),Nil) match {
-        case Some((v,url)) if mmtjar.version<Version(v) =>
-          val str = "A new version of the mmt.jar (" + v +") is available. Download at <a href=\"" + url + "\">" + url + "</a>."
-          inotifyP(str,"MMT update")
-        case _ =>
+      background {
+        mmtjar.method("checkUpdate", ROption(RPair(string, string)), Nil) match {
+          case Some((v, url)) if mmtjar.version < Version(v) =>
+            val str = "A new version of the mmt.jar (" + v + ") is available. Download at <a href=\"" + url + "\">" + url + "</a>."
+            inotifyP(str, "MMT update")
+          case _ =>
+        }
       }
     }
   }
