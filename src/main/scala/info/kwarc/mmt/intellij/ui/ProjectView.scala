@@ -149,12 +149,12 @@ class LocalArchiveNode(id : String, mmt : MMT) extends ProjectViewNode[String](m
     import Reflection._
     val tr = mmt.mmtjar.method("archiveInfo",RTriple(string,string,string),List(id))
     val (source,meta_inf,scala) = (File(tr._1),File(tr._2),File(tr._3))
-    val sourceNode : List[MyDirectoryNode] = if (source.toJava.exists()) List(new SourceNode(mmt,source)) else Nil
-    val metaNode = if (meta_inf.toJava.exists()) List(new MetaInfNode(mmt,meta_inf)) else
+    val sourceNode : List[AbstractTreeNode[_]] = if (source.toJava.exists()) List(MyDirectoryNode.sourceNode(mmt,source)) else Nil
+    val metaNode = if (meta_inf.toJava.exists()) List(MyDirectoryNode.metaInfNode(mmt,meta_inf)) else
       if ((File(source).up / "MANIFEST.MF").exists)
       ProjectViewDirectoryHelper.getInstance(mmt.project).createFileAndDirectoryNodes(List(toVF(File(source).up / "MANIFEST.MF")),viewSettings).toList
       else Nil
-    val scalaNode : List[MyDirectoryNode] = if (scala.toJava.exists()) List(new ScalaNode(mmt,scala)) else Nil
+    val scalaNode : List[AbstractTreeNode[_]] = if (scala.toJava.exists()) List(MyDirectoryNode.scalaNode(mmt,scala)) else Nil
     update()
     sourceNode ::: metaNode ::: scalaNode
   }
@@ -188,7 +188,23 @@ object FileToPSI {
   }
 }
 
-
+object MyDirectoryNode {
+  private def get(mmt : MMT, dir : File, icon : Icon, bold : Boolean) : AbstractTreeNode[_] = {
+    val helper = ProjectViewDirectoryHelper.getInstance(mmt.project)
+    val name = dir.name
+    val ret = helper.createFileAndDirectoryNodes(List(toVF(dir)),viewSettings)
+    ret.forEach {n =>
+      n.getPresentation.setIcon(icon)
+      if (bold) n.getPresentation.addText(name, SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES)
+      return n
+    }
+    ???
+  }
+  def metaInfNode(mmt : MMT,dir : File) = get(mmt,dir,PlatformIcons.PACKAGE_ICON,false)
+  def sourceNode(mmt : MMT,dir : File) = get(mmt,dir,PlatformIcons.MODULES_SOURCE_FOLDERS_ICON,true)
+  def scalaNode(mmt : MMT,dir : File) = get(mmt,dir,PlatformIcons.SOURCE_FOLDERS_ICON,false)
+}
+/*
 class MyDirectoryNode(mmt : MMT,dir : File) extends ProjectViewNode[PsiDirectory](mmt.project,FileToPSI.toPSIDir(dir,mmt),viewSettings) {// AbstractTreeNode[PsiDirectory](mmt.project,FileToPSI.toPSI(dir,mmt)) {
   lazy val helper = ProjectViewDirectoryHelper.getInstance(mmt.project)
   protected val icon = PlatformIcons.FOLDER_ICON
@@ -225,6 +241,7 @@ class SourceNode(mmt : MMT,dir : File) extends MyDirectoryNode(mmt : MMT,dir : F
 class ScalaNode(mmt : MMT,dir : File) extends MyDirectoryNode(mmt : MMT,dir : File) {
   override protected val icon: Icon = PlatformIcons.SOURCE_FOLDERS_ICON
 }
+*/
 
 class MathHubPane(project : Project) extends ProjectViewPane(project) {
   override def getWeight: Int = -1

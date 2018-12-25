@@ -25,13 +25,13 @@ intellij {
     plugins 'org.intellij.scala:2018.3.1'
 }
 group 'info.kwarc.mmt.intellij'
-version '15.0.1'
+version '15.0.2'
 patchPluginXml {
     changeNotes """
         <ul>
          <li>Fixed BNF</li>
-         <li>Fixed bug with version checking</li>
-         <li>Added link to MMT release page on project creation panel</li>
+         <li>Fixed Project View</li>
+         <li>Fixed Actions menu</li>
         </ul>
       """
 }
