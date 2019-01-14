@@ -13,7 +13,7 @@ import com.intellij.openapi.ui.{TextBrowseFolderListener, TextFieldWithBrowseBut
 import com.intellij.openapi.vfs.VirtualFile
 import javax.swing._
 import com.intellij.platform.{ProjectTemplate, ProjectTemplatesFactory}
-import info.kwarc.mmt.utils.File
+import info.kwarc.mmt.utils.{File, Reflection}
 
 class MMTProjectTemplatesFactory extends ProjectTemplatesFactory {
   def getGroups = Array("MMT")
@@ -102,9 +102,17 @@ class MathHubModuleBuilder extends ModuleBuilder {
             val file = File(chosenFile.getCanonicalPath)
             val loader = new URLClassLoader(Array(file.toURI.toURL))
             try {
+              val ref = new Reflection(loader)
+              val shcls = ref.getClass("info.kwarc.mmt.api.frontend.Shell")
+              val sh = shcls.getInstance(Nil)
+              val ctrlcls = ref.getClass("info.kwarc.mmt.api.frontend.Controller")
+              val ctrl = sh.method("controller",Reflection.Reflected(ctrlcls),Nil)
+              val v = Version(ctrl.method("getVersion",Reflection.string,Nil))
+/*
               val ctrlcls = loader.loadClass("info.kwarc.mmt.api.frontend.Controller")
               val ctrl = ctrlcls.getConstructor().newInstance()
               val v = Version(ctrlcls.getMethod("getVersion").invoke(ctrl).asInstanceOf[String])
+*/
               if (MMT.requiredVersion <= v) {
                 isok.setText("Version: " + v)
                 valid = Some(chosenFile.getCanonicalPath)

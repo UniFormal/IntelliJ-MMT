@@ -16,9 +16,8 @@
       <change beforePath="$PROJECT_DIR$/intellij-scala/.idea/sbt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/intellij-scala/.idea/sbt.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/intellij-scala/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/intellij-scala/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/intellij-scala/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -73,11 +72,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+            <state relative-caret-position="486">
+              <caret line="27" column="15" selection-start-line="27" selection-start-column="15" selection-end-line="27" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -108,8 +107,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="276" column="18" selection-start-line="276" selection-start-column="18" selection-end-line="276" selection-end-column="18" />
+            <state relative-caret-position="889">
+              <caret line="131" column="46" selection-start-line="131" selection-start-column="46" selection-end-line="131" selection-end-column="46" />
               <folding>
                 <element signature="e#33#63#0" expanded="true" />
               </folding>
@@ -187,7 +186,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
+            <state relative-caret-position="378">
               <caret line="37" column="55" selection-start-line="37" selection-start-column="2" selection-end-line="37" selection-end-column="55" />
               <folding>
                 <element signature="e#42#70#0" expanded="true" />
@@ -199,8 +198,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2629">
-              <caret line="157" column="6" selection-start-line="157" selection-start-column="6" selection-end-line="157" selection-end-column="6" />
+            <state relative-caret-position="3834">
+              <caret line="227" column="13" selection-start-line="227" selection-start-column="13" selection-end-line="227" selection-end-column="13" />
               <folding>
                 <element signature="e#24#45#0" expanded="true" />
               </folding>
@@ -208,11 +207,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="702">
-              <caret line="52" column="37" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
+            <state relative-caret-position="321">
+              <caret line="109" column="78" selection-start-line="109" selection-start-column="78" selection-end-line="109" selection-end-column="78" />
               <folding>
                 <element signature="e#33#59#0" expanded="true" />
               </folding>
@@ -232,7 +231,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
+            <state relative-caret-position="828">
               <caret line="53" column="3" selection-start-line="53" selection-start-column="3" selection-end-line="53" selection-end-column="3" />
               <folding>
                 <element signature="e#36#78#0" expanded="true" />
@@ -318,7 +317,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="573">
+            <state relative-caret-position="2520">
               <caret line="156" column="106" selection-start-line="156" selection-start-column="106" selection-end-line="156" selection-end-column="106" />
               <folding>
                 <element signature="e#36#52#0" expanded="true" />
@@ -330,8 +329,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/Reflection.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
-              <caret line="62" column="7" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
+            <state relative-caret-position="1458">
+              <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
               <folding>
                 <element signature="e#30#80#0" expanded="true" />
               </folding>
@@ -388,6 +387,7 @@
       <find>MMTT</find>
       <find>MMTTh</find>
       <find>&quot;Empty element parsed&quot;</find>
+      <find>resou</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -439,22 +439,22 @@
         <option value="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala" />
         <option value="$PROJECT_DIR$/gradle.properties" />
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/SyntaxHighlighting.scala" />
         <option value="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/MMTLexer.java" />
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" />
         <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-49" />
-    <option name="y" value="221" />
-    <option name="width" value="1910" />
-    <option name="height" value="789" />
+    <option name="x" value="3975" />
+    <option name="y" value="137" />
+    <option name="width" value="1717" />
+    <option name="height" value="983" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -462,7 +462,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -541,12 +540,22 @@
             </path>
             <path>
               <item name="MMTPlugin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MMTPlugin" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+              <item name="mmt" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MMTPlugin" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -719,6 +728,7 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -877,14 +887,17 @@
       <workItem from="1545384316737" duration="15000" />
       <workItem from="1545384435613" duration="5265000" />
       <workItem from="1545768350127" duration="1361000" />
+      <workItem from="1545770731117" duration="2650000" />
+      <workItem from="1547458637247" duration="3313000" />
+      <workItem from="1547464437326" duration="465000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="328541000" />
+    <option name="totallyTimeSpent" value="334858000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1920" height="1053" extended-state="6" />
+    <frame x="3840" y="0" width="1920" height="1200" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49929875" visible="true" weight="0.18196371" />
       <window_info id="Structure" order="1" sideWeight="0.50070125" side_tool="true" weight="0.18196371" />
@@ -893,8 +906,8 @@
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297062" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4994664" weight="0.225" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39565217" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4994664" visible="true" weight="0.2249297" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3955014" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -957,80 +970,98 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala</url>
-          <line>207</line>
+          <line>208</line>
           <properties />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <condition expression="f.toString.contains(&quot;LFX&quot;)" language="Scala" />
           <url>file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala</url>
-          <line>213</line>
+          <line>214</line>
           <properties />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala</url>
-          <line>220</line>
+          <line>221</line>
           <properties />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala</url>
+          <line>105</line>
+          <properties />
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Remote">
-        <watch expression="uri" language="Scala" />
-        <watch expression="element.asInstanceOf[URIElement_impl].uri" language="Scala" />
-        <watch expression="elems" language="Scala" />
-        <watch expression="getText" language="Scala" />
-        <watch expression="ns.getTextOffset" language="Scala" />
-        <watch expression="nss.map(_)" language="Scala" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateCodeFragment">
       <expression>
-        <expression-string>entries</expression-string>
+        <expression-string>val shcls = ref.getClass(&quot;info.kwarc.mmt.api.frontend.Shell&quot;)
+val sh = shcls.getInstance(Nil)
+val ctrlclsi = ref.getClass(&quot;info.kwarc.mmt.api.frontend.Controller&quot;)
+val ctrl = sh.method(&quot;controller&quot;,Reflection.Reflected(ctrlclsi),Nil)
+Version(ctrl.method(&quot;getVersion&quot;,Reflection.string,Nil))</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>toVF(dir)</expression-string>
+        <expression-string>val shcls = ref.getClass(&quot;info.kwarc.mmt.api.frontend.Shell&quot;)
+val sh = shcls.getInstance(Nil)
+val ctrlclsi = ref.getClass(&quot;info.kwarc.mmt.api.frontend.Controller&quot;)
+val ctrl = sh.method(&quot;controller&quot;,Reflection.Reflected(ctrlclsi),Nil)
+ctrl.method(&quot;getVersion&quot;,Reflection.string,Nil)</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>mmtjar.getArchiveRoots</expression-string>
+        <expression-string>val shcls = ref.getClass(&quot;info.kwarc.mmt.api.frontend.Shell&quot;)
+val sh = shcls.getInstance(Nil)
+val ctrlclsi = ref.getClass(&quot;info.kwarc.mmt.api.frontend.Controller&quot;)
+sh.method(&quot;controller&quot;,Reflection.Reflected(ctrlclsi),Nil)</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>model.getContentEntries</expression-string>
+        <expression-string>val ref = new Reflection(new URLClassLoader(Array(file.toURI.toURL)))
+val shcls = ref.getClass(&quot;info.kwarc.mmt.api.frontend.Shell&quot;)
+val sh = shcls.getInstance(Nil)
+val ctrlcls = ref.getClass(&quot;info.kwarc.mmt.api.frontend.Controller&quot;)
+sh.method(&quot;controller&quot;,Reflection.Reflected(ctrlcls),Nil)</expression-string>
+        <language-id>Scala</language-id>
+        <custom-info>java.net.URLClassLoader,info.kwarc.mmt.utils.Reflection</custom-info>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>val cls = loader.loadClass(&quot;info.kwarc.mmt.api.frontend.Shell&quot;)
+val cons = cls.getConstructor().newInstance()
+loader.</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>mmtjar.method(&quot;checkUpdate&quot;,ROption(RPair(string,string)),Nil)</expression-string>
+        <expression-string>val cls = loader.loadClass(&quot;info.kwarc.mmt.api.frontend.Shell&quot;)
+val cons = cls.getConstructor().newInstance()</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>clipboard.setContents(new StringSelection(&quot;test&quot;),null)</expression-string>
+        <expression-string>val cls = loader.loadClass(&quot;info.kwarc.mmt.api.frontend.Shell&quot;)
+val cons = cls.getConstructor()</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>clipboard.getContents(null)</expression-string>
+        <expression-string>val cls = loader.loadClass(&quot;info.kwarc.mmt.api.frontend.Shell&quot;)
+cls.getConstructors</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>root.children()</expression-string>
-        <language-id>Scala</language-id>
-        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>path.getPath.lastOption.get</expression-string>
+        <expression-string>val cls = loader.loadClass(&quot;info.kwarc.mmt.api.frontend.Run&quot;)
+cls.getConstructors</expression-string>
         <language-id>Scala</language-id>
         <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
       </expression>
@@ -1293,6 +1324,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="27" column="15" selection-start-line="27" selection-start-column="15" selection-end-line="27" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1363,12 +1401,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
-          <caret line="52" column="37" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
+        <state relative-caret-position="378">
+          <caret line="37" column="55" selection-start-line="37" selection-start-column="2" selection-end-line="37" selection-end-column="55" />
           <folding>
-            <element signature="e#33#59#0" expanded="true" />
+            <element signature="e#42#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3834">
+          <caret line="227" column="13" selection-start-line="227" selection-start-column="13" selection-end-line="227" selection-end-column="13" />
+          <folding>
+            <element signature="e#24#45#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1377,6 +1425,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="53" column="3" selection-start-line="53" selection-start-column="3" selection-end-line="53" selection-end-column="3" />
+          <folding>
+            <element signature="e#36#78#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1440,10 +1498,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2520">
+          <caret line="156" column="106" selection-start-line="156" selection-start-column="106" selection-end-line="156" selection-end-column="106" />
+          <folding>
+            <element signature="e#36#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/Reflection.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="62" column="7" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
+        <state relative-caret-position="1458">
+          <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
           <folding>
             <element signature="e#30#80#0" expanded="true" />
           </folding>
@@ -1459,58 +1527,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="276" column="18" selection-start-line="276" selection-start-column="18" selection-end-line="276" selection-end-column="18" />
+        <state relative-caret-position="889">
+          <caret line="131" column="46" selection-start-line="131" selection-start-column="46" selection-end-line="131" selection-end-column="46" />
           <folding>
             <element signature="e#33#63#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2629">
-          <caret line="157" column="6" selection-start-line="157" selection-start-column="6" selection-end-line="157" selection-end-column="6" />
+        <state relative-caret-position="321">
+          <caret line="109" column="78" selection-start-line="109" selection-start-column="78" selection-end-line="109" selection-end-column="78" />
           <folding>
-            <element signature="e#24#45#0" expanded="true" />
+            <element signature="e#33#59#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="156" column="106" selection-start-line="156" selection-start-column="106" selection-end-line="156" selection-end-column="106" />
-          <folding>
-            <element signature="e#36#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="37" column="55" selection-start-line="37" selection-start-column="2" selection-end-line="37" selection-end-column="55" />
-          <folding>
-            <element signature="e#42#70#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="53" column="3" selection-start-line="53" selection-start-column="3" selection-end-line="53" selection-end-column="3" />
-          <folding>
-            <element signature="e#36#78#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
         </state>
       </provider>
     </entry>

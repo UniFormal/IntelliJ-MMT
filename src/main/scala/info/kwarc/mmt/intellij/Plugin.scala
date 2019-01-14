@@ -89,6 +89,7 @@ class MMTJar(mmtjarfile : File, mmt : MMT) {
   }
   val reflection = new Reflection(new URLClassLoader(Array(mmtjarfile.toURI.toURL),this.getClass.getClassLoader))
   private val mmtjar = reflection.getClass("info.kwarc.mmt.intellij.MMTPluginInterface").getInstance(mmt.mathpath.toString :: Report :: Nil)
+
   def method[A](name : String,tp : Reflection.ReturnType[A], args : List[Any]) : A = {
     // mmt.log("Reflecting method " + name)
     mmtjar.method(name, tp, args)
