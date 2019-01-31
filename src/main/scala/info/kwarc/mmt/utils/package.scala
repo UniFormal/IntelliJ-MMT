@@ -180,8 +180,8 @@ package object utils {
     ball.show(RelativePoint.getCenterOf(statusbar.getComponent),Balloon.Position.atRight)
     ball
   }
-  def inotifyP(message : String, title : String = "MMT", exp : Int = 0) = {
-    val not = new Notification("MMT",title,message,NotificationType.INFORMATION)
+  def inotifyP(message : String, title : String = "MMT", exp : Int = 0, level : NotificationType = NotificationType.INFORMATION) = {
+    val not = new Notification("MMT",title,message,level)
     ApplicationManager.getApplication.invokeLater{ () => Notifications.Bus.notify(not) }
     if (exp != 0) background { Thread.sleep(exp) }.onComplete {_ => not.expire()}(scala.concurrent.ExecutionContext.global)
     not

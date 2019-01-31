@@ -27,10 +27,10 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
 
   val root = new PatchedDefaultMutableTreeNode("Document Tree")
   val docTree = new Tree(root)
+  val scp = new JScrollPane(docTree)
 
   ApplicationManager.getApplication.invokeLater { () =>
     panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS))
-    val scp = new JScrollPane(docTree)
     panel.add(cb)
     panel.add(scp)
     cb.setSelected(false)
@@ -94,6 +94,7 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
           ApplicationManager.getApplication.invokeLater { () =>
             if (!docTree.isCollapsed(tp)) collapseAll()
             docTree.setSelectionPath(tp)
+            scp.scrollRectToVisible(docTree.getPathBounds(tp))
             // docTree.expandPath(new TreePath(n.getPath.init.asInstanceOf[Array[Object]]))
           }
         }

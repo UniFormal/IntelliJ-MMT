@@ -1,7 +1,8 @@
 package info.kwarc.mmt.intellij.checking
 
 import com.intellij.lang.annotation.{AnnotationHolder, ExternalAnnotator}
-import com.intellij.notification.Notification
+import com.intellij.notification.{Notification, NotificationType}
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
@@ -35,7 +36,16 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
             def apply(v1: Int, v2: Int, v3: String, v4: String, v5: List[String]): Unit =
               errorCont(v1, v2, v3, v4, v5)
           }
-          checker.method("check", Reflection.unit, List(uri.toString, text, cf, nt, ec))
+          try {
+            checker.method("check", Reflection.unit, List(uri.toString, text, cf, nt, ec))
+          } catch {
+            case e : Exception =>
+              utils.inotifyP(e.getStackTrace.mkString("\n"),title="MMT Error: " + e.getClass + ": " + e.getMessage,exp=5000,level=NotificationType.ERROR)
+              ApplicationManager.getApplication.invokeLater { () => mmt.reset() }
+            case e : Error =>
+              utils.inotifyP(e.getStackTrace.mkString("\n"),title="MMT Error: " + e.getClass + ": " + e.getMessage,exp=5000,level=NotificationType.ERROR)
+              ApplicationManager.getApplication.invokeLater { () => mmt.reset() }
+          }
         }
 
       }

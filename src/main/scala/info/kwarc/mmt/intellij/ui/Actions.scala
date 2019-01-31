@@ -77,6 +77,7 @@ class InstallArchive extends MMTAction("InstallArchive", "Install Archive") {
   override def update(event: AnActionEvent): Unit = {
     val archive = event.getData(MMTDataKeys.remoteArchive)
     event.getPresentation.setVisible(archive != null)
+    event.getPresentation.setEnabled(archive != null)
   }
 
   override def actionPerformed(e: AnActionEvent): Unit = {

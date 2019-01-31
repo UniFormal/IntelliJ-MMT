@@ -81,7 +81,7 @@ class MathHubTreeNode(project : Project) extends AbstractTreeNode[Project](proje
 }
 
 object ArchiveNode {
-  def getText(id: String, mmt : MMT) = {
+  def getText(id: String, mmt : MMT) : (String,Boolean) = {
     val la = PV.localArchs(mmt)
     val ls = id match {
       case "Others" =>
@@ -89,12 +89,12 @@ object ArchiveNode {
       case _ =>
         la.filter(_._1.startsWith(id))
     }
-    if (ls.isEmpty) "~" + id + " [Not Installed]" else id
+    if (ls.isEmpty) ("~" + id + " [Not Installed]",false) else (id,true)
   }
 }
 
-class ArchiveGroupNode(id : String, mmt : MMT) extends ProjectViewNode[String](mmt.project,ArchiveNode.getText(id,mmt),viewSettings) {
-  val name = ArchiveNode.getText(id,mmt)
+class ArchiveGroupNode(id : String, mmt : MMT) extends ProjectViewNode[String](mmt.project,ArchiveNode.getText(id,mmt)._1,viewSettings) {
+  val (name,isLocal) = ArchiveNode.getText(id,mmt)
   val icon = PlatformIcons.CLOSED_MODULE_GROUP_ICON
   val groupname = id
 
@@ -262,6 +262,8 @@ class MathHubPane(project : Project) extends ProjectViewPane(project) {
           stm.getUserObject match {
             case an: RemoteArchiveNode =>
               an.archive
+            case ag : ArchiveGroupNode if !ag.isLocal =>
+              ag.groupname
             case _ => null
           }
         case _ => null
