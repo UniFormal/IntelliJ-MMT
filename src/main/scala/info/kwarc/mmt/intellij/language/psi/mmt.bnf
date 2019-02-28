@@ -55,7 +55,7 @@ def_comp ::= EQ_KEY term
 not_comp ::= NOT_KEY any+ prec?
 prec ::= PREC_KEY TOKEN
 role_comp ::= ROLE_KEY any+
-meta_comp ::= META_KEY term
+meta_comp ::= (META_KEY | LINK_KEY ) term
 alias_comp ::= ALIAS_KEY pname
 
 uri ::= (uritoken COLON_KEY uritoken) | uritoken {

@@ -126,6 +126,7 @@ TOKEN= {INPUT_CHAR}+
     "rule"          { return MMTParserTypes.RULE_KEY; }
     "role"          { return MMTParserTypes.ROLE_KEY; }
     "meta"          { return MMTParserTypes.META_KEY; }
+    "link"          { return MMTParserTypes.LINK_KEY; }
     "prec"          { return MMTParserTypes.PREC_KEY; }
     "constant"      { return MMTParserTypes.CONSTANT_KEY; }
     "@"             { return MMTParserTypes.ALIAS_KEY; }

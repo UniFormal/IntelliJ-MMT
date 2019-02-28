@@ -25,12 +25,14 @@ intellij {
     plugins 'org.intellij.scala:2018.3.1'
 }
 group 'info.kwarc.mmt.intellij'
-version '15.0.4'
+version '15.0.5'
 patchPluginXml {
     changeNotes """
         <ul>
-         <li>Improved installing remote archive(group)s</li>
-         <li>Improved handling of fatal errors</li>
+         <li>Syntax Fixed</li>
+         <li>Uncheck "check"-box after checking</li>
+         <li>Fixed bug with windows charset</li>
+         <li>Files are saved before checking</li>
         </ul>
       """
 }

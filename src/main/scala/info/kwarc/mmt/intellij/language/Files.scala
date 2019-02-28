@@ -15,7 +15,7 @@ object MMTFile extends LanguageFileType(MMTLanguage.INSTANCE) {
 
   override def getIcon: Icon = MMT.icon
 
-  override def getCharset(file: VirtualFile, content: Array[Byte]): String = Charset.defaultCharset().name()
+  // override def getCharset(file: VirtualFile, content: Array[Byte]): String = Charset.defaultCharset().name()
 
   override def getDescription: String = "MMT Document"
 

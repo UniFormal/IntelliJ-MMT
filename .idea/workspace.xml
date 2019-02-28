@@ -17,10 +17,10 @@
       <change beforePath="$PROJECT_DIR$/intellij-scala/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/intellij-scala/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/intellij-scala/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Sidekick.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Sidekick.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/Files.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/Files.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.flex" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -78,8 +78,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
-              <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
+            <state relative-caret-position="407">
+              <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -110,7 +110,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
+            <state relative-caret-position="3258">
               <caret line="208" column="4" selection-start-line="208" selection-start-column="4" selection-end-line="208" selection-end-column="4" />
               <folding>
                 <element signature="e#33#63#0" expanded="true" />
@@ -177,8 +177,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="45" column="97" selection-start-line="45" selection-start-column="97" selection-end-line="45" selection-end-column="97" />
+            <state relative-caret-position="227">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
               <folding>
                 <element signature="e#42#115#0" expanded="true" />
               </folding>
@@ -189,8 +189,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="37" column="55" selection-start-line="37" selection-start-column="2" selection-end-line="37" selection-end-column="55" />
+            <state relative-caret-position="216">
+              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
               <folding>
                 <element signature="e#42#70#0" expanded="true" />
               </folding>
@@ -201,7 +201,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
+            <state relative-caret-position="3024">
               <caret line="182" column="127" selection-start-line="182" selection-start-column="127" selection-end-line="182" selection-end-column="127" />
               <folding>
                 <element signature="e#24#45#0" expanded="true" />
@@ -234,7 +234,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
+            <state relative-caret-position="1296">
               <caret line="79" column="53" selection-start-line="79" selection-start-column="53" selection-end-line="79" selection-end-column="53" />
               <folding>
                 <element signature="e#36#78#0" expanded="true" />
@@ -258,8 +258,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="42" column="75" selection-start-line="42" selection-start-column="75" selection-end-line="42" selection-end-column="75" />
+            <state relative-caret-position="828">
+              <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
               <folding>
                 <element signature="e#0#525#0" expanded="true" />
               </folding>
@@ -269,7 +269,11 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.flex">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2304">
+              <caret line="128" column="50" selection-start-line="128" selection-start-column="50" selection-end-line="128" selection-end-column="50" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -308,8 +312,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Sidekick.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="93" column="63" selection-start-line="93" selection-start-column="10" selection-end-line="93" selection-end-column="63" />
+            <state relative-caret-position="936">
+              <caret line="69" selection-start-line="69" selection-end-line="69" />
               <folding>
                 <element signature="e#36#64#0" expanded="true" />
               </folding>
@@ -320,7 +324,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
+            <state relative-caret-position="4410">
               <caret line="261" column="10" selection-start-line="261" selection-start-column="10" selection-end-line="261" selection-end-column="10" />
               <folding>
                 <element signature="e#36#52#0" expanded="true" />
@@ -344,8 +348,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/Files.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="30" column="29" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
+            <state relative-caret-position="198">
+              <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -399,7 +403,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/mmt.flex" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Parsing.scala" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/mmt.bnf" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/References/URIHelper.java" />
@@ -426,7 +429,6 @@
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/Completion.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Shell.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/Reflection.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/Files.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/MMTToolWindow.scala" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/ui/AbstractSidekick.form" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/ui/AbstractSidekick.java" />
@@ -434,30 +436,30 @@
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/ui/AbstractErrorViewer.java" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/Checking.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewer.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/References.scala" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/gradle.properties" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/SyntaxHighlighting.scala" />
-        <option value="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/MMTLexer.java" />
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Project.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Sidekick.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.flex" />
+        <option value="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/MMTLexer.java" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/Files.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala" />
         <option value="$PROJECT_DIR$/build.gradle" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="3582" />
-    <option name="y" value="223" />
-    <option name="width" value="1910" />
-    <option name="height" value="900" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -465,6 +467,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -558,7 +561,6 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -572,7 +574,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="PsiViewer.ProjectComponent">
     <option name="HIGHLIGHT" value="false" />
@@ -603,7 +605,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MMTPlugin [verifyPlugin]">
+  <component name="RunManager" selected="Gradle.MMTPlugin [runIde]">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -678,7 +680,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -687,7 +689,7 @@
             <option value="runIde" />
           </list>
         </option>
-        <option name="vmOptions" />
+        <option name="vmOptions" value="-Xmx8g" />
       </ExternalSystemSettings>
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
@@ -716,7 +718,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -725,7 +727,7 @@
             <option value=":runIde" />
           </list>
         </option>
-        <option name="vmOptions" />
+        <option name="vmOptions" value="-Xmx8g" />
       </ExternalSystemSettings>
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
@@ -738,6 +740,7 @@
       </method>
     </configuration>
     <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <properties />
       <listeners />
@@ -895,16 +898,26 @@
       <workItem from="1547464437326" duration="1388000" />
       <workItem from="1547644651063" duration="449000" />
       <workItem from="1547722600999" duration="923000" />
-      <workItem from="1548927846360" duration="4603000" />
+      <workItem from="1548927846360" duration="4802000" />
+      <workItem from="1548937370071" duration="398000" />
+      <workItem from="1548937963530" duration="909000" />
+      <workItem from="1548945237493" duration="1710000" />
+      <workItem from="1548960558317" duration="146000" />
+      <workItem from="1549191683770" duration="945000" />
+      <workItem from="1549192802023" duration="1330000" />
+      <workItem from="1549194251595" duration="34000" />
+      <workItem from="1549194323742" duration="312000" />
+      <workItem from="1549195450287" duration="588000" />
+      <workItem from="1549197795142" duration="20000" />
+      <workItem from="1551349860813" duration="1114000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="341867000" />
+    <option name="totallyTimeSpent" value="349572000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="3840" y="0" width="1920" height="1200" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="120" width="1920" height="1200" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49929875" visible="true" weight="0.18196371" />
       <window_info id="Structure" order="1" sideWeight="0.50070125" side_tool="true" weight="0.18196371" />
@@ -913,7 +926,7 @@
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297062" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4994664" visible="true" weight="0.2249297" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4994664" visible="true" weight="0.27928773" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3955014" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -974,7 +987,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala</url>
-          <line>71</line>
+          <line>73</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
@@ -1167,45 +1180,6 @@ cls.getConstructors</expression-string>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTTheory_impl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTTheory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="16" column="36" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/psi/text/BlockSupport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="43" column="26" selection-start-line="43" selection-start-column="26" selection-end-line="43" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/lang/annotation/AnnotationHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/lang/annotation/Annotation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1190">
-          <caret line="318" column="14" selection-start-line="318" selection-start-column="14" selection-end-line="318" selection-end-column="14" />
-          <folding>
-            <element signature="e#11110#11111#0" expanded="true" />
-            <element signature="e#11139#11140#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.desktop/javax/swing/JCheckBox.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1325,6 +1299,41 @@ cls.getConstructors</expression-string>
         </state>
       </provider>
     </entry>
+    <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/lang/Object.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.12.3/499c91b0a64bc706eee174481a3b7dde81b3591d/scala-library-2.12.3-sources.jar!/scala/Predef.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="336" column="126" lean-forward="true" selection-start-line="336" selection-start-column="83" selection-end-line="336" selection-end-column="126" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/lang/annotation/AnnotationSession.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/lang/annotation/AnnotationHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="169" column="8" lean-forward="true" selection-start-line="169" selection-start-column="8" selection-end-line="169" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/codeInsight/daemon/impl/ExternalToolPass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3528">
+          <caret line="227" column="22" selection-start-line="227" selection-start-column="22" selection-end-line="227" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1339,6 +1348,16 @@ cls.getConstructors</expression-string>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3258">
+          <caret line="208" column="4" selection-start-line="208" selection-start-column="4" selection-end-line="208" selection-end-column="4" />
+          <folding>
+            <element signature="e#33#63#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1387,10 +1406,20 @@ cls.getConstructors</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/ErrorViewerPanel.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="37" column="55" selection-start-line="37" selection-start-column="2" selection-end-line="37" selection-end-column="55" />
+        <state relative-caret-position="216">
+          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
           <folding>
             <element signature="e#42#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3024">
+          <caret line="182" column="127" selection-start-line="182" selection-start-column="127" selection-end-line="182" selection-end-column="127" />
+          <folding>
+            <element signature="e#24#45#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1412,6 +1441,16 @@ cls.getConstructors</expression-string>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1296">
+          <caret line="79" column="53" selection-start-line="79" selection-start-column="53" selection-end-line="79" selection-end-column="53" />
+          <folding>
+            <element signature="e#36#78#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/References.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1620">
@@ -1424,8 +1463,8 @@ cls.getConstructors</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="42" column="75" selection-start-line="42" selection-start-column="75" selection-end-line="42" selection-end-column="75" />
+        <state relative-caret-position="828">
+          <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
           <folding>
             <element signature="e#0#525#0" expanded="true" />
           </folding>
@@ -1433,7 +1472,11 @@ cls.getConstructors</expression-string>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.flex">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2304">
+          <caret line="128" column="50" selection-start-line="128" selection-start-column="50" selection-end-line="128" selection-end-column="50" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/SyntaxHighlighting.scala">
       <provider selected="true" editor-type-id="text-editor">
@@ -1462,6 +1505,26 @@ cls.getConstructors</expression-string>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Sidekick.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+          <folding>
+            <element signature="e#36#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4410">
+          <caret line="261" column="10" selection-start-line="261" selection-start-column="10" selection-end-line="261" selection-end-column="10" />
+          <folding>
+            <element signature="e#36#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/Reflection.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1458">
@@ -1472,81 +1535,35 @@ cls.getConstructors</expression-string>
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/openapi/fileTypes/LanguageFileType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
+          <folding>
+            <element signature="e#1366#1367#0" expanded="true" />
+            <element signature="e#1397#1398#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/language/Files.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="30" column="29" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
+        <state relative-caret-position="198">
+          <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/ProjectView.scala">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/openapi/fileEditor/FileDocumentManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="261" column="10" selection-start-line="261" selection-start-column="10" selection-end-line="261" selection-end-column="10" />
-          <folding>
-            <element signature="e#36#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jrt:///usr/lib/jvm/java-1.11.0-openjdk-amd64!/java.base/java/lang/Object.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/utils/package.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="182" column="127" selection-start-line="182" selection-start-column="127" selection-end-line="182" selection-end-column="127" />
-          <folding>
-            <element signature="e#24#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="79" column="53" selection-start-line="79" selection-start-column="53" selection-end-line="79" selection-end-column="53" />
-          <folding>
-            <element signature="e#36#78#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.12.3/499c91b0a64bc706eee174481a3b7dde81b3591d/scala-library-2.12.3-sources.jar!/scala/Predef.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="336" column="126" lean-forward="true" selection-start-line="336" selection-start-column="83" selection-end-line="336" selection-end-column="126" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Plugin.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="208" column="4" selection-start-line="208" selection-start-column="4" selection-end-line="208" selection-end-column="4" />
-          <folding>
-            <element signature="e#33#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Sidekick.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="93" column="63" selection-start-line="93" selection-start-column="10" selection-end-line="93" selection-end-column="63" />
-          <folding>
-            <element signature="e#36#64#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="374">
+          <caret line="101" column="23" selection-start-line="101" selection-start-column="23" selection-end-line="101" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="45" column="97" selection-start-line="45" selection-start-column="97" selection-end-line="45" selection-end-column="97" />
+        <state relative-caret-position="227">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
           <folding>
             <element signature="e#42#115#0" expanded="true" />
           </folding>
@@ -1555,8 +1572,8 @@ cls.getConstructors</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
+        <state relative-caret-position="407">
+          <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
         </state>
       </provider>
     </entry>

@@ -26,6 +26,8 @@ class ErrorViewerPanel(mmtjar : MMTJar) extends ActionListener with MMTToolWindo
     def clearFile(file : File) = jarev.method("clearFile",Reflection.unit,List(file.toString))
   }
 
+  val checkBtn = aev.check
+
   val panel: JPanel = aev.panel
   val displayName: String = "Errors"
 

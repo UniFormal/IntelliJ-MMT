@@ -4,8 +4,9 @@ import com.intellij.lang.annotation.{AnnotationHolder, ExternalAnnotator}
 import com.intellij.notification.{Notification, NotificationType}
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiFile
+import com.intellij.psi.{PsiDocumentManager, PsiFile}
 import info.kwarc.mmt.intellij.MMT
 import info.kwarc.mmt.utils
 import info.kwarc.mmt.utils.{File, Reflection, URI}
@@ -18,6 +19,7 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
       object Jar {
         private val cls = mmtjar.reflection.getClass("info.kwarc.mmt.intellij.checking.Checker")
         private val checker = mmtjar.method("checker", Reflection.Reflected(cls), Nil)
+        FileDocumentManager.getInstance().saveDocument(editor.getDocument)
 
         // private val checkerclass = mmtjar.classLoader.loadClass("info.kwarc.mmt.intellij.checking.Checker")
         // private val jarchecker = mmtjar.method("checker")
@@ -97,7 +99,8 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
           }
       }
       mmt.logged("Checking " + uri) {
-        Jar.check(uri, text, clearFile, note, error)
+          Jar.check(uri, text, clearFile, note, error)
+          mmt.errorViewer.checkBtn.setSelected(false)
       }
     case _ =>
   }
