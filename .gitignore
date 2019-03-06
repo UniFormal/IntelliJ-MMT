@@ -2,3 +2,9 @@
 gradle.properties
 .gradle
 .idea/*.*
+
+build/*
+!build/distributions
+out
+
+src/main/gen

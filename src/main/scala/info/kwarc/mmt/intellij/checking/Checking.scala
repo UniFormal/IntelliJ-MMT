@@ -6,6 +6,7 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
 import info.kwarc.mmt.intellij.MMT
 import info.kwarc.mmt.utils
@@ -13,13 +14,20 @@ import info.kwarc.mmt.utils.{File, Reflection, URI}
 
 class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Editor)]] {
 
+  // Bug fix for https://intellij-support.jetbrains.com/hc/en-us/community/posts/360003289620-Bug-of-VirtualFileManager-constructUrl-constructs-file-C-URIs-without-three-on-Windows
+  private def getUrlOfVirtualFile(file: VirtualFile): String = {
+    file.getUrl.replaceFirst("^file://([^/])", "file:///$1")
+  }
+
   override def apply(psifile: PsiFile, mmtO: Option[(MMT,Editor)], holder: AnnotationHolder): Unit = mmtO match {
     case Some((mmt, editor)) if mmt.errorViewer.doCheck =>
       val mmtjar = mmt.mmtjar
       object Jar {
         private val cls = mmtjar.reflection.getClass("info.kwarc.mmt.intellij.checking.Checker")
         private val checker = mmtjar.method("checker", Reflection.Reflected(cls), Nil)
-        FileDocumentManager.getInstance().saveDocument(editor.getDocument)
+
+        // Don't call on main thread, see https://github.com/UniFormal/IntelliJ-MMT/issues/7
+        // FileDocumentManager.getInstance().saveDocument(editor.getDocument)
 
         // private val checkerclass = mmtjar.classLoader.loadClass("info.kwarc.mmt.intellij.checking.Checker")
         // private val jarchecker = mmtjar.method("checker")
@@ -52,7 +60,7 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
 
       }
       var not: Option[Notification] = None
-      val uri = URI(psifile.getVirtualFile.toString)
+      val uri = URI(getUrlOfVirtualFile(psifile.getVirtualFile))
       val text = psifile.getText
       val clearFile: String => Unit = { f =>
         mmt.errorViewer.clearFile(File(f))

@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.3.12'
+    id "org.jetbrains.grammarkit" version "2018.3.1"
 }
 sourceCompatibility = 1.8
 
@@ -12,7 +13,23 @@ dependencies {
     compile 'org.scala-lang:scala-library:2.12.3'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.scala-lang:scala-library:2.12.3"
-    compile files(fileTree(dir: 'lib', includes: ['*.jar']))
+
+    // https://mvnrepository.com/artifact/org.scala-lang/scala-compiler
+    compile group: 'org.scala-lang', name: 'scala-compiler', version: '2.12.3'
+
+    // https://mvnrepository.com/artifact/org.scala-lang/scala-library
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.3'
+
+    // https://mvnrepository.com/artifact/org.scala-lang.modules/scala-parser-combinators
+    compile group: 'org.scala-lang.modules', name: 'scala-parser-combinators_2.12', version: '1.0.6'
+
+    // https://mvnrepository.com/artifact/org.scala-lang/scala-reflect
+    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.12.3'
+
+    // https://mvnrepository.com/artifact/org.scala-lang.modules/scala-xml
+    compile group: 'org.scala-lang.modules', name: 'scala-xml_2.12', version: '1.0.6'
+
+    // compile files(fileTree(dir: 'lib', includes: ['*.jar']))
     // compile files("mmt.jar") // For debugging purposes only!
 }
 /*
@@ -45,10 +62,54 @@ sourceSets {
             srcDir 'src/main/gen'
         } */
         scala {
-            srcDirs = ['src/main/scala','src/main/java','src/main/gen']
+            srcDirs = ['src/main/scala', 'src/main/java', 'src/main/gen']
         }
     }
 }
+
+/*
+apply plugin: 'org.jetbrains.grammarkit'
+// import is optional to make task creation easier
+// Even though IntelliJ marks this import as useless, it is not!
+import org.jetbrains.grammarkit.tasks.*
+
+grammarKit {
+    // version of IntelliJ patched JFlex (see bintray link below), Default is 1.7.0-1
+    jflexRelease = '1.7.0-1'
+
+    // tag or short commit hash of Grammar-Kit to use (see link below). Default is 2017.1.7
+    grammarKitRelease = '2017.1.7'
+}
+
+task generateMMTLexer(type: GenerateLexer) {
+    // source flex file
+    source = "src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.flex"
+
+    // target directory for lexer
+    targetDir = "src/main/gen/info/kwarc/mmt/intellij/language/"
+
+    // target classname, target file will be targetDir/targetClass.java
+    targetClass = "MMTLexer"
+
+    purgeOldFiles = true
+}
+
+task generateMMTParser(type: GenerateParser) {
+    // source bnf file
+    source = "src/main/scala/info/kwarc/mmt/intellij/language/psi/mmt.bnf"
+
+    // optional, task-specific root for the generated files. Default: none
+    targetRoot = 'src/main/gen'
+
+    // path to a parser file, relative to the targetRoot  
+    pathToParser = '/info/kwarc/mmt/intellij/language/MMTParser.java'
+
+    // path to a directory with generated psi files, relative to the targetRoot 
+    pathToPsiRoot = '/info/kwarc/mmt/intellij/language/psi'
+
+    // if set, plugin will remove a parser output file and psi output directory before generating new ones. Default: false
+    purgeOldFiles = true
+}*/
 
 apply from: "gradle.properties"
 publishPlugin {
