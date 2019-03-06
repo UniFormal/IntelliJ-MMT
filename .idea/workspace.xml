@@ -1,104 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ccbc624-c64e-469a-b4a3-98b654c45377" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/idea-flex_2.skeleton" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jflex-1.7.0-2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/MMTLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/MMTParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTAliasComp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTAny.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTComponent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTConstant.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTDeclComment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTDeclaration.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTDefComp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTDeriveddecl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTDerivedheader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTDerivedsimple.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTError.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTImport.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTInclude.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTKeywrd.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTMetaComp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTMod.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTModcomment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTMorphismInclude.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTNamespace.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTNestedtheory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTNestedview.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTNotComp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTObjComment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTParserTypes.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTPname.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTPrec.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTRoleComp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTRule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTStructure.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTStructureBody.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTTerm.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTTheory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTTheoryBody.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTTheoryheader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTTmlist.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTTypeComp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTUri.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTUritoken.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTView.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTViewBody.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTViewConstant.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTViewDecl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTViewheader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTVisitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/MMTWs.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTAliasComp_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTAny_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTComponent_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTConstant_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTDeclComment_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTDeclaration_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTDefComp_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTDeriveddecl_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTDerivedheader_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTDerivedsimple_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTError_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTImport_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTInclude_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTKeywrd_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTMetaComp_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTMod_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTModcomment_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTMorphismInclude_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTNamespace_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTNestedtheory_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTNestedview_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTNotComp_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTObjComment_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTPname_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTPrec_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTRoleComp_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTRule_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTStructureBody_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTStructure_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTTerm_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTTheoryBody_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTTheory_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTTheoryheader_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTTmlist_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTTypeComp_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTUri_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTUritoken_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTViewBody_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTViewConstant_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTViewDecl_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTView_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTViewheader_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/gen/info/kwarc/mmt/intellij/language/psi/imps/MMTWs_impl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala" afterDir="false" />
-    </list>
+    <list default="true" id="0ccbc624-c64e-469a-b4a3-98b654c45377" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -139,15 +42,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ba-repo/code/mmt/src/mmt-api/src/main/info/kwarc/mmt/api/utils/URI.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../ba-repo/code/mmt/src/mmt-api/src/main/info/kwarc/mmt/api/MMTTask.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="111">
@@ -156,7 +50,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="259">
@@ -164,6 +58,18 @@
               <folding>
                 <element signature="e#42#115#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="66">
+                <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -291,7 +197,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/Language/Parsing.scala" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/mmt.bnf" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/References/URIHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/info/kwarc/mmt/intellij/Language/URIElement.java" />
@@ -342,6 +247,7 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/checking/Checking.scala" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -865,12 +771,12 @@
       <workItem from="1551865518309" duration="1606000" />
       <workItem from="1551867294496" duration="3759000" />
       <workItem from="1551871306879" duration="3154000" />
-      <workItem from="1551876785598" duration="870000" />
+      <workItem from="1551876785598" duration="1128000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="365436000" />
+    <option name="totallyTimeSpent" value="365694000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -1317,7 +1223,6 @@ Some(File(new java.io.File(u.copy(scheme = Some(&quot;file&quot;), authority = N
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2018.3/17dfe963fe829c07650ea628bdcad785761709b4/ideaIC-2018.3-sources.jar!/com/intellij/openapi/module/ModuleType.java" />
     <entry file="file://$PROJECT_DIR$/src/main/scala/info/kwarc/mmt/intellij/ui/Actions.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1296">
@@ -1642,6 +1547,16 @@ Some(File(new java.io.File(u.copy(scheme = Some(&quot;file&quot;), authority = N
           <folding>
             <element signature="e#42#115#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="66">
+            <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
