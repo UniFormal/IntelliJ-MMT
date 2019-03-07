@@ -58,14 +58,26 @@ apply plugin: 'scala'
 
 sourceSets {
     main {
-        /* java {
-            srcDir 'src/main/gen'
-        } */
+        java {
+            srcDirs = ['src/main/java']
+        }
         scala {
+            // Even though we later 'src/main/gen' as a "generated sources dir"
+            // in this Gradle file, we need to first add it here to make the former
+            // work!
+            // Related: https://discuss.gradle.org/t/how-do-i-get-intellij-to-recognize-gradle-generated-sources-dir/16847/5
             srcDirs = ['src/main/scala', 'src/main/java', 'src/main/gen']
         }
     }
 }
+
+apply plugin: 'idea'
+idea {
+    module {
+        generatedSourceDirs += file('src/main/gen')
+    }
+}
+
 
 /*
 apply plugin: 'org.jetbrains.grammarkit'
