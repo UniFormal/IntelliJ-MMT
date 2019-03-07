@@ -59,13 +59,13 @@ apply plugin: 'scala'
 sourceSets {
     main {
         java {
-            // Even though we later mark this directory as a "generated sources dir"
+            srcDirs = ['src/main/java']
+        }
+        scala {
+            // Even though we later 'src/main/gen' as a "generated sources dir"
             // in this Gradle file, we need to first add it here to make the former
             // work!
             // Related: https://discuss.gradle.org/t/how-do-i-get-intellij-to-recognize-gradle-generated-sources-dir/16847/5
-            srcDirs += 'src/main/gen'
-        }
-        scala {
             srcDirs = ['src/main/scala', 'src/main/java', 'src/main/gen']
         }
     }
