@@ -32,6 +32,7 @@ public class GeneralizerToolWindow {
     private Tree errorTree;
     private DefaultMutableTreeNode errorTreeRootNode;
     private EditorTextField generalizedTheoryCode;
+    private TextFieldWithAutoCompletionWithBrowseButton generalizationMorphism;
 
     private final ScalaGeneralizerToolWindowHelper scalaHelper;
 
@@ -54,7 +55,12 @@ public class GeneralizerToolWindow {
         this.project = project;
         this.scalaHelper = scalaHelper;
         generalizeButton.addActionListener(e -> {
-            scalaHelper.generalize(inputTheoryT.getText(), partTheoryS.getText(), generalizedTheoryOfPartG.getText(), "");
+            scalaHelper.generalize(
+                    generalizedTheoryOfPartG.getText(),
+                    partTheoryS.getText(),
+                    generalizationMorphism.getText(),
+                    inputTheoryT.getText()
+            );
         });
     }
 
@@ -67,6 +73,7 @@ public class GeneralizerToolWindow {
         inputTheoryT = new TextFieldWithAutoCompletionWithBrowseButton(project);
         partTheoryS = new TextFieldWithAutoCompletionWithBrowseButton(project);
         generalizedTheoryOfPartG = new TextFieldWithAutoCompletionWithBrowseButton(project);
+        generalizationMorphism = new TextFieldWithAutoCompletionWithBrowseButton(project);
 
         Collection<String> theories = Arrays.asList("theory1", "theory2");
         Collection<String> incomingMorphisms = Arrays.asList("G -> theory1", "G -> theory");

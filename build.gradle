@@ -59,7 +59,10 @@ apply plugin: 'scala'
 sourceSets {
     main {
         java {
-            srcDirs = ['src/main/java']
+            // Explicitly set to empty list because sources in src/main/java
+            // refer to Scala sources in src/main/scala.
+            // Hence let the Scala compiler compile both source directories.
+            srcDirs = []
         }
         scala {
             // Even though we later 'src/main/gen' as a "generated sources dir"

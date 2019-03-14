@@ -34,24 +34,23 @@ class ScalaGeneralizerToolWindowHelper(var project: Project) {
     this.generalizerToolWindow = generalizerToolWindow
   }
 
-  def delegateGeneralizeToReflection(
-                                      mmtjar: MMTJar,
-                                      rootNode: DefaultMutableTreeNode
-                                    ): String = {
-    /*mmtjar.method("generalize", Reflection.unit, List(
-      callbacks.reportGeneralizedTheory _,
-      callbacks.reportError _
-    ))*/
-    val generalizedCode = mmtjar.method("generalize", Reflection.string, List(rootNode))
-    generalizedCode
-  }
-
-  def generalize(pathToT: String, pathToS: String, pathToR: String, pathToRToS: String): Unit = {
+  def generalize(pathToR: String, pathToS: String, pathToRToS: String, pathToT: String): Unit = {
     MMT.get(project).foreach(mmt => {
 
-      generalizerToolWindow.getErrorTreeRootNode.removeAllChildren()
+      val rootNode = generalizerToolWindow.getErrorTreeRootNode
+      rootNode.removeAllChildren()
 
-      val generalizedCode = delegateGeneralizeToReflection(mmt.mmtjar, generalizerToolWindow.getErrorTreeRootNode)
+      val generalizedCode = mmt.mmtjar.method(
+        "generalize",
+        Reflection.string,
+        List(
+          rootNode,
+          pathToR,
+          pathToS,
+          pathToRToS,
+          pathToT
+        )
+      )
 
       generalizerToolWindow.setGeneralizedCode(generalizedCode)
       // mmt.mmtjar
