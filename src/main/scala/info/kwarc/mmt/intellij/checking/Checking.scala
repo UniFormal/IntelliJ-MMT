@@ -19,7 +19,6 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
       object Jar {
         private val cls = mmtjar.reflection.getClass("info.kwarc.mmt.intellij.checking.Checker")
         private val checker = mmtjar.method("checker", Reflection.Reflected(cls), Nil)
-        FileDocumentManager.getInstance().saveDocument(editor.getDocument)
 
         // private val checkerclass = mmtjar.classLoader.loadClass("info.kwarc.mmt.intellij.checking.Checker")
         // private val jarchecker = mmtjar.method("checker")

@@ -6,7 +6,7 @@ import java.awt.event._
 
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
+import com.intellij.openapi.fileEditor.{FileDocumentManager, FileEditorManager, OpenFileDescriptor}
 import com.intellij.openapi.ui.JBMenuItem
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
@@ -206,12 +206,15 @@ class ErrorViewerPanel(mmtjar : MMTJar) extends ActionListener with MMTToolWindo
           val psifile = PsiDocumentManager.getInstance(pr).getPsiFile(editor.getDocument)
           val f = utils.toFile(psifile)
           val p = utils.inotifyP("building " + f.name.toString + " to OMDoc...")
-          utils.background {
-            mmtjar.method("buildFile", Reflection.unit, List(f.toString))
-          }.onComplete { _ =>
-            p.expire()
-            utils.inotifyP("Done.",exp=3000)
-          }(scala.concurrent.ExecutionContext.global)
+          utils.writable {
+            FileDocumentManager.getInstance().saveDocument(editor.getDocument)
+            utils.background {
+              mmtjar.method("buildFile", Reflection.unit, List(f.toString))
+            }.onComplete { _ =>
+              p.expire()
+              utils.inotifyP("Done.", exp = 3000)
+            }(scala.concurrent.ExecutionContext.global)
+          }
         /*
         utils.notifyWhileP("building " + f.name.toString + " to OMDoc...") {
           mmtjar.method("buildFile", Reflection.unit, List(f.toString))
