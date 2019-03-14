@@ -11,12 +11,12 @@ import com.intellij.openapi.ui.JBMenuItem
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
 import com.intellij.ui.treeStructure.{PatchedDefaultMutableTreeNode, Tree}
-import info.kwarc.mmt.intellij.{MMT, MMTJar}
 import info.kwarc.mmt.intellij.ui.{AbstractErrorViewer, MMTToolWindow}
+import info.kwarc.mmt.intellij.{MMT, MMTJar}
 import info.kwarc.mmt.utils
 import info.kwarc.mmt.utils.{File, Reflection}
-import javax.swing.{JPanel, JPopupMenu, JScrollPane, SwingUtilities}
 import javax.swing.tree.{DefaultTreeModel, TreePath}
+import javax.swing.{JPanel, JPopupMenu, JScrollPane, SwingUtilities}
 
 class ErrorViewerPanel(mmtjar : MMTJar) extends ActionListener with MMTToolWindow {
   private val aev = new AbstractErrorViewer
@@ -50,6 +50,7 @@ class ErrorViewerPanel(mmtjar : MMTJar) extends ActionListener with MMTToolWindo
 
   def doCheck = aev.check.isSelected
 
+  // TODO Change to [[TreeUtils.addDoubleClickListenerToTree]]
   private val mouseAdapter = new MouseAdapter {
     override def mouseClicked(e: MouseEvent): Unit = {
       super.mouseClicked(e)
