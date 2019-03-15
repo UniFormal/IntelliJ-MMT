@@ -6,26 +6,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 import com.intellij.ui.treeStructure.PatchedDefaultMutableTreeNode
+import info.kwarc.mmt.intellij.MMT
 import info.kwarc.mmt.intellij.ui.GeneralizerToolWindow
-import info.kwarc.mmt.intellij.{MMT, MMTJar}
 import info.kwarc.mmt.utils.Reflection
 import javax.swing.JTree
-import javax.swing.tree.{DefaultMutableTreeNode, TreePath}
-
-trait GeneralizerReflectionInterface {
-  /**
-    *
-    * @param declaration Intended: GlobalName
-    * @param entryText   Intended:
-    * @param longDescription
-    * @param file
-    * @param textRangeStart
-    * @param textRangeLength
-    */
-  def reportError(declaration: String, entryText: String, longDescription: String, file: String, textRangeStart: Int, textRangeLength: Int)
-
-  def reportGeneralizedTheory(code: String)
-}
+import javax.swing.tree.TreePath
 
 class ScalaGeneralizerToolWindowHelper(var project: Project) {
   var generalizerToolWindow: GeneralizerToolWindow = _
@@ -52,26 +37,9 @@ class ScalaGeneralizerToolWindowHelper(var project: Project) {
         )
       )
 
-      generalizerToolWindow.setGeneralizedCode(generalizedCode)
-      // mmt.mmtjar
+      generalizerToolWindow.refreshErrorTree()
 
-      // val newTheoryString: String = ""
-      /*val error: (Int, Int, String, String, List[String]) => Unit = {
-        case (start, length, file, main, extra) =>
-          val tr = TextRange.from(psifile.getTextRange.getStartOffset + start, length)
-          val int = psifile.getTextRange.intersection(tr)
-          val region = if (int != null) int else psifile.getTextRange
-          if (main.startsWith("Warning")) {
-            holder.createWarningAnnotation(region, main)
-          } else {
-            holder.createErrorAnnotation(region, main)
-            mmt.errorViewer.addError(main, extra, psifile, File(file), region)
-          }
-      }
-      mmt.logged("Checking " + uri) {
-        Jar.check(uri, text, clearFile, note, error)
-        mmt.errorViewer.checkBtn.setSelected(false)
-      }*/
+      generalizerToolWindow.setGeneralizedCode(generalizedCode)
     })
   }
 }

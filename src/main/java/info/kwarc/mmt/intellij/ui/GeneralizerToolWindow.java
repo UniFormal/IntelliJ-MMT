@@ -46,6 +46,7 @@ public class GeneralizerToolWindow {
             EditorEx editor = super.createEditor();
             editor.setVerticalScrollbarVisible(true);
             editor.setHorizontalScrollbarVisible(true);
+            editor.setCaretEnabled(true);
 
             return editor;
         }
@@ -106,5 +107,9 @@ public class GeneralizerToolWindow {
 
     public void setGeneralizedCode(String code) {
         generalizedTheoryCode.setText(code);
+    }
+
+    public void refreshErrorTree() {
+        errorTree.invalidate();
     }
 }
