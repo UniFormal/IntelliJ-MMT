@@ -38,7 +38,6 @@ class ScalaGeneralizerToolWindowHelper(var project: Project) {
       )
 
       generalizerToolWindow.refreshErrorTree()
-
       generalizerToolWindow.setGeneralizedCode(generalizedCode)
     })
   }
