@@ -32,9 +32,7 @@ dependencies {
     // compile files(fileTree(dir: 'lib', includes: ['*.jar']))
     // compile files("mmt.jar") // For debugging purposes only!
 }
-/*
 
-*/
 apply plugin: 'org.jetbrains.intellij'
 intellij {
     version '2018.3'
@@ -42,14 +40,11 @@ intellij {
     plugins 'org.intellij.scala:2018.3.1'
 }
 group 'info.kwarc.mmt.intellij'
-version '15.0.5'
+version '15.0.6'
 patchPluginXml {
     changeNotes """
         <ul>
-         <li>Syntax Fixed</li>
-         <li>Uncheck "check"-box after checking</li>
-         <li>Fixed bug with windows charset</li>
-         <li>Files are saved before checking</li>
+         <li>Fixed threading bug</li>
         </ul>
       """
 }
@@ -81,8 +76,10 @@ idea {
     }
 }
 
-
 /*
+Non-working automation of grammar creation
+===========================================
+
 apply plugin: 'org.jetbrains.grammarkit'
 // import is optional to make task creation easier
 // Even though IntelliJ marks this import as useless, it is not!
@@ -125,10 +122,3 @@ task generateMMTParser(type: GenerateParser) {
     // if set, plugin will remove a parser output file and psi output directory before generating new ones. Default: false
     purgeOldFiles = true
 }*/
-
-apply from: "gradle.properties"
-publishPlugin {
-    // channels 'devel'
-    username intellijPublishUsername
-    password intellijPublishPassword
-}
