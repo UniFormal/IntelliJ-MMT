@@ -1,8 +1,6 @@
 # IntelliJ-MMT
 An IntelliJ-Plugin for MMT (under development)
 
-Currently does **not work under Windows** due to an IntelliJ bug: https://youtrack.jetbrains.com/issue/IDEA-208063
-
 ## Installation
 - The latest version of this plugin can be installed from *IntelliJ's marketplace* (File -> Settings -> Plugins)
 - Alternatively, you can install the plugin by extracting `build/distributions/MMT-<version>.zip` into the `plugins`-folder of your IntelliJ-installation (which might be something like `/usr/share/idea/plugins` or `/opt/share/intellij-idea-ultimate-edition`)
