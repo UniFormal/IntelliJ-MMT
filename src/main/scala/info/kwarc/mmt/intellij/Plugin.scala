@@ -195,17 +195,24 @@ class MMT(val project: Project) {
       assert(Abbreviations.elements.head != null)
       reset(true)
 
-      // Lower MMT tool window, contains:
-      //   - error viewer
-      //   - shell viewer
+      // Refactoring tool window, contains:
+      //  - generalizer (v16.0.0+)
       {
-        val lowerMMTToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("MMT", true, ToolWindowAnchor.BOTTOM)
+        // If more refactoring panels are ever added, move the version
+        // check possibly to those panels individually, e.g
+        // in case of [[GeneralizerToolWindowFactory]] to its
+        // createToolWindowContent method.
+        utils.ifVersion(
+          GeneralizerToolWindowFactory.requiredMinimalMMTVersion,
+          "Refactoring tool 'Generalizer'"
+        )({
+          val refactoringToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("Refactoring", false, ToolWindowAnchor.RIGHT)
 
-        errorViewer.init(lowerMMTToolWindow)
-        shellViewer.init(lowerMMTToolWindow)
+          generalizer.createToolWindowContent(project, refactoringToolWindow)
 
-        lowerMMTToolWindow.setIcon(MMT.icon)
-        lowerMMTToolWindow.show(null)
+          refactoringToolWindow.setIcon(MMT.icon)
+          refactoringToolWindow.show(null)
+        })
       }
 
       // Document tool window, contains:
@@ -219,27 +226,17 @@ class MMT(val project: Project) {
         documentToolWindow.show(null)
       }
 
-      // Refactoring tool window, contains:
-      //  - generalizer (v16.0.0+)
+      // Lower MMT tool window, contains:
+      //   - error viewer
+      //   - shell viewer
       {
-        // If more refactoring panels are ever added, move the version
-        // check possibly to those panels individually, e.g
-        // in case of [[GeneralizerToolWindowFactory]] to its
-        // createToolWindowContent method.
-        utils.ifVersion(
-          GeneralizerToolWindowFactory.requiredMinimalMMTVersion,
-          "Refactoring tool 'Generalizer'"
-        )({
-          val refactoringToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("Refactoring", false, ToolWindowAnchor.LEFT)
+        val lowerMMTToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("MMT", true, ToolWindowAnchor.BOTTOM)
 
-          generalizer.createToolWindowContent(project, refactoringToolWindow)
+        errorViewer.init(lowerMMTToolWindow)
+        shellViewer.init(lowerMMTToolWindow)
 
-          refactoringToolWindow.setIcon(MMT.icon)
-          refactoringToolWindow.show(null)
-        })
-      } match {
-        case Some(value) =>
-        case None =>
+        lowerMMTToolWindow.setIcon(MMT.icon)
+        lowerMMTToolWindow.show(null)
       }
 
       import Reflection._
