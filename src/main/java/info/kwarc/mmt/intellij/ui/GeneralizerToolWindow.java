@@ -95,17 +95,19 @@ public class GeneralizerToolWindow {
         generalizationMorphism = new TextFieldWithAutoCompletionWithBrowseButton(project);
 
         // Default values for faster debugging :-)
+        /*
         inputTheoryT.setText("http://cds.omdoc.org/theorysplittest/generalization/metricAndNormedSpaces?NormedVectorspaceThms");
         partTheoryS.setText("http://cds.omdoc.org/theorysplittest/generalization/metricAndNormedSpaces?NormedVectorspace");
         generalizedTheoryOfPartG.setText("http://cds.omdoc.org/theorysplittest/generalization/metricAndNormedSpaces?MetricSpace");
         generalizationMorphism.setText("http://cds.omdoc.org/theorysplittest/generalization/metricAndNormedSpaces?NormedAsMetricSpace");
+        */
 
-        Collection<String> theories = Arrays.asList("theory1", "theory2");
+        /*Collection<String> theories = Arrays.asList("theory1", "theory2");
         Collection<String> incomingMorphisms = Arrays.asList("G -> theory1", "G -> theory");
 
         inputTheoryT.setAutoCompletionItems(theories);
         partTheoryS.setAutoCompletionItems(theories);
-        generalizedTheoryOfPartG.setAutoCompletionItems(incomingMorphisms);
+        generalizedTheoryOfPartG.setAutoCompletionItems(incomingMorphisms);*/
 
         errorTreeRootNode = new DefaultMutableTreeNode("Generalization Errors");
 
