@@ -1,0 +1,23 @@
+package info.kwarc.mmt.intellij.ui.generalizer
+
+import com.intellij.openapi.actionSystem.{AnAction, AnActionEvent, CommonDataKeys}
+
+class GeneralizeTheoryContextMenuAction extends AnAction {
+  override def actionPerformed(anActionEvent: AnActionEvent): Unit = {
+
+    val b = anActionEvent.getData(CommonDataKeys.PSI_ELEMENT)
+    b.
+
+    import com.intellij.openapi.actionSystem.CommonDataKeys
+    import com.intellij.openapi.ui.Messages
+    // Using the event, create and show a dialog// Using the event, create and show a dialog
+
+    val currentProject = anActionEvent.getProject
+    val dlgMsg = new StringBuffer(anActionEvent.getPresentation.getText + " Selected!")
+    val dlgTitle = anActionEvent.getPresentation.getDescription
+    // If an element is selected in the editor, add info about it.
+    val nav = anActionEvent.getData(CommonDataKeys.NAVIGATABLE)
+    if (nav != null) dlgMsg.append(String.format("\nSelected Element: %s", nav.toString))
+    Messages.showMessageDialog(currentProject, dlgMsg.toString, dlgTitle, Messages.getInformationIcon)
+  }
+}

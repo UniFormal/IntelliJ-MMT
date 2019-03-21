@@ -8,25 +8,22 @@ import com.intellij.lang.ParserDefinition.SpaceRequirements
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.{ASTNode, ParserDefinition, PsiParser}
 import com.intellij.lexer.{FlexAdapter, Lexer}
-import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.editor.{DefaultLanguageHighlighterColors, Editor}
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.{FileType, SyntaxHighlighter, SyntaxHighlighterBase, SyntaxHighlighterFactory}
 import com.intellij.openapi.options.colors.{AttributesDescriptor, ColorDescriptor, ColorSettingsPage}
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.{FileViewProvider, PsiElement, PsiFile, TokenType}
 import com.intellij.psi.tree.{IElementType, IFileElementType, TokenSet}
+import com.intellij.psi.{FileViewProvider, PsiElement, PsiFile, TokenType}
+import info.kwarc.mmt.intellij.MMT
 import info.kwarc.mmt.intellij.language.psi.MMTParserTypes
 import info.kwarc.mmt.intellij.language.psi.imps._
-import info.kwarc.mmt.intellij.MMT
 import javax.swing.Icon
-
-import scala.util.Try
 
 class MMTLexerAdapter extends FlexAdapter(new MMTLexer(null))
 
-class MMTFileBase(viewProvider : FileViewProvider) extends PsiFileBase(viewProvider,MMTLanguage.INSTANCE) {
+class MMTFileBase(viewProvider: FileViewProvider) extends PsiFileBase(viewProvider, MMTLanguage.INSTANCE) {
   override def getFileType: FileType = MMTFile
 }
 
@@ -42,7 +39,7 @@ class MMTParserDefinition extends ParserDefinition {
 
   override def createFile(viewProvider: FileViewProvider): PsiFile = new MMTFileBase(viewProvider)
 
-  override def getCommentTokens: TokenSet = TokenSet.EMPTY// TokenSet.create(MMTParserTypes.MOD_COMMENT)
+  override def getCommentTokens: TokenSet = TokenSet.EMPTY // TokenSet.create(MMTParserTypes.MOD_COMMENT)
 
   override def createParser(project: Project): PsiParser = new MMTParser
 
@@ -58,19 +55,20 @@ object Attributes {
 
   lazy val keyword = make("mmt.KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
   lazy val comment = make("mmt.COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
-  lazy val derived = make("mmt.Derived",DefaultLanguageHighlighterColors.LINE_COMMENT)
+  lazy val derived = make("mmt.Derived", DefaultLanguageHighlighterColors.LINE_COMMENT)
   lazy val MD = make("mmt.MD", ConsoleHighlighter.RED_BRIGHT)
   lazy val DD = make("mmt.DD", ConsoleHighlighter.GREEN)
   lazy val OD = make("mmt.OD", ConsoleHighlighter.BLUE)
-  lazy val name = make("mmt.Name",DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
-  lazy val uri = make("mmt.URI",DefaultLanguageHighlighterColors.NUMBER)
-  lazy val term = make("mmt.term",DefaultLanguageHighlighterColors.STATIC_FIELD)
-  lazy val not = make("mmt.notation",DefaultLanguageHighlighterColors.DOC_COMMENT_TAG_VALUE)
-  lazy val active = make("mmt.active",ConsoleHighlighter.YELLOW_BRIGHT)
+  lazy val name = make("mmt.Name", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
+  lazy val uri = make("mmt.URI", DefaultLanguageHighlighterColors.NUMBER)
+  lazy val term = make("mmt.term", DefaultLanguageHighlighterColors.STATIC_FIELD)
+  lazy val not = make("mmt.notation", DefaultLanguageHighlighterColors.DOC_COMMENT_TAG_VALUE)
+  lazy val active = make("mmt.active", ConsoleHighlighter.YELLOW_BRIGHT)
 
-  def getChildren(element: PsiElement) : List[PsiElement] = element.getNode.getChildren(null).map(_.getPsi).toList
-  def highlight(ta : TextAttributesKey)(implicit element : PsiElement, holder : AnnotationHolder) =
-    holder.createInfoAnnotation(element,null).setTextAttributes(ta)
+  def getChildren(element: PsiElement): List[PsiElement] = element.getNode.getChildren(null).map(_.getPsi).toList
+
+  def highlight(ta: TextAttributesKey)(implicit element: PsiElement, holder: AnnotationHolder) =
+    holder.createInfoAnnotation(element, null).setTextAttributes(ta)
 }
 
 object LexingHighlighter extends SyntaxHighlighterBase {
@@ -97,18 +95,21 @@ object LexingHighlighter extends SyntaxHighlighterBase {
          MMTParserTypes.ROLE_KEY |
          MMTParserTypes.RULE_KEY |
          MMTParserTypes.STRUCTURE_KEY |
-         MMTParserTypes.COLON_KEY  |
+         MMTParserTypes.COLON_KEY |
          MMTParserTypes.VIEW_KEY
-        => keyword
+    => keyword
     case _ => null
   }
   )
 }
 
-class Factory extends SyntaxHighlighterFactory{
+class Factory extends SyntaxHighlighterFactory {
   override def getSyntaxHighlighter(project: Project, virtualFile: VirtualFile): SyntaxHighlighter = {
     MMT.get(project) match {
-      case Some(mmt) if virtualFile.getFileType.getName == "MMT" => LexingHighlighter
+      // Do not check whether virtualFile.getFileType.getName == "MMT" since
+      // when an in-memory MMT document is loaded within an EditorTextField (e.g. in the
+      // refactoring GUI), getName will return "null".
+      case Some(_)  => LexingHighlighter
       case _ => null
     }
   }
@@ -121,17 +122,17 @@ class ColorSettings extends ColorSettingsPage {
 
 
   override def getAttributeDescriptors: Array[AttributesDescriptor] = {
-    val keyword = new AttributesDescriptor("Keywords",Attributes.keyword)
-    val comment = new AttributesDescriptor("Comments",Attributes.comment)
-    val md = new AttributesDescriptor("Module Delimiter",Attributes.MD)
-    val dd = new AttributesDescriptor("Declaration Delimiter",Attributes.DD)
-    val od = new AttributesDescriptor("Object Delimiter",Attributes.OD)
-    val derived = new AttributesDescriptor("(Potential) Dervied Declaration Keywords",Attributes.derived)
-    val name = new AttributesDescriptor("Constant / Theory Names",Attributes.name)
-    val uri = new AttributesDescriptor("MMT URIs",Attributes.uri)
-    val term = new AttributesDescriptor("MMT Terms",Attributes.term)
-    val not = new AttributesDescriptor("Notations",Attributes.not)
-    Array(md,dd,od,keyword,comment,derived,name,uri,term,not)
+    val keyword = new AttributesDescriptor("Keywords", Attributes.keyword)
+    val comment = new AttributesDescriptor("Comments", Attributes.comment)
+    val md = new AttributesDescriptor("Module Delimiter", Attributes.MD)
+    val dd = new AttributesDescriptor("Declaration Delimiter", Attributes.DD)
+    val od = new AttributesDescriptor("Object Delimiter", Attributes.OD)
+    val derived = new AttributesDescriptor("(Potential) Dervied Declaration Keywords", Attributes.derived)
+    val name = new AttributesDescriptor("Constant / Theory Names", Attributes.name)
+    val uri = new AttributesDescriptor("MMT URIs", Attributes.uri)
+    val term = new AttributesDescriptor("MMT Terms", Attributes.term)
+    val not = new AttributesDescriptor("Notations", Attributes.not)
+    Array(md, dd, od, keyword, comment, derived, name, uri, term, not)
   }
 
   override def getDisplayName: String = "MMT"
@@ -151,12 +152,12 @@ class MMTAnnotator extends com.intellij.lang.annotation.Annotator {
 
 
   override def annotate(element: PsiElement, holder: AnnotationHolder): Unit = {
-    implicit val hold : AnnotationHolder = holder
+    implicit val hold: AnnotationHolder = holder
     MMT.get(element.getProject).foreach { mmt =>
       element.getContainingFile
       implicit val elem: PsiElement = element
       element match {
-        case _: MMTModcomment_impl | _: MMTDeclComment_impl | _: MMTObjComment_impl  =>
+        case _: MMTModcomment_impl | _: MMTDeclComment_impl | _: MMTObjComment_impl =>
           getChildren(element).init.foreach(i => highlight(comment)(i, holder)) // holder.createInfoAnnotation(i.getTextRange,"").setTextAttributes(LexingHighlighter.comment))
         case _: MMTNotComp_impl =>
           getChildren(element).tail.foreach(i => highlight(not)(i, holder))
@@ -169,8 +170,8 @@ class MMTAnnotator extends com.intellij.lang.annotation.Annotator {
           highlight(uri)
         case _: MMTDerivedsimple_impl | _: MMTDerivedheader_impl =>
           highlight(derived)
-        case e : MMTError_impl =>
-          holder.createErrorAnnotation(e.getParent,"Block needs closing")
+        case e: MMTError_impl =>
+          holder.createErrorAnnotation(e.getParent, "Block needs closing")
         // getChildren(element).foreach(i => highlight(derived)(i,holder))
         case _ =>
       }

@@ -30,6 +30,12 @@
     </project-components>
 
     <actions>
+        <!--<action id="info.kwarc.mmt.intellij.ui.generalizer.GeneralizeTheoryContextMenuAction"
+                class="info.kwarc.mmt.intellij.ui.generalizer.GeneralizeTheoryContextMenuAction" text="Simple Action"
+                description="MMT Generalizer Context Menu Action">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>-->
+
     </actions>
     <depends>org.intellij.scala</depends>
 </idea-plugin>
