@@ -84,7 +84,7 @@ MOD_delim=[❚]
 DECL_delim=[❙]
 OBJ_delim=[❘]
 // DELIMITER={MOD_delim}|{DECL_delim}|{OBJ_delim}
-INPUT_CHAR=[^\s❚❙❘:=>]
+INPUT_CHAR=[^\s❚❙❘:=>☞]
 // TMTOKEN = [\w]+|{INPUT_CHAR}
 // NON_DELIM=[^❚❙❘]
 TOKEN= {INPUT_CHAR}+
@@ -129,14 +129,16 @@ TOKEN= {INPUT_CHAR}+
     "link"          { return MMTParserTypes.LINK_KEY; }
     "prec"          { return MMTParserTypes.PREC_KEY; }
     "constant"      { return MMTParserTypes.CONSTANT_KEY; }
+      "fixmeta"     { return MMTParserTypes.FIXMETA_KEY; }
     "@"             { return MMTParserTypes.ALIAS_KEY; }
     ":"             { return MMTParserTypes.COLON_KEY; }
     ">"             { return MMTParserTypes.PARAM_KEY; }
     "="             { return MMTParserTypes.EQ_KEY; }
     ","             { return MMTParserTypes.COMMA_KEY; }
-    "->"|"⟶"        { return MMTParserTypes.ARROW_KEY; }
+    "->"|"⟶"|"→"    { return MMTParserTypes.ARROW_KEY; }
     "##"|"#"        { return MMTParserTypes.NOT_KEY; }
     "//"|"/T"       { return MMTParserTypes.COMMENT_KEY; }
+      "☞"           { return MMTParserTypes.URI_KEY; }
     // {TOKEN}         { return MMTParserTypes.TOKEN; }
 
     {MOD_delim}     { return MMTParserTypes.MD; }

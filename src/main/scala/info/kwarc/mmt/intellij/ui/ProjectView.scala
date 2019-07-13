@@ -254,7 +254,6 @@ class MathHubPane(project : Project) extends ProjectViewPane(project) {
 
   override def getData(dataId: String): AnyRef = dataId match {
     case _ if MMTDataKeys.keys contains dataId =>
-      val treestructure = myTreeStructure
       val selected = getSelectionPaths
       val last = selected.headOption.map(_.getLastPathComponent)
       last match {

@@ -96,6 +96,7 @@ object LexingHighlighter extends SyntaxHighlighterBase {
          MMTParserTypes.RULE_KEY |
          MMTParserTypes.STRUCTURE_KEY |
          MMTParserTypes.COLON_KEY |
+         MMTParserTypes.FIXMETA_KEY |
          MMTParserTypes.VIEW_KEY
     => keyword
     case _ => null

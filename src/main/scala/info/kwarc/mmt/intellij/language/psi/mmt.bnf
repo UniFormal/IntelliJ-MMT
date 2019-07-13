@@ -14,11 +14,13 @@
 
 file ::= mod*
 
-mod ::= namespace | import | modcomment | theory | view
+mod ::= namespace | import | fixmeta | modrule | modcomment | theory | view
 
 modcomment ::= COMMENT_KEY (any|OD|DD)* (MD | error)
 namespace ::= NAMESPACE_KEY uri (MD | error)
 import ::= IMPORT_KEY pname uri (MD | error)
+fixmeta ::= FIXMETA_KEY uri (MD|error)
+modrule ::= RULE_KEY uri tmlist? (MD | error)
 theory ::=  theoryheader ((ABBREV_KEY term) | (EQ_KEY theory_body) | error) (MD | error) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
 view ::= viewheader ((ABBREV_KEY term) | (EQ_KEY view_body)| error) (MD | error)
 
@@ -29,12 +31,12 @@ viewheader ::= IMPLICIT_KEY? VIEW_KEY ((pname COLON_KEY ((uri ARROW_KEY (uri | e
 view_body ::= view_decl*
 
 declaration ::= rule | include | decl_comment | nestedtheory | structure | nestedview | constant | deriveddecl
-view_decl ::= morphism_include | view_constant | decl_comment
+view_decl ::= morphism_include | decl_comment | view_constant
 
 nestedtheory ::= theoryheader ((ABBREV_KEY ((term DD) | error)) | (EQ_KEY theory_body (MD | error))) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
 nestedview ::= viewheader ((ABBREV_KEY term DD) | (EQ_KEY view_body MD))
 rule ::= RULE_KEY uri tmlist? (DD | error)
-include ::= INCLUDE_KEY uri tmlist? (DD | error)
+include ::= INCLUDE_KEY (urilit|uri) tmlist? (DD | error)
 decl_comment ::= COMMENT_KEY (any|OD)* (DD|error)
 constant ::= CONSTANT_KEY? pname (component OD)* component? DD
 structure ::= IMPLICIT_KEY? STRUCTURE_KEY pname COLON_KEY ((uri ((ABBREV_KEY term (DD|error)) | (EQ_KEY structure_body (MD|error)))) | error)
@@ -44,7 +46,7 @@ deriveddecl ::= (derivedheader theory_body (MD|error)) | (derivedsimple DD)
 derivedheader ::= any any+ OD? EQ_KEY
 derivedsimple ::= any any+
 
-morphism_include ::= (INCLUDE_KEY uri EQ_KEY ((uri (DD|error))|error)) | include
+morphism_include ::= (INCLUDE_KEY (urilit|uri) EQ_KEY (((urilit|uri) (DD|error))|error)) | include
 view_constant ::= CONSTANT_KEY? pname ((def_comp (DD|error)) | error)
 
 component::= obj_comment | type_comp | def_comp | not_comp | role_comp | meta_comp | alias_comp
@@ -58,6 +60,8 @@ role_comp ::= ROLE_KEY any+
 meta_comp ::= (META_KEY | LINK_KEY ) term
 alias_comp ::= ALIAS_KEY pname
 
+urilit ::= URI_KEY uri
+
 uri ::= (uritoken COLON_KEY uritoken) | uritoken {
     mixin="info.kwarc.mmt.intellij.language.URIElement_impl"
 }
@@ -66,10 +70,11 @@ pname ::= TOKEN | keywrd
 any ::= TOKEN | keywrd | COLON_KEY | COMMENT_KEY | EQ_KEY | NOT_KEY | ALIAS_KEY | PARAM_KEY | ARROW_KEY | COMMA_KEY
 
 tmlist ::= (term COMMA_KEY)* term
-term ::= any+
+term ::= (urilit|any)+
 
 keywrd ::= COMMENT_KEY | NAMESPACE_KEY | IMPORT_KEY | ABBREV_KEY | THEORY_KEY  | VIEW_KEY |
-            RULE_KEY | INCLUDE_KEY | PREC_KEY | ROLE_KEY | META_KEY | CONSTANT_KEY | IMPLICIT_KEY | STRUCTURE_KEY
+            RULE_KEY | INCLUDE_KEY | PREC_KEY | ROLE_KEY | META_KEY | CONSTANT_KEY | IMPLICIT_KEY |
+            STRUCTURE_KEY | FIXMETA_KEY | URI_KEY
 
 ws ::= WHITESPACE
 
