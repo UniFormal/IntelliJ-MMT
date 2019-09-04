@@ -27,7 +27,7 @@ import javax.swing.Icon
 import scala.util.Try
 
 object MMT {
-  val requiredVersion = Version("15.0.0")
+  val requiredVersion = Version("18.0.0")
 
   lazy val icon: Icon = IconLoader.getIcon("/img/icon.png")
 

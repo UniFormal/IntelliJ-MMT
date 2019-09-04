@@ -69,7 +69,8 @@ class MathHubTreeNode(project : Project) extends AbstractTreeNode[Project](proje
           val helper = ProjectViewDirectoryHelper.getInstance(project)
           helper.createFileAndDirectoryNodes(List(toVF(mmt.mmtrc), toVF(mmt.msl), toVF(mmt.logfile)), viewSettings) ::: ls
         }
-      case _ => Nil.asInstanceOf[List[AbstractTreeNode[_]]]
+      case _ =>
+        Nil.asInstanceOf[List[AbstractTreeNode[_]]]
     }
   }
   override def update(presentation: PresentationData): Unit = {

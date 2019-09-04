@@ -38,4 +38,5 @@
 
     </actions>
     <depends>org.intellij.scala</depends>
+    <depends>com.intellij.modules.java</depends>
 </idea-plugin>
