@@ -79,10 +79,15 @@ idea {
     }
 }
 
-apply from: "gradle.properties"
-publishPlugin {
-    // channels 'devel'
-    token intellijPublishToken
+def publishCredentialsPropertiesFile = file("gradle.properties")
+if(publishCredentialsPropertiesFile.exists()) {
+    apply from: publishCredentialsPropertiesFile.path
+    publishPlugin {
+        // channels 'devel'
+        token intellijPublishToken
+    }
+} else {
+    logger.warn(publishCredentialsPropertiesFile.path + " does not exist, publishPlugin task will not be created! Copy gradle.properties.template in the same folder to gradle.properties and configure its contents. See file contents for more info.")
 }
 
 /*
