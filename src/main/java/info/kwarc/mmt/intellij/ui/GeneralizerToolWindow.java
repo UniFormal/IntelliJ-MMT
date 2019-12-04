@@ -4,9 +4,7 @@ import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.structuralsearch.plugin.ui.TextFieldWithAutoCompletionWithBrowseButton;
 import com.intellij.ui.EditorTextField;
@@ -19,8 +17,6 @@ import scala.runtime.BoxedUnit;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import java.util.Arrays;
-import java.util.Collection;
 
 public class GeneralizerToolWindow {
     private final Project project;
@@ -38,22 +34,6 @@ public class GeneralizerToolWindow {
     private JButton insertGeneralizedCodeButton;
 
     private final ScalaGeneralizerToolWindowHelper scalaHelper;
-
-    private class ScrollableMultilineEditorTextField extends EditorTextField {
-        public ScrollableMultilineEditorTextField(Document document, Project project, FileType fileType, boolean isViewer) {
-            super(document, project, fileType, isViewer, false);
-        }
-
-        @Override
-        protected EditorEx createEditor() {
-            EditorEx editor = super.createEditor();
-            editor.setVerticalScrollbarVisible(true);
-            editor.setHorizontalScrollbarVisible(true);
-            editor.setCaretEnabled(true);
-
-            return editor;
-        }
-    }
 
     public GeneralizerToolWindow(final Project project, final ScalaGeneralizerToolWindowHelper scalaHelper) {
         this.project = project;

@@ -1,25 +1,18 @@
 package info.kwarc.mmt.intellij.ui
 
-import java.awt.BorderLayout
 import java.awt.event.{ActionEvent, ActionListener, MouseAdapter, MouseEvent}
 
-import com.intellij.openapi.actionSystem.DataContext
-import com.intellij.openapi.application.{ApplicationManager, ReadAction}
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.editor.actionSystem.TypedActionHandler
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.event.{CaretEvent, CaretListener}
 import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
 import com.intellij.ui.treeStructure.{PatchedDefaultMutableTreeNode, Tree}
 import info.kwarc.mmt.intellij.{MMT, MMTJar}
-import info.kwarc.mmt.utils
 import info.kwarc.mmt.utils.Reflection
 import javax.swing.tree.{DefaultMutableTreeNode, DefaultTreeModel, TreePath}
 import javax.swing.{BoxLayout, JCheckBox, JPanel, JScrollPane}
 
-import scala.concurrent.Future
-
-class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with CaretListener {
+class Sidekick(mmtjar: MMTJar) extends MMTToolWindow with ActionListener with CaretListener {
   override val displayName: String = "Document Tree"
   val panel = new JPanel
 
@@ -30,7 +23,7 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
   val scp = new JScrollPane(docTree)
 
   ApplicationManager.getApplication.invokeLater { () =>
-    panel.setLayout(new BoxLayout(panel,BoxLayout.PAGE_AXIS))
+    panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS))
     panel.add(cb)
     panel.add(scp)
     cb.setSelected(false)
@@ -40,11 +33,12 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
     docTree.revalidate()
     panel.revalidate()
   }
+
   private def model = docTree.getModel.asInstanceOf[DefaultTreeModel]
 
-  def doDoc(dS : String) = ApplicationManager.getApplication.invokeLater { () =>
+  def doDoc(dS: String) = ApplicationManager.getApplication.invokeLater { () =>
     root.removeAllChildren()
-    mmtjar.method("syntaxTree",Reflection.unit,List(root,dS))
+    mmtjar.method("syntaxTree", Reflection.unit, List(root, dS))
     model.reload()
     docTree.revalidate()
   }
@@ -54,27 +48,64 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
     docTree.revalidate()
   }
 
-  private var current : Option[PsiFile] = None
-  def setFile(f : PsiFile) = current = Some(f)
+  private var current: Option[PsiFile] = None
 
+  def setFile(f: PsiFile) = current = Some(f)
+
+  /**
+   * Our userdata object for syntax tree nodes.
+   *
+   * Keep synchronized with info.kwarc.mmt.intellij.MMTPluginInterface.TreeBuilder.Ret in UniFormal/MMT.
+   */
   private type Element = {
-      def getOffset : Int
-      def getEnd : Int
+    def getPath: Option[String]
+    def getOffset: Int
+    def getEnd: Int
   }
 
   docTree.addMouseListener(new MouseAdapter {
     override def mouseClicked(e: MouseEvent): Unit = {
       super.mouseClicked(e)
-      val path = docTree.getPathForLocation(e.getX,e.getY)
+      val path = docTree.getPathForLocation(e.getX, e.getY)
       if (path != null && current.isDefined) path.getPath.lastOption match {
-        case Some(n :DefaultMutableTreeNode) if n.getUserObject.isInstanceOf[Element] =>
-          val el = n.getUserObject.asInstanceOf[Element]
-          val elem = current.get.findElementAt(el.getOffset)
-          val descriptor= new OpenFileDescriptor(current.get.getProject,current.get.getContainingFile.getVirtualFile)
-          val editor = FileEditorManager.getInstance(current.get.getProject).openTextEditor(descriptor,true)
-          editor.getCaretModel.moveToOffset(elem.getTextOffset)
+        case Some(n: DefaultMutableTreeNode) if n.getUserObject.isInstanceOf[Element] =>
+          val element = n.getUserObject.asInstanceOf[Element]
+
+          println("clicked")
+
+          if (e.getButton == MouseEvent.BUTTON1) {
+            primaryMouseClicked(n, element)
+          } else if (e.getButton == MouseEvent.BUTTON3) {
+            secondaryMouseClicked(n, element)
+          }
         case _ =>
       }
+    }
+
+    // Focus left-clicked element in file
+    private def primaryMouseClicked(node: DefaultMutableTreeNode, element: Element): Unit = current match {
+      case Some(psiFile) =>
+        val elem = current.get.findElementAt(element.getOffset)
+        val descriptor = new OpenFileDescriptor(current.get.getProject, current.get.getContainingFile.getVirtualFile)
+        val editor = FileEditorManager.getInstance(current.get.getProject).openTextEditor(descriptor, true)
+        editor.getCaretModel.moveToOffset(elem.getTextOffset)
+
+      case None =>
+    }
+
+    // Show presented syntax of right-clicked element in a dialog
+    private def secondaryMouseClicked(node: DefaultMutableTreeNode, element: Element): Unit = element.getPath match {
+      case Some(path) =>
+        val presentedSyntax = mmtjar.method(
+          "presentSyntax",
+          Reflection.string,
+          List(path)
+        )
+
+        MMT.getProject.map(project =>
+          new SidekickPresentedSyntaxDialog(project, path, presentedSyntax).showAndGet()
+        )
+      case None =>
     }
   })
 
@@ -102,7 +133,7 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
     }
   }
 
-  private def collapseAll(node : DefaultMutableTreeNode = root) : Unit = {
+  private def collapseAll(node: DefaultMutableTreeNode = root): Unit = {
     val enum = node.children()
     while (enum.hasMoreElements) {
       val next = enum.nextElement().asInstanceOf[DefaultMutableTreeNode]
@@ -111,14 +142,14 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
     }
   }
 
-  private def findNode(offset : Int,node : DefaultMutableTreeNode = root) : Option[DefaultMutableTreeNode] = {
+  private def findNode(offset: Int, node: DefaultMutableTreeNode = root): Option[DefaultMutableTreeNode] = {
     val enum = node.children()
     while (enum.hasMoreElements) {
       val next = enum.nextElement().asInstanceOf[DefaultMutableTreeNode]
       val uo = next.getUserObject
       if (uo.isInstanceOf[Element]) {
         val e = uo.asInstanceOf[Element]
-        if (e.getOffset <= offset && offset <= e.getEnd) return Some(findNode(offset,next).getOrElse(next))
+        if (e.getOffset <= offset && offset <= e.getEnd) return Some(findNode(offset, next).getOrElse(next))
       }
     }
     None
@@ -126,6 +157,7 @@ class Sidekick(mmtjar : MMTJar) extends MMTToolWindow with ActionListener with C
 
   override def actionPerformed(actionEvent: ActionEvent): Unit = {}
 }
+
 /*
 class SidekickListener extends TypedActionHandler {
   override def execute(editor: Editor, charTyped: Char, dataContext: DataContext): Unit = {
