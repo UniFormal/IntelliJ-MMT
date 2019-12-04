@@ -14,7 +14,7 @@
 
 file ::= mod*
 
-mod ::= namespace | import | fixmeta | modrule | modcomment | theory | view
+mod ::= namespace | import | fixmeta | modrule | modcomment | theory | view | diagram
 
 modcomment ::= COMMENT_KEY (any|OD|DD)* (MD | error)
 namespace ::= NAMESPACE_KEY uri (MD | error)
@@ -23,6 +23,7 @@ fixmeta ::= FIXMETA_KEY uri (MD|error)
 modrule ::= RULE_KEY uri tmlist? (MD | error)
 theory ::=  theoryheader ((ABBREV_KEY term) | (EQ_KEY theory_body) | error) (MD | error) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
 view ::= viewheader ((ABBREV_KEY term) | (EQ_KEY view_body)| error) (MD | error)
+diagram ::= DIAGRAM_KEY pname COLONEQ_KEY any* (MD | error)
 
 theoryheader ::= THEORY_KEY ((pname (COLON_KEY uri)? (PARAM_KEY tmlist OD)?) | error)
 theory_body ::= declaration*
@@ -46,7 +47,7 @@ deriveddecl ::= (derivedheader theory_body (MD|error)) | (derivedsimple DD)
 derivedheader ::= any any+ OD? EQ_KEY
 derivedsimple ::= any any+
 
-morphism_include ::= (INCLUDE_KEY (urilit|uri) EQ_KEY (((urilit|uri) (DD|error))|error)) | include
+morphism_include ::= (INCLUDE_KEY (urilit|uri) OD EQ_KEY (((urilit|uri) (DD|error))|error)) | include
 view_constant ::= CONSTANT_KEY? pname ((def_comp (DD|error)) | error)
 
 component::= obj_comment | type_comp | def_comp | not_comp | role_comp | meta_comp | alias_comp

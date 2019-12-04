@@ -121,6 +121,7 @@ TOKEN= {INPUT_CHAR}+
     "theory"        { return MMTParserTypes.THEORY_KEY; }
     "implicit"      { return MMTParserTypes.IMPLICIT_KEY; }
     "view"          { return MMTParserTypes.VIEW_KEY; }
+    "diagram"       { return MMTParserTypes.DIAGRAM_KEY; }
     "abbrev"        { return MMTParserTypes.ABBREV_KEY; }
     "structure"     { return MMTParserTypes.STRUCTURE_KEY; }
     "rule"          { return MMTParserTypes.RULE_KEY; }
@@ -129,8 +130,9 @@ TOKEN= {INPUT_CHAR}+
     "link"          { return MMTParserTypes.LINK_KEY; }
     "prec"          { return MMTParserTypes.PREC_KEY; }
     "constant"      { return MMTParserTypes.CONSTANT_KEY; }
-      "fixmeta"     { return MMTParserTypes.FIXMETA_KEY; }
+    "fixmeta"       { return MMTParserTypes.FIXMETA_KEY; }
     "@"             { return MMTParserTypes.ALIAS_KEY; }
+    ":="            { return MMTParserTypes.COLONEQ_KEY; }
     ":"             { return MMTParserTypes.COLON_KEY; }
     ">"             { return MMTParserTypes.PARAM_KEY; }
     "="             { return MMTParserTypes.EQ_KEY; }
