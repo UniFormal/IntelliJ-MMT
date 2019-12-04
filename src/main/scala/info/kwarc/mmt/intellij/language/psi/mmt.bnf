@@ -23,7 +23,7 @@ fixmeta ::= FIXMETA_KEY uri (MD|error)
 modrule ::= RULE_KEY uri tmlist? (MD | error)
 theory ::=  theoryheader ((ABBREV_KEY term) | (EQ_KEY theory_body) | error) (MD | error) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
 view ::= viewheader ((ABBREV_KEY term) | (EQ_KEY view_body)| error) (MD | error)
-diagram ::= DIAGRAM_KEY pname COLONEQ_KEY any* (MD | error)
+diagram ::= DIAGRAM_KEY pname COLONEQ_KEY (any|OD|DD)* (MD | error)
 
 theoryheader ::= THEORY_KEY ((pname (COLON_KEY uri)? (PARAM_KEY tmlist OD)?) | error)
 theory_body ::= declaration*
@@ -68,7 +68,7 @@ uri ::= (uritoken COLON_KEY uritoken) | uritoken {
 }
 uritoken ::= TOKEN | keywrd
 pname ::= TOKEN | keywrd
-any ::= TOKEN | keywrd | COLON_KEY | COMMENT_KEY | EQ_KEY | NOT_KEY | ALIAS_KEY | PARAM_KEY | ARROW_KEY | COMMA_KEY
+any ::= TOKEN | keywrd | COLON_KEY | COLONEQ_KEY | COMMENT_KEY | EQ_KEY | NOT_KEY | ALIAS_KEY | PARAM_KEY | ARROW_KEY | COMMA_KEY
 
 tmlist ::= (term COMMA_KEY)* term
 term ::= (urilit|any)+
