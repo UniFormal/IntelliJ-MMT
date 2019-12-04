@@ -14,6 +14,8 @@ An IntelliJ-Plugin for MMT (under development)
 
 ## Development for developers
 
+### Initial building
+
 1. Clone the repository
 2. Open the cloned repository in IntelliJ as an IntelliJ project (just open, no import!)
 3. Let the Gradle autoimporter do its work
@@ -22,3 +24,7 @@ An IntelliJ-Plugin for MMT (under development)
 
   1. Generate the things, see [`./docs/how-to-generate-grammar-things.png`](./docs/how-to-generate-grammar-things.png)
   2. Fix the generated `MMTLexer`: [`./docs/how-to-fix-generated-grammar-thing.png`](./docs/how-to-fix-generated-grammar-thing.png)
+  
+### Testing (manual)
+
+See [`./docs/how-to-test-plugin.png`](./docs/how-to-test-plugin.png).
