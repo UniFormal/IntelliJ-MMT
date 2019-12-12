@@ -8,7 +8,7 @@ import com.intellij.ide.util.PropertiesComponent
 import com.intellij.notification.{Notification, NotificationType, Notifications}
 import com.intellij.openapi.actionSystem.DataKey
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.components.{ProjectComponent, ServiceManager}
+import com.intellij.openapi.components.{ComponentManager, ProjectComponent, ServiceManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
 import com.intellij.openapi.progress.ProcessCanceledException
 import com.intellij.openapi.project.{Project, ProjectManager, ProjectUtil}
@@ -27,12 +27,12 @@ import javax.swing.Icon
 import scala.util.Try
 
 object MMT {
-  val requiredVersion = Version("18.0.0")
+  val requiredVersion: Version = Version("18.0.0")
 
   lazy val icon: Icon = IconLoader.getIcon("/img/icon.png")
 
   def get(project: Project): Option[MMT] = {
-    val mmtc = ServiceManager.getService(project, classOf[MMTProject])
+    val mmtc = project.getComponent(classOf[MMTProject])
     if (mmtc.isMMT) Some(mmtc.get) else None
   }
 
