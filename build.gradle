@@ -10,21 +10,21 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.12.3'
+    compile 'org.scala-lang:scala-library:2.12.9'
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile "org.scala-lang:scala-library:2.12.3"
+    testCompile "org.scala-lang:scala-library:2.12.9"
 
     // https://mvnrepository.com/artifact/org.scala-lang/scala-compiler
-    compile group: 'org.scala-lang', name: 'scala-compiler', version: '2.12.3'
+    compile group: 'org.scala-lang', name: 'scala-compiler', version: '2.12.9'
 
     // https://mvnrepository.com/artifact/org.scala-lang/scala-library
-    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.3'
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.9'
 
     // https://mvnrepository.com/artifact/org.scala-lang.modules/scala-parser-combinators
-    compile group: 'org.scala-lang.modules', name: 'scala-parser-combinators_2.12', version: '1.0.6'
+    compile group: 'org.scala-lang.modules', name: 'scala-parser-combinators_2.12', version: '1.1.2'
 
     // https://mvnrepository.com/artifact/org.scala-lang/scala-reflect
-    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.12.3'
+    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.12.9'
 
     // https://mvnrepository.com/artifact/org.scala-lang.modules/scala-xml
     compile group: 'org.scala-lang.modules', name: 'scala-xml_2.12', version: '1.0.6'
@@ -40,16 +40,23 @@ intellij {
     plugins 'org.intellij.scala:2019.2.13','java'
 }
 group 'info.kwarc.mmt.intellij'
-version '18.0.1'
+version '19.0.0'
 patchPluginXml {
     changeNotes """
         <ul>
-         <li>Fixed Grammar somewhat</li>
-         <li>Highlighting for URI literals</li>
-         <li>Compatible with MMT 18.0.0</li>
-         <li>Compatible with Intellij 2019.2</li>
+         <li>Extended grammar to cover more of current MMT surface syntax</li>
+         <li>Refactored calls to deprecated IntelliJ APIs</li>
+         <li>Compatible with MMT 19.0.0</li>
+         <li>Compatible with IntelliJ IDEA for 2019.2.1 ≤ version ≤ 2019.3.*</li>
         </ul>
       """
+
+    // See [1-2] for what the numbers encode and esp. [2] to get the actual numbers
+    //
+    // [1]: https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
+    // [2]: https://www.jetbrains.com/idea/download/other.html
+    sinceBuild "192.6262.58"
+    untilBuild "193.*"
 }
 
 apply plugin: 'scala'
@@ -136,62 +143,3 @@ task generateMMTParser(type: GenerateParser) {
     // if set, plugin will remove a parser output file and psi output directory before generating new ones. Default: false
     purgeOldFiles = true
 }*/
-/*
-=======
-plugins {
-    id 'java'
-    id 'org.jetbrains.intellij' version '0.3.12'
-}
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'org.scala-lang:scala-library:2.12.3'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile "org.scala-lang:scala-library:2.12.3"
-    compile files(fileTree(dir: 'lib', includes: ['*.jar']))
-    // compile files("mmt.jar") // For debugging purposes only!
-}
-*/
-
-/*
-apply plugin: 'org.jetbrains.intellij'
-intellij {
-    version '2018.3'
-    pluginName 'MMT'
-    plugins 'org.intellij.scala:2018.3.1'
-}
-group 'info.kwarc.mmt.intellij'
-version '15.0.7'
-patchPluginXml {
-    changeNotes """
-        <ul>
-         <li></li>
-        </ul>
-      """
-}
-
-apply plugin: 'scala'
-
-sourceSets {
-    main {
-        /* java {
-            srcDir 'src/main/gen'
-        } */ /*
-        scala {
-            srcDirs = ['src/main/scala','src/main/java','src/main/gen']
-        }
-    }
-}
-
-apply from: "gradle.properties"
-publishPlugin {
-    // channels 'devel'
-    username intellijPublishUsername
-    password intellijPublishPassword
-}
->>>>>>> Stashed changes
-*/
