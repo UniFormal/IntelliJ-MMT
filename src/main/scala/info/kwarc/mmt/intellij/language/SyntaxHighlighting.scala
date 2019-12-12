@@ -24,7 +24,7 @@ import javax.swing.Icon
 class MMTLexerAdapter extends FlexAdapter(new MMTLexer(null))
 
 class MMTFileBase(viewProvider: FileViewProvider) extends PsiFileBase(viewProvider, MMTLanguage.INSTANCE) {
-  override def getFileType: FileType = MMTFile
+  override def getFileType: FileType = MMTFileType.INSTANCE
 }
 
 class MMTParserDefinition extends ParserDefinition {

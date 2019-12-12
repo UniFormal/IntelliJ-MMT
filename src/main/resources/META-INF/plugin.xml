@@ -17,7 +17,8 @@
         <lang.parserDefinition language="MMT" implementationClass="info.kwarc.mmt.intellij.language.MMTParserDefinition"/>
         <lang.syntaxHighlighterFactory language="MMT" implementationClass="info.kwarc.mmt.intellij.language.Factory"/>
         <colorSettingsPage implementation="info.kwarc.mmt.intellij.language.ColorSettings"/>
-        <fileTypeFactory implementation="info.kwarc.mmt.intellij.language.MMTFileFactory"/>
+        <fileType name="MMT File" implementationClass="info.kwarc.mmt.intellij.language.MMTFileType" fieldName="INSTANCE" language="MMT" extensions="mmt"/>
+
         <moduleType id="mmt-mh" implementationClass="info.kwarc.mmt.intellij.MathHubModuleType"/>
         <completion.contributor language="MMT" implementationClass="info.kwarc.mmt.intellij.language.Completion"/>
 
@@ -29,14 +30,7 @@
         </component>
     </project-components>
 
-    <actions>
-        <!--<action id="info.kwarc.mmt.intellij.ui.generalizer.GeneralizeTheoryContextMenuAction"
-                class="info.kwarc.mmt.intellij.ui.generalizer.GeneralizeTheoryContextMenuAction" text="Simple Action"
-                description="MMT Generalizer Context Menu Action">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>-->
-
-    </actions>
+    <actions/>
     <depends>org.intellij.scala</depends>
     <depends>com.intellij.modules.java</depends>
 </idea-plugin>

@@ -44,7 +44,7 @@ version '18.0.1'
 patchPluginXml {
     changeNotes """
         <ul>
-	     <li>Fixed Grammar somewhat</li>
+         <li>Fixed Grammar somewhat</li>
          <li>Highlighting for URI literals</li>
          <li>Compatible with MMT 18.0.0</li>
          <li>Compatible with Intellij 2019.2</li>

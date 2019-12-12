@@ -117,7 +117,7 @@ class URIReference(element: PsiElement,textRange: TextRange) extends PsiReferenc
   override def getValue: String = uri
 
   private lazy val psiman = PsiManager.getInstance(project)
-  private def allfiles = FileTypeIndex.getFiles(MMTFile,GlobalSearchScope.allScope(project)).toList
+  private def allfiles = FileTypeIndex.getFiles(MMTFileType.INSTANCE, GlobalSearchScope.allScope(project)).toList
   private def elems = allfiles.flatMap {vf =>
     val sf = psiman.findFile(vf)
     if (sf != null) {

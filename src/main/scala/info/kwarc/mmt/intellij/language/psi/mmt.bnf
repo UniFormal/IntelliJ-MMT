@@ -62,7 +62,7 @@ derivedsimple ::= any any+
 
 /* Declaration-level things (i.e. URIs, terms, notations, role annotations etc.)
    ============================================================================== */
-component::= obj_comment | type_comp | def_comp | not_comp | role_comp | meta_comp | alias_comp
+component ::= obj_comment | type_comp | def_comp | not_comp | role_comp | meta_comp | alias_comp
 
 obj_comment ::= COMMENT_KEY any*
 type_comp ::= COLON_KEY term
