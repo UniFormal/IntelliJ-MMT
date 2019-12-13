@@ -29,7 +29,16 @@ import scala.util.Try
 object MMT {
   val requiredVersion: Version = Version("19.0.0")
 
-  lazy val icon: Icon = IconLoader.getIcon("/img/icon.png")
+  private lazy val icon13x13 = IconLoader.getIcon("/img/icon13x13.png")
+  private lazy val icon16x16 = IconLoader.getIcon("/img/icon.png")
+
+  // Different locations require different icon sizes
+  // See https://www.jetbrains.org/intellij/sdk/docs/reference_guide/work_with_icons_and_images.html
+  lazy val toolwindowIcon: Icon = icon13x13
+  lazy val filetypeIcon: Icon = icon16x16
+  lazy val balloonIcon: Icon = icon16x16
+  lazy val projectIcon: Icon = icon16x16
+  lazy val nodeIcon: Icon = icon16x16
 
   def get(project: Project): Option[MMT] = {
     val mmtc = project.getComponent(classOf[MMTProject])
@@ -210,7 +219,7 @@ class MMT(val project: Project) {
 
           generalizer.createToolWindowContent(project, refactoringToolWindow)
 
-          refactoringToolWindow.setIcon(MMT.icon)
+          refactoringToolWindow.setIcon(MMT.toolwindowIcon)
           refactoringToolWindow.show(null)
         })
       }
@@ -219,10 +228,10 @@ class MMT(val project: Project) {
       //   - document tree
       {
         val documentToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("Document Tree", false, ToolWindowAnchor.LEFT)
-        documentToolWindow.setIcon(MMT.icon)
+        documentToolWindow.setIcon(MMT.toolwindowIcon)
         sidekick.init(documentToolWindow)
 
-        documentToolWindow.setIcon(MMT.icon)
+        documentToolWindow.setIcon(MMT.toolwindowIcon)
         documentToolWindow.show(null)
       }
 
@@ -235,7 +244,7 @@ class MMT(val project: Project) {
         errorViewer.init(lowerMMTToolWindow)
         shellViewer.init(lowerMMTToolWindow)
 
-        lowerMMTToolWindow.setIcon(MMT.icon)
+        lowerMMTToolWindow.setIcon(MMT.toolwindowIcon)
         lowerMMTToolWindow.show(null)
       }
 

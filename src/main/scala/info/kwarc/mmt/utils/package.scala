@@ -175,7 +175,7 @@ package object utils {
     not
     */
     val statusbar = WindowManager.getInstance().getStatusBar(MMT.getProject.get)
-    val builder = JBPopupFactory.getInstance().createHtmlTextBalloonBuilder(message,MMT.icon,Color.GRAY,null)
+    val builder = JBPopupFactory.getInstance().createHtmlTextBalloonBuilder(message,MMT.balloonIcon,Color.GRAY,null)
     val ball = if (exp == 0) builder.createBalloon() else builder.setFadeoutTime(exp).createBalloon()
     ball.show(RelativePoint.getCenterOf(statusbar.getComponent),Balloon.Position.atRight)
     ball

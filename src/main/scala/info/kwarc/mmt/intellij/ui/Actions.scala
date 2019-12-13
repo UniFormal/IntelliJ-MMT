@@ -26,7 +26,7 @@ object Actions {
 
   private lazy val topmenu = am.getAction("ToolsMenu")/*(IdeActions.GROUP_MAIN_MENU)*/.asInstanceOf[DefaultActionGroup]
   private lazy val mmtmenu = new MMTActionGroup("Menu","MMT","MMT Actions") {
-    getTemplatePresentation.setIcon(MMT.icon)
+    getTemplatePresentation.setIcon(MMT.projectIcon)
   }
   private lazy val contextmenu = am.getAction("ProjectViewPopupMenu").asInstanceOf[DefaultActionGroup]// ActionPlaces.PROJECT_VIEW_POPUP
 
