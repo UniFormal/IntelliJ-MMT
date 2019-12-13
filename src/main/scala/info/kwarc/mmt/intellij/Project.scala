@@ -18,7 +18,7 @@ import info.kwarc.mmt.utils.{File, Reflection}
 class MMTProjectTemplatesFactory extends ProjectTemplatesFactory {
   def getGroups = Array("MMT")
 
-  override def getGroupIcon(group: String) = MMT.icon
+  override def getGroupIcon(group: String) = MMT.projectIcon
 
   def createTemplates(group: String, context: WizardContext): Array[ProjectTemplate] = {
     Array(new MMTProjectTemplate)
@@ -29,7 +29,7 @@ class MMTProjectTemplatesFactory extends ProjectTemplatesFactory {
 object MMTProjectTemplate {
   val getName: String = "MMT"
   val getDescription: String = "MMT MathHub Project"
-  val getIcon: Icon = MMT.icon
+  val getIcon: Icon = MMT.projectIcon
 }
 
 
@@ -47,7 +47,7 @@ object MathHubModule {
   val id = "mmt-mh"
   val getName = "MMT MathHub Module"
   val getDescription: String = "A content folder for MMT archives"
-  val getNodeIcon: Icon = MMT.icon
+  val getNodeIcon: Icon = MMT.nodeIcon
 }
 
 class MathHubModuleType extends ModuleType[MathHubModuleBuilder](MathHubModule.id) {

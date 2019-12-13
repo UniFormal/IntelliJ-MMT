@@ -32,13 +32,13 @@ public class MMTFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getName() {
-        return "MMT";
+        return "MMT File";
     }
 
     @NotNull
     @Override
     public String getDescription() {
-        return "MMT Document";
+        return "MMT File containing MMT Surface Syntax";
     }
 
     @NotNull
@@ -50,7 +50,7 @@ public class MMTFileType extends LanguageFileType {
     @Nullable
     @Override
     public Icon getIcon() {
-        return MMT.icon();
+        return MMT.filetypeIcon();
     }
 
     @Override
