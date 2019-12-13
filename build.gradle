@@ -44,10 +44,22 @@ version '19.0.0'
 patchPluginXml {
     changeNotes """
         <ul>
-         <li>Extended grammar to cover more of current MMT surface syntax</li>
-         <li>Refactored calls to deprecated IntelliJ APIs</li>
-         <li>Compatible with MMT 19.0.0</li>
-         <li>Compatible with IntelliJ IDEA for 2019.2.1 ≤ version ≤ 2019.3.*</li>
+            <li>
+                Additions:
+                <ul>
+                    <li>Compatbility with MMT 19.0.0</li>
+                    <li>Compatbility with IntelliJ IDEA 2019.3.*</li>
+                    <li>Extended grammar to cover more of current MMT surface syntax for syntax highlighting</li>
+                    <li>Ability to generate MMT surface syntax for items in the sidekick (<a href="https://uniformal.github.io//doc/applications/intellij/index.html#usage-of-the-sidekick">docs</a>)</li>
+                </ul>
+            </li>
+            <li>
+                Changes:
+                <ul>
+                    <li>Dropped support for MMT 18.0.0</li>
+                    <li>Internally refactored calls to deprecated IntelliJ Plugin SDK APIs</li>
+                </ul>
+            </li>
         </ul>
       """
 
