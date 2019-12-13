@@ -3,7 +3,6 @@ gradle.properties
 .gradle
 
 build/*
-!build/distributions
 out
 
 src/main/gen
