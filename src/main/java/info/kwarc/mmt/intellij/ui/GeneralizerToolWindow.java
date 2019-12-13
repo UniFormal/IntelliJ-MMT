@@ -9,7 +9,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.structuralsearch.plugin.ui.TextFieldWithAutoCompletionWithBrowseButton;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.treeStructure.Tree;
-import info.kwarc.mmt.intellij.language.MMTFile$;
+import info.kwarc.mmt.intellij.language.MMTFileType;
 import info.kwarc.mmt.intellij.ui.generalizer.ScalaGeneralizerToolWindowHelper;
 import info.kwarc.mmt.intellij.ui.generalizer.TreeUtils;
 import scala.runtime.BoxedUnit;
@@ -33,22 +33,15 @@ public class GeneralizerToolWindow {
     private TextFieldWithAutoCompletionWithBrowseButton generalizationMorphism;
     private JButton insertGeneralizedCodeButton;
 
-    private final ScalaGeneralizerToolWindowHelper scalaHelper;
-
     public GeneralizerToolWindow(final Project project, final ScalaGeneralizerToolWindowHelper scalaHelper) {
         this.project = project;
-        this.scalaHelper = scalaHelper;
-        generalizeButton.addActionListener(e -> {
-            scalaHelper.generalize(
-                    generalizedTheoryOfPartG.getText(),
-                    partTheoryS.getText(),
-                    generalizationMorphism.getText(),
-                    inputTheoryT.getText()
-            );
-        });
-        insertGeneralizedCodeButton.addActionListener(e -> {
-            insertGeneralizedCodeInCurrentEditorAtCursor();
-        });
+        generalizeButton.addActionListener(e -> scalaHelper.generalize(
+                generalizedTheoryOfPartG.getText(),
+                partTheoryS.getText(),
+                generalizationMorphism.getText(),
+                inputTheoryT.getText()
+        ));
+        insertGeneralizedCodeButton.addActionListener(e -> insertGeneralizedCodeInCurrentEditorAtCursor());
     }
 
     private void insertGeneralizedCodeInCurrentEditorAtCursor() {
@@ -58,9 +51,7 @@ public class GeneralizerToolWindow {
         final int cursorOffset = selectedEditor.getCaretModel().getOffset();
         final Document selectedDocument = selectedEditor.getDocument();
 
-        WriteCommandAction.runWriteCommandAction(project, () -> {
-            selectedDocument.insertString(cursorOffset, generalizedCode.getText());
-        });
+        WriteCommandAction.runWriteCommandAction(project, () -> selectedDocument.insertString(cursorOffset, generalizedCode.getText()));
     }
 
     public JPanel getContent() {
@@ -75,6 +66,7 @@ public class GeneralizerToolWindow {
         generalizationMorphism = new TextFieldWithAutoCompletionWithBrowseButton(project);
 
         // Default values for faster debugging :-)
+        //
         /*
         inputTheoryT.setText("http://cds.omdoc.org/theorysplittest/generalization/metricAndNormedSpaces?NormedVectorspaceThms");
         partTheoryS.setText("http://cds.omdoc.org/theorysplittest/generalization/metricAndNormedSpaces?NormedVectorspace");
@@ -103,8 +95,8 @@ public class GeneralizerToolWindow {
         generalizedCode = new ScrollableMultilineEditorTextField(
                 EditorFactory.getInstance().createDocument(""),
                 project,
-                MMTFile$.MODULE$,  // file type
-                true       // readonly
+                MMTFileType.INSTANCE,          // file type
+                true                   // readonly
         );
     }
 

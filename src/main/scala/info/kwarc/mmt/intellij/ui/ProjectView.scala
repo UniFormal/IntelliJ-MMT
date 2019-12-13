@@ -76,7 +76,7 @@ class MathHubTreeNode(project : Project) extends AbstractTreeNode[Project](proje
   override def update(presentation: PresentationData): Unit = {
     presentation.setPresentableText("MathHub")
     presentation.addText("MathHub", SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES)
-    presentation.setIcon(MMT.icon)
+    presentation.setIcon(MMT.projectIcon)
     presentation.setTooltip("Narf")
   }
 }
@@ -249,7 +249,7 @@ class MathHubPane(project : Project) extends ProjectViewPane(project) {
 
   private lazy val mmt = MMT.get(project).get
 
-  override def getIcon: Icon = MMT.icon
+  override def getIcon: Icon = MMT.projectIcon
 
   override val getTitle = "MathHub"
 
