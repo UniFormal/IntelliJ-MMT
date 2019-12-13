@@ -85,9 +85,7 @@ any ::= TOKEN | keywrd | COLON_KEY | COLONEQ_KEY | COMMENT_KEY | EQ_KEY | NOT_KE
 tmlist ::= (term COMMA_KEY)* term
 term ::= (urilit|any)+
 
-keywrd ::= COMMENT_KEY | NAMESPACE_KEY | IMPORT_KEY | ABBREV_KEY | THEORY_KEY  | VIEW_KEY |
-            RULE_KEY | INCLUDE_KEY | PREC_KEY | ROLE_KEY | META_KEY | CONSTANT_KEY | IMPLICIT_KEY |
-            STRUCTURE_KEY | FIXMETA_KEY | URI_KEY
+keywrd ::= COMMENT_KEY | NAMESPACE_KEY | IMPORT_KEY | ABBREV_KEY | THEORY_KEY  | VIEW_KEY | DIAGRAM_KEY | RULE_KEY | INCLUDE_KEY | PREC_KEY | ROLE_KEY | META_KEY | CONSTANT_KEY | IMPLICIT_KEY | STRUCTURE_KEY | FIXMETA_KEY | URI_KEY
 
 // vvv This rule is needed even though IntelliJ marks it as unused
 //     It forces the "WHITESPACE" token to be created, which is then used by the Lexer
