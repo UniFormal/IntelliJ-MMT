@@ -21,6 +21,23 @@
 
         <moduleType id="mmt-mh" implementationClass="info.kwarc.mmt.intellij.MathHubModuleType"/>
         <completion.contributor language="MMT" implementationClass="info.kwarc.mmt.intellij.language.Completion"/>
+        <toolWindow id="Refactoring"
+                    anchor="right"
+                    factoryClass="info.kwarc.mmt.intellij.ui.generalizer.GeneralizerToolWindowFactory"
+                    icon="/img/icon13x13.png"
+        />
+        <toolWindow id="Document Tree"
+                    anchor="left"
+                    factoryClass="info.kwarc.mmt.intellij.ui.DummyToolWindow"
+                    icon="/img/icon13x13.png"
+        />
+        <toolWindow id="MMT"
+                    anchor="bottom"
+                    factoryClass="info.kwarc.mmt.intellij.ui.DummyToolWindow"
+                    icon="/img/icon13x13.png"
+        />
+        <projectService serviceImplementation="info.kwarc.mmt.intellij.MMTProjectImpl"/>
+        <postStartupActivity implementation="info.kwarc.mmt.intellij.Init"/>
 
     </extensions>
 
