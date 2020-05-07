@@ -68,7 +68,7 @@ patchPluginXml {
     // [1]: https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
     // [2]: https://www.jetbrains.com/idea/download/other.html
     sinceBuild "192.6262.58"
-    untilBuild "193.*"
+    untilBuild "201.*"
 }
 
 apply plugin: 'scala'
