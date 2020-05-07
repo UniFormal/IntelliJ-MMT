@@ -5,7 +5,7 @@ import java.util
 import com.intellij.execution.process.ConsoleHighlighter
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.lang.ParserDefinition.SpaceRequirements
-import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.{AnnotationHolder, HighlightSeverity}
 import com.intellij.lang.{ASTNode, ParserDefinition, PsiParser}
 import com.intellij.lexer.{FlexAdapter, Lexer}
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
@@ -68,7 +68,8 @@ object Attributes {
   def getChildren(element: PsiElement): List[PsiElement] = element.getNode.getChildren(null).map(_.getPsi).toList
 
   def highlight(ta: TextAttributesKey)(implicit element: PsiElement, holder: AnnotationHolder) =
-    holder.createInfoAnnotation(element, null).setTextAttributes(ta)
+    holder.newAnnotation(HighlightSeverity.INFORMATION,"").range(element).
+      enforcedTextAttributes(ta.getDefaultAttributes).create()//.createInfoAnnotation(element, null).setTextAttributes(ta)
 }
 
 object LexingHighlighter extends SyntaxHighlighterBase {
@@ -173,7 +174,7 @@ class MMTAnnotator extends com.intellij.lang.annotation.Annotator {
         case _: MMTDerivedsimple_impl | _: MMTDerivedheader_impl =>
           highlight(derived)
         case e: MMTError_impl =>
-          holder.createErrorAnnotation(e.getParent, "Block needs closing")
+          holder.newAnnotation(HighlightSeverity.ERROR,"Block needs closing").range(e.getParent).create()//.createErrorAnnotation(e.getParent, "Block needs closing")
         // getChildren(element).foreach(i => highlight(derived)(i,holder))
         case _ =>
       }

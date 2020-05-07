@@ -21,9 +21,9 @@ class ShellViewer(mmt : MMTJar) extends ActionListener with MMTToolWindow {
   */
   val doLine : String => Unit = s => shell.output.append(s + "\n")
 
-  override def init(tw: ToolWindow): Unit = {
+  def init(project: Project): Unit = {
     import Reflection._
-    super.init(tw)
+    super.init(project,"MMT")
     val fun = new RFunction {
       def apply(v1:String): Unit = doLine(v1)
     }

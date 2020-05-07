@@ -3,6 +3,7 @@ package info.kwarc.mmt.intellij.ui
 import java.util
 
 import com.intellij.icons.AllIcons
+import com.intellij.ide.SelectInTarget
 import com.intellij.ide.projectView.impl._
 import com.intellij.ide.projectView.impl.nodes._
 import com.intellij.ide.projectView._
@@ -244,10 +245,15 @@ class ScalaNode(mmt : MMT,dir : File) extends MyDirectoryNode(mmt : MMT,dir : Fi
 }
 */
 
-class MathHubPane(project : Project) extends ProjectViewPane(project) {
-  override def getWeight: Int = -1
+class MathHubPane(myProject : Project) extends ProjectViewPane(myProject) {
+  override def getWeight: Int = 0
 
-  private lazy val mmt = MMT.get(project).get
+  override def createSelectInTarget(): SelectInTarget = {
+    val s = super.createSelectInTarget()
+    s
+  }
+
+  private lazy val mmt = MMT.get(myProject).get
 
   override def getIcon: Icon = MMT.projectIcon
 
@@ -274,7 +280,7 @@ class MathHubPane(project : Project) extends ProjectViewPane(project) {
   override def getId: String = "MathHub"
 
   override protected def createStructure(): ProjectAbstractTreeStructureBase =
-    new ProjectTreeStructure(project, "MathHub") {
+    new ProjectTreeStructure(myProject, "MathHub") {
       override protected def createRoot(project: Project, settings: ViewSettings): AbstractTreeNode[_] =
         new MathHubTreeNode(project)
     }

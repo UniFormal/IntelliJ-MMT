@@ -12,7 +12,6 @@ import com.intellij.openapi.wm.WindowManager
 import com.intellij.psi.PsiFile
 import com.intellij.ui.awt.RelativePoint
 import info.kwarc.mmt.intellij.{MMT, Version}
-import org.jetbrains.plugins.scala.project.migration.api.MigrationReport.MessageType
 
 import scala.concurrent.Future
 

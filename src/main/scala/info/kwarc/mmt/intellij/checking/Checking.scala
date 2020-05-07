@@ -1,6 +1,6 @@
 package info.kwarc.mmt.intellij.checking
 
-import com.intellij.lang.annotation.{AnnotationHolder, ExternalAnnotator}
+import com.intellij.lang.annotation.{AnnotationHolder, ExternalAnnotator, HighlightSeverity}
 import com.intellij.notification.{Notification, NotificationType}
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
@@ -100,9 +100,9 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
           val int = psifile.getTextRange.intersection(tr)
           val region = if (int != null) int else psifile.getTextRange
           if (main.startsWith("Warning")) {
-            holder.createWarningAnnotation(region, main)
+            holder.newAnnotation(HighlightSeverity.WARNING,main).range(region).create()//.createWarningAnnotation(region, main)
           } else {
-            holder.createErrorAnnotation(region, main)
+            holder.newAnnotation(HighlightSeverity.ERROR,main).range(region).create()//.createErrorAnnotation(region, main)
             mmt.errorViewer.addError(main, extra, psifile, File(file), region)
           }
       }

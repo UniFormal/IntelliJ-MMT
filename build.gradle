@@ -35,31 +35,16 @@ dependencies {
 
 apply plugin: 'org.jetbrains.intellij'
 intellij {
-    version '2019.2.+'
+    version '2020.1.+'
     pluginName 'MMT'
-    plugins 'org.intellij.scala:2019.2.13','java'
+    plugins 'org.intellij.scala:2020.1.29','java'
 }
 group 'info.kwarc.mmt.intellij'
-version '19.0.0'
+version '19.0.1'
 patchPluginXml {
     changeNotes """
         <ul>
-            <li>
-                Additions:
-                <ul>
-                    <li>Compatbility with MMT 19.0.0</li>
-                    <li>Compatbility with IntelliJ IDEA 2019.3.*</li>
-                    <li>Extended grammar to cover more of current MMT surface syntax for syntax highlighting</li>
-                    <li>Ability to generate MMT surface syntax for items in the sidekick (<a href="https://uniformal.github.io//doc/applications/intellij/index.html#usage-of-the-sidekick">docs</a>)</li>
-                </ul>
-            </li>
-            <li>
-                Changes:
-                <ul>
-                    <li>Dropped support for MMT 18.0.0</li>
-                    <li>Internally refactored calls to deprecated IntelliJ Plugin SDK APIs</li>
-                </ul>
-            </li>
+              <li>Compatibility with IntelliJ IDEA 2020.1.*</li>
         </ul>
       """
 

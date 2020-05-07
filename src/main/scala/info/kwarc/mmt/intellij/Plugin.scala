@@ -1,20 +1,23 @@
 package info.kwarc.mmt.intellij
 
+import java.lang.annotation.Annotation
 import java.net.URLClassLoader
 import java.util.Calendar
 
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.notification.{Notification, NotificationType, Notifications}
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.actionSystem.DataKey
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.components.{ComponentManager, ProjectComponent, ServiceManager}
+import com.intellij.openapi.components.{ComponentManager, ProjectComponent, Service, ServiceManager}
 import com.intellij.openapi.module.{Module, ModuleManager}
 import com.intellij.openapi.progress.ProcessCanceledException
 import com.intellij.openapi.project.{Project, ProjectManager, ProjectUtil}
 import com.intellij.openapi.roots.ModuleRootManager
+import com.intellij.openapi.startup.StartupActivity
 import com.intellij.openapi.util.IconLoader
-import com.intellij.openapi.wm.{ToolWindowAnchor, ToolWindowManager}
+import com.intellij.openapi.wm.{RegisterToolWindowTask, ToolWindowAnchor, ToolWindowManager}
 import com.intellij.psi.PsiManager
 import info.kwarc.mmt.intellij.checking.ErrorViewerPanel
 import info.kwarc.mmt.intellij.language.Abbreviations
@@ -41,11 +44,11 @@ object MMT {
   lazy val nodeIcon: Icon = icon16x16
 
   def get(project: Project): Option[MMT] = {
-    val mmtc = project.getComponent(classOf[MMTProject])
+    val mmtc = ServiceManager.getService(project,classOf[MMTProjectImpl])//project.getComponent(classOf[MMTProject])
     if (mmtc.isMMT) Some(mmtc.get) else None
   }
 
-  def getProject: Option[Project] = ProjectManager.getInstance().getOpenProjects.find(MMT.get(_).isDefined)
+  def getProject: Option[Project] = ProjectManager.getInstance().getOpenProjects.find(get(_).isDefined)
 
   def getMMT = getProject.flatMap(get)
 }
@@ -156,7 +159,7 @@ class MMT(val project: Project) {
   lazy val errorViewer = new ErrorViewerPanel(mmtjar)
   lazy val shellViewer = new ShellViewer(mmtjar)
   lazy val sidekick = new Sidekick(mmtjar)
-  lazy val generalizer = new GeneralizerToolWindowFactory
+  // lazy val generalizer = new GeneralizerToolWindowFactory
 
   val mh: Module = {
     val modules = ModuleManager.getInstance(project).getModules
@@ -206,7 +209,7 @@ class MMT(val project: Project) {
 
       // Refactoring tool window, contains:
       //  - generalizer (v16.0.0+)
-      {
+      /* {
         // If more refactoring panels are ever added, move the version
         // check possibly to those panels individually, e.g
         // in case of [[GeneralizerToolWindowFactory]] to its
@@ -222,30 +225,29 @@ class MMT(val project: Project) {
           refactoringToolWindow.setIcon(MMT.toolwindowIcon)
           refactoringToolWindow.show(null)
         })
-      }
+      } */
 
       // Document tool window, contains:
       //   - document tree
       {
-        val documentToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("Document Tree", false, ToolWindowAnchor.LEFT)
-        documentToolWindow.setIcon(MMT.toolwindowIcon)
-        sidekick.init(documentToolWindow)
+        //val documentToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("Document Tree", false, ToolWindowAnchor.LEFT)
+        //documentToolWindow.setIcon(MMT.toolwindowIcon)
+        sidekick.init(project,"Document Tree")
 
-        documentToolWindow.setIcon(MMT.toolwindowIcon)
-        documentToolWindow.show(null)
+        //documentToolWindow.show(null)
       }
 
       // Lower MMT tool window, contains:
       //   - error viewer
       //   - shell viewer
       {
-        val lowerMMTToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("MMT", true, ToolWindowAnchor.BOTTOM)
+        // val lowerMMTToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("MMT", true, ToolWindowAnchor.BOTTOM)
 
-        errorViewer.init(lowerMMTToolWindow)
-        shellViewer.init(lowerMMTToolWindow)
+        errorViewer.init(project, "MMT")
+        shellViewer.init(project)
 
-        lowerMMTToolWindow.setIcon(MMT.toolwindowIcon)
-        lowerMMTToolWindow.show(null)
+        // lowerMMTToolWindow.setIcon(MMT.toolwindowIcon)
+        // lowerMMTToolWindow.show(null)
       }
 
       import Reflection._
@@ -306,22 +308,36 @@ class MMT(val project: Project) {
              pane.dispose()
            } */
       pv.refresh()
-    } else pv.addProjectPane(new MathHubPane(project))
+    } else {
+      val mhp = new MathHubPane(project)
+      pv.addProjectPane(mhp)
+    }
     Try {
       pv.changeView("MathHub")
     }
   }
 }
 
+class Init extends StartupActivity {
+  override def runActivity(project: Project): Unit = {
+    val mmtpr = ServiceManager.getService(project,classOf[MMTProjectImpl])
+    mmtpr.mmt = Some(new MMT(project))
+    mmtpr.mmt.get.init
+    mmtpr.mmt.get.logged("Adding Actions") {
+      Actions.addAll
+    }
+  }
+}
 
-class MMTProject(pr: Project) extends ProjectComponent {
+class MMTProject(pr: Project) extends Disposable /* extends Service */ {
+  // override def annotationType(): Class[_ <: Annotation] = classOf[com.intellij.openapi.components.Service]
 
-  private var mmt: Option[MMT] = None
+  private[intellij] var mmt: Option[MMT] = None
 
   def get = mmt.get
 
   def isMMT = mmt.isDefined
-
+/*
   override def initComponent(): Unit = {
     super.initComponent()
   }
@@ -330,10 +346,18 @@ class MMTProject(pr: Project) extends ProjectComponent {
     super.disposeComponent()
   }
 
-  override def getComponentName: String = "MMT-ProjectComponent"
+ */
 
+  // override def getComponentName: String = "MMT-ProjectComponent"
+
+  // val modules = ModuleManager.getInstance(pr).getModules
+  // val mhO = modules.find(_.getModuleTypeName == MathHubModule.id)
+  // if (mhO.isDefined) {
+
+  // }
+  /*
   override def projectOpened(): Unit = {
-    super.projectOpened()
+    //super.projectOpened()
     val modules = ModuleManager.getInstance(pr).getModules
     val mhO = modules.find(_.getModuleTypeName == MathHubModule.id)
     if (mhO.isDefined) {
@@ -345,9 +369,14 @@ class MMTProject(pr: Project) extends ProjectComponent {
     }
   }
 
+ */
+  override def dispose(): Unit = Actions.removeAll
+/*
   override def projectClosed(): Unit = {
     Actions.removeAll
-    super.projectClosed()
+    //super.projectClosed()
   }
+
+ */
 }
 
