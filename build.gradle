@@ -40,7 +40,7 @@ intellij {
     plugins 'org.intellij.scala:2020.1.29','java'
 }
 group 'info.kwarc.mmt.intellij'
-version '19.0.1'
+version '19.0.1.1'
 patchPluginXml {
     changeNotes """
         <ul>
@@ -52,7 +52,7 @@ patchPluginXml {
     //
     // [1]: https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
     // [2]: https://www.jetbrains.com/idea/download/other.html
-    sinceBuild "192.6262.58"
+    sinceBuild "201.1"
     untilBuild "201.*"
 }
 
