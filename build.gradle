@@ -44,7 +44,7 @@ version '19.0.1.1'
 patchPluginXml {
     changeNotes """
         <ul>
-              <li>Compatibility with IntelliJ IDEA 2020.1.*</li>
+              <li>Compatibility with IntelliJ IDEA 2020.2.*</li>
         </ul>
       """
 
