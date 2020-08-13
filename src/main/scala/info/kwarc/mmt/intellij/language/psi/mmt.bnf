@@ -51,7 +51,7 @@ diagram ::= DIAGRAM_KEY pname (COLON_KEY uri)? COLONEQ_KEY (any|OD|DD)* (MD | er
    ================================================ */
 moduleScopedComment ::= COMMENT_KEY (any|OD)* (DD|error)
 module_decl ::= (include | moduleScopedComment | meta_datum) (DD | error)
-theory_decl ::= module_decl | ((rule | theoryConstant) (DD | error)) | nested_theory | structure | nested_view | derivedDecl
+theory_decl ::= module_decl | nested_theory | structure | nested_view | derivedDecl | ((rule | theoryConstant) (DD | error))
 viewDecl ::= module_decl | (viewConstant (DD | error))
 
 nested_theory ::= theoryHeader ((ABBREV_KEY ((term DD) | error)) | (EQ_KEY theoryBody (MD | error))) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
