@@ -141,7 +141,7 @@ class ColorSettings extends ColorSettingsPage {
 
   override def getColorDescriptors: Array[ColorDescriptor] = ColorDescriptor.EMPTY_ARRAY
 
-  override def getIcon: Icon = MMT.filetypeIcon
+  override def getIcon: javax.swing.Icon = MMT.filetypeIcon
 
   import info.kwarc.mmt.utils._
 

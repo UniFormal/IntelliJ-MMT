@@ -83,7 +83,7 @@ defComp ::= EQ_KEY term
 notComp ::= NOT_KEY any+ prec?
 prec ::= PREC_KEY TOKEN
 roleComp ::= ROLE_KEY any+
-metaComp ::= META_KEY term
+metaComp ::= META_KEY term | LINK_KEY term
 aliasComp ::= ALIAS_KEY pname
 
 urilit ::= URI_KEY uri
@@ -98,7 +98,7 @@ any ::= TOKEN | keywrd | COLON_KEY | COLONEQ_KEY | COMMENT_KEY | EQ_KEY | NOT_KE
 tmlist ::= (term COMMA_KEY)* term
 term ::= (urilit|any)+
 
-keywrd ::= COMMENT_KEY | NAMESPACE_KEY | IMPORT_KEY | ABBREV_KEY | THEORY_KEY  | VIEW_KEY | DIAGRAM_KEY | RULE_KEY | INCLUDE_KEY | PREC_KEY | ROLE_KEY | META_KEY | CONSTANT_KEY | IMPLICIT_KEY | STRUCTURE_KEY | FIXMETA_KEY | URI_KEY
+keywrd ::= COMMENT_KEY | NAMESPACE_KEY | IMPORT_KEY | ABBREV_KEY | THEORY_KEY  | VIEW_KEY | DIAGRAM_KEY | RULE_KEY | INCLUDE_KEY | PREC_KEY | ROLE_KEY | META_KEY | LINK_KEY | CONSTANT_KEY | IMPLICIT_KEY | STRUCTURE_KEY | FIXMETA_KEY | URI_KEY
 
 // vvv This rule is needed even though IntelliJ marks it as unused
 //     It forces the "WHITESPACE" token to be created, which is then used by the Lexer
