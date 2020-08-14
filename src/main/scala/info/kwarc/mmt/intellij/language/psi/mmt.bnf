@@ -50,9 +50,9 @@ diagram ::= DIAGRAM_KEY pname (COLON_KEY uri)? COLONEQ_KEY (any|OD|DD)* (MD | er
 /* Module-level things (i.e. declarations)
    ================================================ */
 moduleScopedComment ::= COMMENT_KEY (any|OD)*
-module_decl ::= (include | moduleScopedComment | meta_datum) (DD | error)
-theory_decl ::= module_decl | nested_theory | structure | nested_view  | ((rule | theoryConstant) (DD | error)) | derivedDecl
-viewDecl ::= module_decl | viewConstant
+module_decl ::= (include | moduleScopedComment | meta_datum) DD
+theory_decl ::= module_decl | nested_theory | structure | nested_view  | ((rule | theoryConstant) DD ) | derivedDecl
+viewDecl ::= module_decl | structure_assignment | viewConstant
 
 nested_theory ::= theoryHeader ((ABBREV_KEY ((term DD) | error)) | (EQ_KEY theoryBody (MD | error))) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
 nested_view ::= view_header ((ABBREV_KEY term DD) | (EQ_KEY view_body MD))
@@ -63,11 +63,14 @@ include ::= INCLUDE_KEY (urilit|uri) tmlist? (OD EQ_KEY (urilit|uri))?
 theoryConstant ::= CONSTANT_KEY? pname (component OD)* component?
 viewConstant ::= CONSTANT_KEY? pname ((defComp (DD|error)) | error)
 
-structure ::= IMPLICIT_KEY? STRUCTURE_KEY pname COLON_KEY ((uri ((ABBREV_KEY term (DD|error)) | (EQ_KEY structureBody (MD|error)))) | error)
+structure ::= IMPLICIT_KEY? STRUCTURE_KEY pname COLON_KEY ((uri ((ABBREV_KEY term (DD|error)) | (EQ_KEY structureBody (MD|error)))))
 
-// Structures are usually like views, but may also contain declarations like "neg # ~1" that simply define notations
-// without doing anything else
-structureBody ::= (viewDecl | theoryConstant)*
+structure_assignment ::= IMPLICIT_KEY? (STRUCTURE_KEY | INCLUDE_KEY) pname EQ_KEY (urilit | uri | term) (DD | error)
+
+// a structure contains theory_constants, gramatically. Types, notations, definientia are all allowed and optional, just like
+// in theories. Additionally, they can contain comments, metadata, includes, other structures (e.g. to reassign them)...
+
+structureBody ::= (module_decl | structure_assignment | (theoryConstant DD))*
 
 derivedDecl ::= (derivedHeader theoryBody (MD|error)) | (derivedSimple DD)
 derivedHeader ::= any any+ OD? EQ_KEY
