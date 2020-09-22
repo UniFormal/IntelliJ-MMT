@@ -45,6 +45,8 @@ patchPluginXml {
     changeNotes """
         <ul>
               <li>Compatibility with IntelliJ IDEA 2020.2.*</li>
+              <li>Requires MMT 20.0.0</li>
+              <li>Grammar updated and improved</li>
         </ul>
       """
 
