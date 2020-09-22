@@ -120,7 +120,9 @@ TOKEN= {INPUT_CHAR}+
     "include"       { return MMTParserTypes.INCLUDE_KEY; }
     "theory"        { return MMTParserTypes.THEORY_KEY; }
     "implicit"      { return MMTParserTypes.IMPLICIT_KEY; }
+    "total"         { return MMTParserTypes.TOTAL_KEY; }
     "view"          { return MMTParserTypes.VIEW_KEY; }
+    "ref"           { return MMTParserTypes.REF_KEY; }
     "diagram"       { return MMTParserTypes.DIAGRAM_KEY; }
     "abbrev"        { return MMTParserTypes.ABBREV_KEY; }
     "structure"     { return MMTParserTypes.STRUCTURE_KEY; }

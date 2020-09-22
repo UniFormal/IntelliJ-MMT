@@ -20,7 +20,7 @@
 
 file ::= mod*
 
-mod ::= namespace | import | fixmeta | meta_datum (MD|error) | rule (MD|error) | documentScopedComment | theory | view | diagram
+mod ::= namespace | import | fixmeta | meta_datum (MD|error) | rule (MD|error) | ref (MD|error) | documentScopedComment | theory | view | diagram
 
 /* Level-agnostic things (e.g. meta data)
    ================================================ */
@@ -31,8 +31,9 @@ meta_datum ::= META_KEY uri tmlist
 documentScopedComment ::= COMMENT_KEY (any|OD|DD)* (MD | error)
 namespace ::= NAMESPACE_KEY uri (MD | error)
 import ::= IMPORT_KEY pname uri (MD | error)
-rule ::= RULE_KEY uri term
+rule ::= RULE_KEY uri term?
 fixmeta ::= FIXMETA_KEY uri (MD|error)
+ref ::= REF_KEY uri
 
 theory ::=  theoryHeader ((ABBREV_KEY term) | (EQ_KEY theoryBody) | error) (MD | error) { mixin="info.kwarc.mmt.intellij.language.TheoryElement_impl" }
 theoryHeader ::= THEORY_KEY ((pname (COLON_KEY uri)? (PARAM_KEY tmlist OD)?) | error)
@@ -63,7 +64,7 @@ include ::= INCLUDE_KEY (urilit|uri) tmlist? (OD EQ_KEY (urilit|uri))?
 theoryConstant ::= CONSTANT_KEY? pname (component OD)* component?
 viewConstant ::= CONSTANT_KEY? pname ((defComp (DD|error)) | error)
 
-structure ::= IMPLICIT_KEY? STRUCTURE_KEY pname COLON_KEY ((uri ((ABBREV_KEY term (DD|error)) | (EQ_KEY structureBody (MD|error)))))
+structure ::= IMPLICIT_KEY? TOTAL_KEY? STRUCTURE_KEY pname COLON_KEY ((uri ((ABBREV_KEY term (DD|error)) | (EQ_KEY structureBody (MD|error)) | (MD|error))))
 
 structure_assignment ::= IMPLICIT_KEY? (STRUCTURE_KEY | INCLUDE_KEY) pname EQ_KEY (urilit | uri | term) (DD | error)
 
@@ -96,7 +97,7 @@ uri ::= (uritoken COLON_KEY uritoken) | uritoken {
 }
 uritoken ::= TOKEN | keywrd
 pname ::= TOKEN | keywrd
-any ::= TOKEN | keywrd | COLON_KEY | COLONEQ_KEY | COMMENT_KEY | EQ_KEY | NOT_KEY | ALIAS_KEY | PARAM_KEY | ARROW_KEY | COMMA_KEY
+any ::= TOKEN | keywrd | COLON_KEY | TOTAL_KEY | REF_KEY | COLONEQ_KEY | COMMENT_KEY | EQ_KEY | NOT_KEY | ALIAS_KEY | PARAM_KEY | ARROW_KEY | COMMA_KEY
 
 tmlist ::= (term COMMA_KEY)* term
 term ::= (urilit|any)+

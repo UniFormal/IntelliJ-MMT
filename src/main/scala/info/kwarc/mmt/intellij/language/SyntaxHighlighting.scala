@@ -87,11 +87,13 @@ object LexingHighlighter extends SyntaxHighlighterBase {
          MMTParserTypes.ARROW_KEY |
          MMTParserTypes.EQ_KEY |
          MMTParserTypes.IMPLICIT_KEY |
+         MMTParserTypes.TOTAL_KEY |
          MMTParserTypes.IMPORT_KEY |
          MMTParserTypes.INCLUDE_KEY |
          MMTParserTypes.NAMESPACE_KEY |
          MMTParserTypes.NOT_KEY |
          MMTParserTypes.PARAM_KEY |
+         MMTParserTypes.REF_KEY |
          MMTParserTypes.ROLE_KEY |
          MMTParserTypes.RULE_KEY |
          MMTParserTypes.STRUCTURE_KEY |
