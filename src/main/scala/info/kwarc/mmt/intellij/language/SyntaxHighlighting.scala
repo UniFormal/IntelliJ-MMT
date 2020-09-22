@@ -19,7 +19,6 @@ import com.intellij.psi.{FileViewProvider, PsiElement, PsiFile, TokenType}
 import info.kwarc.mmt.intellij.MMT
 import info.kwarc.mmt.intellij.language.psi.MMTParserTypes
 import info.kwarc.mmt.intellij.language.psi.imps._
-import javax.swing.Icon
 
 class MMTLexerAdapter extends FlexAdapter(new MMTLexer(null))
 
@@ -88,11 +87,13 @@ object LexingHighlighter extends SyntaxHighlighterBase {
          MMTParserTypes.ARROW_KEY |
          MMTParserTypes.EQ_KEY |
          MMTParserTypes.IMPLICIT_KEY |
+         MMTParserTypes.TOTAL_KEY |
          MMTParserTypes.IMPORT_KEY |
          MMTParserTypes.INCLUDE_KEY |
          MMTParserTypes.NAMESPACE_KEY |
          MMTParserTypes.NOT_KEY |
          MMTParserTypes.PARAM_KEY |
+         MMTParserTypes.REF_KEY |
          MMTParserTypes.ROLE_KEY |
          MMTParserTypes.RULE_KEY |
          MMTParserTypes.STRUCTURE_KEY |
@@ -142,7 +143,7 @@ class ColorSettings extends ColorSettingsPage {
 
   override def getColorDescriptors: Array[ColorDescriptor] = ColorDescriptor.EMPTY_ARRAY
 
-  override def getIcon: Icon = MMT.filetypeIcon
+  override def getIcon: javax.swing.Icon = MMT.filetypeIcon
 
   import info.kwarc.mmt.utils._
 
@@ -160,7 +161,7 @@ class MMTAnnotator extends com.intellij.lang.annotation.Annotator {
       element.getContainingFile
       implicit val elem: PsiElement = element
       element match {
-        case _: MMTModcomment_impl | _: MMTDeclComment_impl | _: MMTObjComment_impl =>
+        case _: MMTDocumentScopedComment_impl | _: MMTModuleScopedComment_impl | _: MMTObjComment_impl =>
           getChildren(element).init.foreach(i => highlight(comment)(i, holder)) // holder.createInfoAnnotation(i.getTextRange,"").setTextAttributes(LexingHighlighter.comment))
         case _: MMTNotComp_impl =>
           getChildren(element).tail.foreach(i => highlight(not)(i, holder))
@@ -171,7 +172,7 @@ class MMTAnnotator extends com.intellij.lang.annotation.Annotator {
           highlight(term)
         case urie: MMTUri_impl =>
           highlight(uri)
-        case _: MMTDerivedsimple_impl | _: MMTDerivedheader_impl =>
+        case _: MMTDerivedSimple_impl | _: MMTDerivedHeader_impl =>
           highlight(derived)
         case e: MMTError_impl =>
           holder.newAnnotation(HighlightSeverity.ERROR,"Block needs closing").range(e.getParent).create()//.createErrorAnnotation(e.getParent, "Block needs closing")

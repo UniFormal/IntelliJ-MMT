@@ -6,7 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi._
 import com.intellij.psi.search.{FileTypeIndex, GlobalSearchScope}
 import com.intellij.psi.util.PsiTreeUtil
-import info.kwarc.mmt.intellij.language.psi.{MMTTheory, MMTTheoryheader}
+import info.kwarc.mmt.intellij.language.psi.{MMTTheory, MMTTheoryHeader}
 import info.kwarc.mmt.intellij.language.psi.imps._
 import info.kwarc.mmt.intellij.MMT
 import info.kwarc.mmt.utils._
@@ -89,7 +89,7 @@ trait HasURI extends PsiNameIdentifierOwner with URIHelper {
 }
 abstract class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(node) with HasURI {
   lazy val getRefURI: String = {
-    val head = findNotNullChildByClass(classOf[MMTTheoryheader])
+    val head = findNotNullChildByClass(classOf[MMTTheoryHeader])
     val name = head.getPname.getText
     parentTheory match {
       case Some(p) => p.getRefURI + "/" + name
@@ -97,10 +97,10 @@ abstract class TheoryElement_impl(node : ASTNode) extends ASTWrapperPsiElement(n
     }
   }
 
-  def getTheoryheader() : MMTTheoryheader
+  def getTheoryHeader() : MMTTheoryHeader
 
   override def getName: String = getRefURI
-  override def getNamePSI: PsiElement = this.getTheoryheader.getPname
+  override def getNamePSI: PsiElement = this.getTheoryHeader.getPname
 
   override def getTextOffset: Int = if (getNamePSI != null) {getNamePSI.getTextOffset - super.getTextOffset} else 0
 

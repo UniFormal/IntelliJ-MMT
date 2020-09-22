@@ -1,9 +1,9 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.15'
-    id "org.jetbrains.grammarkit" version "2019.3"
+    id 'org.jetbrains.intellij' version '0.4.21'
+    id "org.jetbrains.grammarkit" version "2020.2.1"
 }
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -35,16 +35,16 @@ dependencies {
 
 apply plugin: 'org.jetbrains.intellij'
 intellij {
-    version '2020.1.+'
+    version '2020.2'
     pluginName 'MMT'
-    plugins 'org.intellij.scala:2020.1.29','java'
+    plugins 'org.intellij.scala:2020.2.17','java'
 }
 group 'info.kwarc.mmt.intellij'
 version '19.0.1.1'
 patchPluginXml {
     changeNotes """
         <ul>
-              <li>Compatibility with IntelliJ IDEA 2020.1.*</li>
+              <li>Compatibility with IntelliJ IDEA 2020.2.*</li>
         </ul>
       """
 
@@ -52,8 +52,8 @@ patchPluginXml {
     //
     // [1]: https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
     // [2]: https://www.jetbrains.com/idea/download/other.html
-    sinceBuild "201.1"
-    untilBuild "201.*"
+    sinceBuild "202"
+    untilBuild "204"
 }
 
 apply plugin: 'scala'
@@ -61,9 +61,11 @@ apply plugin: 'scala'
 sourceSets {
     main {
         java {
-            // Explicitly set to empty list because sources in src/main/java
-            // refer to Scala sources in src/main/scala.
-            // Hence let the Scala compiler compile both source directories.
+            // Explicitly set to empty list! Im particular,
+            // - do NOT include sources in src/main/java
+            // - do NOT include sources in src/main/gen
+            // since both sources refer to Scala sources in src/main/scala.
+            // Hence, the Scala compiler must take care of compiling both.
             srcDirs = []
         }
         scala {
@@ -104,11 +106,10 @@ apply plugin: 'org.jetbrains.grammarkit'
 import org.jetbrains.grammarkit.tasks.*
 
 grammarKit {
-    // version of IntelliJ patched JFlex (see bintray link below), Default is 1.7.0-1
-    jflexRelease = '1.7.0-1'
+    // see https://bintray.com/jetbrains/intellij-third-party-dependencies/jflex for latest version
+    jflexRelease = '1.7.0-2'
 
-    // tag or short commit hash of Grammar-Kit to use (see link below). Default is 2017.1.7
-    grammarKitRelease = '2017.1.7'
+    grammarKitRelease = '2020.1'
 }
 
 task generateMMTLexer(type: GenerateLexer) {
@@ -139,4 +140,22 @@ task generateMMTParser(type: GenerateParser) {
 
     // if set, plugin will remove a parser output file and psi output directory before generating new ones. Default: false
     purgeOldFiles = true
+}
+
+tasks.register("_regenerateParserLExer") {
+    group = 'intellij'
+    description = 'Regenerates parser and lexer code for the MMT language; execute before the task runIde'
+
+    generateMMTLexer.mustRunAfter(generateMMTParser)
+    dependsOn([generateMMTParser, generateMMTLexer])
+
+    doLast {
+        String mmtLexerFilename = 'src/main/gen/info/kwarc/mmt/intellij/language/MMTLexer.java'
+        String fileContents = new File(mmtLexerFilename).getText('UTF-8')
+
+        // add missing import somehow:
+
+        fileContents.replace("import...")
+        println fileContents
+    }
 }*/
