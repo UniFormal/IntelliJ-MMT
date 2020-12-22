@@ -3,7 +3,6 @@ package info.kwarc.mmt.intellij
 import java.lang.annotation.Annotation
 import java.net.URLClassLoader
 import java.util.Calendar
-
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.notification.{Notification, NotificationType, Notifications}
@@ -19,18 +18,19 @@ import com.intellij.openapi.startup.StartupActivity
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.{RegisterToolWindowTask, ToolWindowAnchor, ToolWindowManager}
 import com.intellij.psi.PsiManager
+import info.kwarc.mmt.intellij.MMT.nodeIcon
 import info.kwarc.mmt.intellij.checking.ErrorViewerPanel
 import info.kwarc.mmt.intellij.language.Abbreviations
 import info.kwarc.mmt.intellij.ui.generalizer.GeneralizerToolWindowFactory
 import info.kwarc.mmt.intellij.ui._
 import info.kwarc.mmt.utils
 import info.kwarc.mmt.utils._
-import javax.swing.Icon
 
+import javax.swing.Icon
 import scala.util.Try
 
 object MMT {
-  val requiredVersion: Version = Version("20.0.0")
+  val requiredVersion: Version = Version("21.0.0")
 
   private lazy val icon13x13 = IconLoader.getIcon("/img/icon13x13.png")
   private lazy val icon16x16 = IconLoader.getIcon("/img/icon.png")
@@ -137,11 +137,11 @@ case class Version(s: String) {
   }
 
   def <=(that: Version) =
-    this.a <= that.a ||
-      (this.a == that.a && this.b <= that.b) ||
+    this.a < that.a ||
+      (this.a == that.a && this.b < that.b) ||
       (this.a == that.a && this.b == that.b && this.c <= that.c)
 
-  def <(that: Version) = this != that && this <= that
+  def <(that: Version) = this <= that && this.c < that.c
 
   override def toString: String = s
 }
@@ -152,8 +152,13 @@ class MMT(val project: Project) {
     if (dir == null) throw new Error("Could not determine project directory")
     File(dir.getCanonicalPath)
   }
-  private val mmtjarfile = File(PropertiesComponent.getInstance(project).getValue(MMTDataKeys.mmtjar))
-  lazy val mmtjar = new MMTJar(mmtjarfile, this)
+  private val jarstring = PropertiesComponent.getInstance(project).getValue(MMTDataKeys.mmtjar)
+  private val mmtjarfile = if (jarstring==null) None else Some(File(jarstring))
+  lazy val mmtjar = mmtjarfile match {
+    case Some(jf) => new MMTJar(jf, this)
+    case _ =>
+      throw new Exception("No MMT Jar found")
+  }
 
   /* Tool windows */
   lazy val errorViewer = new ErrorViewerPanel(mmtjar)
@@ -287,7 +292,7 @@ class MMT(val project: Project) {
         val mmtlib = model.getModuleLibraryTable.createLibrary()
         val libmod = mmtlib.getModifiableModel
         libmod.setName("MMT API")
-        libmod.addJarDirectory(toVF(mmtjarfile /*File(PathManager.getPluginsPath) / "MMTPlugin" / "lib"*/).getParent, false)
+        libmod.addJarDirectory(toVF(mmtjarfile.get /*File(PathManager.getPluginsPath) / "MMTPlugin" / "lib"*/).getParent, false)
         libmod.commit()
       }
       model.commit()

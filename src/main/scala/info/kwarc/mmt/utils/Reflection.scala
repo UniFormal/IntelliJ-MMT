@@ -1,7 +1,6 @@
 package info.kwarc.mmt.utils
 
 import java.lang.reflect.InvocationTargetException
-
 import scala.reflect.runtime.universe
 
 class Reflection(classLoader: ClassLoader) {
