@@ -96,7 +96,8 @@ class ExtAnnotator extends ExternalAnnotator[Option[(MMT,Editor)],Option[(MMT,Ed
       }
       val error: (Int, Int, String, String, List[String]) => Unit = {
         case (start, length, file, main, extra) =>
-          val tr = TextRange.from(psifile.getTextRange.getStartOffset + start, length)
+          val tr = if (start == -1) TextRange.from(0,1) else
+            TextRange.from(psifile.getTextRange.getStartOffset + start, length)
           val int = psifile.getTextRange.intersection(tr)
           val region = if (int != null) int else psifile.getTextRange
           if (main.startsWith("Warning")) {

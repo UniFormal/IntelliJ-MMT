@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.6.5'
+    id 'org.jetbrains.intellij' version '0.7.2'
     id "org.jetbrains.grammarkit" version "2020.2.1"
 }
 sourceCompatibility = 11
@@ -37,18 +37,17 @@ dependencies {
 
 apply plugin: 'org.jetbrains.intellij'
 intellij {
-    version '2020.3'
+    version '2021.1'
     pluginName 'MMT'
-    plugins 'org.intellij.scala:2020.3.18','java'
+    plugins 'org.intellij.scala:2021.1.16','java'
 }
 group 'info.kwarc.mmt.intellij'
-version '21.0.0.0'
+version '22.0.0.1'
 patchPluginXml {
     changeNotes """
         <ul>
-              <li>Compatibility with IntelliJ IDEA 2020.3.*</li>
-              <li>Compatibility with MMT version 21</li>
-              <li>Scala version incresed to 2.13.4</li>
+              <li>Compatibility with IntelliJ IDEA 2021.1.*</li>
+              <li>Fixed a bug with checking errors with unknown locations</li>
         </ul>
       """
 
@@ -56,8 +55,8 @@ patchPluginXml {
     //
     // [1]: https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html
     // [2]: https://www.jetbrains.com/idea/download/other.html
-    sinceBuild "203"
-    untilBuild "204"
+    //sinceBuild "203"
+    //untilBuild "204"
 }
 
 apply plugin: 'scala'
