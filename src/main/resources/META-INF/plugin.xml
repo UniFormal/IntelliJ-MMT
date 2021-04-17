@@ -4,7 +4,9 @@
     <vendor email="d.mueller@kwarc.info" url="http://uniformal.github.io">UniFormal</vendor>
 
     <description><![CDATA[
-    IntelliJ IDE for the MMT system (<a href="https://uniformal.github.io">uniformal.github.io</a>)<p>
+    This plugin provides IDE support for the surface language of the MMT system (<a href="https://uniformal.github.io">uniformal.github.io</a>),
+    such as syntax highlighting, type checking, archive management (with <a href="https://gl.mathhub.info">MathHub</a>
+    integration), OMDoc building functionality, etc.<p>
     Sources available on <a href="https://github.com/UniFormal/IntelliJ-MMT">GitHub</a>
     ]]></description>
 
