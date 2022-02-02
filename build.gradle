@@ -42,7 +42,7 @@ intellij {
     plugins = ['org.intellij.scala:2021.3.18','java']
 }
 group 'info.kwarc.mmt.intellij'
-version '22.0.0.1'
+version '22.0.0.3'
 patchPluginXml {
     changeNotes = """
         <ul>
