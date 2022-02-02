@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.7.2'
-    id "org.jetbrains.grammarkit" version "2020.2.1"
+    id "org.jetbrains.intellij" version "1.3.1"
+    id "org.jetbrains.grammarkit" version "2021.2.1"
 }
 sourceCompatibility = 11
 
@@ -37,17 +37,16 @@ dependencies {
 
 apply plugin: 'org.jetbrains.intellij'
 intellij {
-    version '2021.1'
-    pluginName 'MMT'
-    plugins 'org.intellij.scala:2021.1.16','java'
+    version = '2021.3.2'
+    pluginName = 'MMT'
+    plugins = ['org.intellij.scala:2021.3.18','java']
 }
 group 'info.kwarc.mmt.intellij'
 version '22.0.0.1'
 patchPluginXml {
-    changeNotes """
+    changeNotes = """
         <ul>
-              <li>Compatibility with IntelliJ IDEA 2021.1.*</li>
-              <li>Fixed a bug with checking errors with unknown locations</li>
+              <li>Compatibility with IntelliJ IDEA 2021.3.2</li>
         </ul>
       """
 
@@ -92,7 +91,7 @@ if(publishCredentialsPropertiesFile.exists()) {
     apply from: publishCredentialsPropertiesFile.path
     publishPlugin {
         // channels 'devel'
-        token intellijPublishToken
+        token = intellijPublishToken
     }
 } else {
     logger.warn(publishCredentialsPropertiesFile.path + " does not exist, publishPlugin task will not be created! Copy gradle.properties.template in the same folder to gradle.properties and configure its contents. See file contents for more info.")
