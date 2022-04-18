@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="Gradle 1" modules="MMTPlugin_main,MMTPlugin_test,info.kwarc.mmt.intellij.MMTPlugin.main,info.kwarc.mmt.intellij.MMTPlugin.test">
-      <option name="reflectiveCalls" value="true" />
-      <option name="deprecationWarnings" value="true" />
-      <option name="uncheckedWarnings" value="true" />
-      <parameters>
-        <parameter value="-target:jvm-1.8" />
-      </parameters>
-    </profile>
-    <profile name="Gradle 3" modules="MMTPlugin.main,MMTPlugin.test">
+    <profile name="Gradle 1" modules="MMTPlugin.main,MMTPlugin.test">
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />
       <parameters>
