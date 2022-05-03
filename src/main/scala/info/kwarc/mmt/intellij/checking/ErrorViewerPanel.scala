@@ -3,10 +3,10 @@ package info.kwarc.mmt.intellij.checking
 import java.awt.BorderLayout
 import java.awt.datatransfer.StringSelection
 import java.awt.event._
-
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.fileEditor.{FileEditorManager, OpenFileDescriptor}
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.JBMenuItem
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.{PsiDocumentManager, PsiFile}
@@ -15,6 +15,7 @@ import info.kwarc.mmt.intellij.ui.{AbstractErrorViewer, MMTToolWindow}
 import info.kwarc.mmt.intellij.{MMT, MMTJar}
 import info.kwarc.mmt.utils
 import info.kwarc.mmt.utils.{File, Reflection}
+
 import javax.swing.tree.{DefaultTreeModel, TreePath}
 import javax.swing.{JPanel, JPopupMenu, JScrollPane, SwingUtilities}
 
@@ -26,25 +27,29 @@ class ErrorViewerPanel(mmtjar : MMTJar) extends ActionListener with MMTToolWindo
     def clearFile(file : File) = jarev.method("clearFile",Reflection.unit,List(file.toString))
   }
 
-  val checkBtn = aev.check
+  def checkBtn = aev.check
 
-  val panel: JPanel = aev.panel
+  def panel: JPanel = aev.panel
   val displayName: String = "Errors"
 
   val root = new PatchedDefaultMutableTreeNode("Errors")
   val errorTree = new Tree(root)
-  aev.btn_clear.addActionListener(this)
-  aev.btn_clearAll.addActionListener(this)
-  aev.check.addActionListener(this)
-  aev.btn_build.addActionListener(this)
-  ApplicationManager.getApplication.invokeLater { () =>
-    aev.pane.setLayout(new BorderLayout())
-    val scp = new JScrollPane(errorTree)
-    aev.pane.add(scp)
-    errorTree.setVisible(true)
-    errorTree.setRootVisible(false)
-    errorTree.revalidate()
-    aev.panel.revalidate()
+
+  override def init(project: Project, id: String): Unit = {
+    ApplicationManager.getApplication.invokeLater { () =>
+      aev.pane.setLayout(new BorderLayout())
+      val scp = new JScrollPane(errorTree)
+      aev.pane.add(scp)
+      errorTree.setVisible(true)
+      errorTree.setRootVisible(false)
+      errorTree.revalidate()
+      aev.panel.revalidate()
+      aev.btn_clear.addActionListener(this)
+      aev.btn_clearAll.addActionListener(this)
+      aev.check.addActionListener(this)
+      aev.btn_build.addActionListener(this)
+    }
+    super.init(project, id)
   }
   // errorTree.setFont(new Font("Dialog",Font.PLAIN,12))
 

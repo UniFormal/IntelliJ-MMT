@@ -1,9 +1,9 @@
 package info.kwarc.mmt.intellij.ui
 
 import java.util
-
 import com.intellij.icons.AllIcons
 import com.intellij.ide.SelectInTarget
+import com.intellij.ide.impl.ProjectPaneSelectInTarget
 import com.intellij.ide.projectView.impl._
 import com.intellij.ide.projectView.impl.nodes._
 import com.intellij.ide.projectView._
@@ -16,6 +16,7 @@ import com.intellij.psi.{PsiDirectory, PsiFile, PsiManager}
 import com.intellij.ui.SimpleTextAttributes
 import com.intellij.util.PlatformIcons
 import info.kwarc.mmt.intellij.{MMT, MMTDataKeys}
+
 import javax.swing.Icon
 import javax.swing.tree.DefaultMutableTreeNode
 
@@ -246,10 +247,12 @@ class ScalaNode(mmt : MMT,dir : File) extends MyDirectoryNode(mmt : MMT,dir : Fi
 */
 
 class MathHubPane(myProject : Project) extends ProjectViewPane(myProject) {
-  override def getWeight: Int = 0
+  override def getWeight: Int = 10
 
   override def createSelectInTarget(): SelectInTarget = {
-    val s = super.createSelectInTarget()
+    val s = new ProjectPaneSelectInTarget(myProject) {
+      override def getMinorViewId: String = "MathHub"
+    }
     s
   }
 

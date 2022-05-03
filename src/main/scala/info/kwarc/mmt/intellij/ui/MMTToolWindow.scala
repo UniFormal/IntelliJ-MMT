@@ -10,7 +10,7 @@ class DummyToolWindow extends ToolWindowFactory {
 }
 
 trait MMTToolWindow {
-  val panel: JPanel
+  def panel: JPanel
   val displayName: String
 
   def init(project: Project, id : String): Unit = {

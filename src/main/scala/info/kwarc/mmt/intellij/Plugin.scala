@@ -248,6 +248,7 @@ class MMT(val project: Project) {
       {
         // val lowerMMTToolWindow = ToolWindowManager.getInstance(project).registerToolWindow("MMT", true, ToolWindowAnchor.BOTTOM)
 
+
         errorViewer.init(project, "MMT")
         shellViewer.init(project)
 
@@ -315,7 +316,11 @@ class MMT(val project: Project) {
       pv.refresh()
     } else {
       val mhp = new MathHubPane(project)
-      pv.addProjectPane(mhp)
+     try { pv.addProjectPane(mhp) } catch {
+       case t : Throwable =>
+         println(t)
+         throw t
+     }
     }
     Try {
       pv.changeView("MathHub")
