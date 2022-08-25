@@ -11,26 +11,26 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.13.4'
+    implementation 'org.scala-lang:scala-library:2.13.4'
     //testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile "org.scala-lang:scala-library:2.13.4"
+    testImplementation "org.scala-lang:scala-library:2.13.4"
 
     // https://mvnrepository.com/artifact/org.scala-lang/scala-compiler
-    compile group: 'org.scala-lang', name: 'scala-compiler', version: '2.13.4'
+    implementation group: 'org.scala-lang', name: 'scala-compiler', version: '2.13.4'
 
     // https://mvnrepository.com/artifact/org.scala-lang/scala-library
-    compile group: 'org.scala-lang', name: 'scala-library', version: '2.13.4'
+    implementation group: 'org.scala-lang', name: 'scala-library', version: '2.13.4'
 
     // https://mvnrepository.com/artifact/org.scala-lang.modules/scala-parser-combinators
-    compile group: 'org.scala-lang.modules', name: 'scala-parser-combinators_2.13', version: '1.2.0-M1'
+    implementation group: 'org.scala-lang.modules', name: 'scala-parser-combinators_2.13', version: '1.2.0-M1'
 
     // https://mvnrepository.com/artifact/org.scala-lang/scala-reflect
-    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.13.4'
+    implementation group: 'org.scala-lang', name: 'scala-reflect', version: '2.13.4'
     //compile files('lib/scala-reflect.jar')
-    compile files('lib/forms_rt.jar')
+    implementation files('lib/forms_rt.jar')
 
     // https://mvnrepository.com/artifact/org.scala-lang.modules/scala-xml
-    compile group: 'org.scala-lang.modules', name: 'scala-xml_2.13', version: '2.0.0-M3'
+    implementation group: 'org.scala-lang.modules', name: 'scala-xml_2.13', version: '2.0.0-M3'
 
 
     // compile files(fileTree(dir: 'lib', includes: ['*.jar']))
@@ -39,16 +39,16 @@ dependencies {
 
 apply plugin: 'org.jetbrains.intellij'
 intellij {
-    version = '2022.1'
+    version = '2022.2'
     pluginName = 'MMT'
     plugins = ['org.intellij.scala:2022.1.13','java']
 }
 group 'info.kwarc.mmt.intellij'
-version '22.0.0.6'
+version '22.0.0.7'
 patchPluginXml {
     changeNotes = """
         <ul>
-              <li>Bug fixes</li>
+              <li>Support for IntelliJ 2022.2</li>
         </ul>
       """
 
